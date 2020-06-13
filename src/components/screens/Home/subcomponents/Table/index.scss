@@ -1,0 +1,35 @@
+.screen-body-dashboard > 
+.aditional-information 
+.table{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+
+    .item-thead, .item-tbody{
+        min-width: 200px;
+        padding: 1.3em 0;
+        color: #4f4f4f;
+    }
+
+    .item-tbody{
+        font-size: .85em;
+        color: #7f7f7f;
+        &.date{ 
+            color: var(--color-link);
+            font-weight: 600;
+        }
+        .icon{
+            padding-right: .8em;
+        }
+    }
+
+    .thead{
+        background: rgb(235,235,235);
+        border-bottom: 1px solid rgb(220,220,220);
+    }
+
+    .item-column{
+        border-bottom: 1px solid rgb(230,230,230);
+
+    }
+}

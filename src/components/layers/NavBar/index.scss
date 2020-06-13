@@ -1,0 +1,100 @@
+$border-color: rgb(230,230,230);
+
+.navbar{
+    width: 100%;
+    height: var(--height-sidebar-header);
+    background: #fff;
+    border-bottom: 1px solid $border-color;
+    display: flex;
+    justify-content: space-between;
+
+    .navbar-options , .user-options{
+        height: 100%;
+    }
+
+    .user-options{
+        display: flex;
+
+        $h : 40px;
+
+        .image-admin , .icon-menu{
+            height: 100%;
+            display: flex;
+            justify-self: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .image-admin{
+            padding: 0 1em;
+
+            .image{
+                width: $h;
+                height: $h;
+                border: 1px solid $border-color;
+                position: relative;
+
+                &,.point-connected, .img{
+                    border-radius: 50%;
+                    line-height: 0;
+                }
+
+                .img{
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .point-connected{
+                    width: 10px;
+                    height: 10px;
+                    background-color: greenyellow;
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                }
+            }  
+        }
+
+        .icon-menu{
+            padding: 0 .5em;
+
+            .icon{
+                width: $h;
+                height: $h;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.3em;
+                border-radius: 50%;
+                cursor: pointer;
+                position: relative;
+
+                &:hover{
+                    background: rgb(240,240,240);
+                    color: var(--color-link);
+                }
+            }
+
+            .list-image-option{
+                width: 160px;
+                height: auto;
+                position: absolute;
+                background: #fff;
+                cursor: initial;
+                border-left: 1px solid $border-color;
+                top : var(--height-sidebar-header);
+                right: 0;
+
+                .image-option{
+                    text-align: center;
+                    padding: .5em .7em;
+                    border-bottom: 1px solid $border-color;
+                }
+
+                &.hide{
+                    display: none;
+                }
+            }
+        }
+    }
+}

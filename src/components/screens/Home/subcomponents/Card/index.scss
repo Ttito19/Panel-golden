@@ -1,0 +1,55 @@
+.card {
+    width: 220px;
+    min-height: 70px;
+    margin-left: 5px;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    flex: none;
+
+    .container-icon, .information{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    $radius : 5px;
+
+    .container-icon{
+        width: 35%;
+        align-items: center;
+        border-radius: $radius 0 0 $radius;
+        line-height: 0;
+
+        .icon{
+            color: #fff;
+            font-size: 1.5em;
+        }
+    }
+
+    .information{
+        width: 65%;
+        padding: 10px;
+        border-radius: 0 $radius $radius 0;
+
+        .count-information,
+        .title-information{
+            color: #fff;
+        }
+
+        .count-information{
+            font-weight: bold;
+            padding-bottom: 3px;
+            font-size: .9em;
+        }
+
+        .title-information{
+            font-size: .9em;
+        }
+    }
+
+    &:first-child{
+        margin-left: 0;
+    }
+}

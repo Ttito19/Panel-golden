@@ -1,0 +1,35 @@
+.sidebar{
+    width: var(--width-sidebar);
+    min-width: var(--width-sidebar);
+    height: 100vh;
+    background: var(--color-base-sidebar);
+
+    .header-sidebar{
+        width: 100%;
+        height: var(--height-sidebar-header);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-base-dark-sidebar);
+        border-bottom: 1px solid;
+
+        .title-header{
+            font-size: 1.4em;
+            color: var(--color-text-sidebar);
+        }
+    }
+
+    .body-sidebar{
+        height: calc(100% - var(--height-sidebar-header));
+        overflow: auto;
+        
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        &::-webkit-scrollbar-thumb{
+            background: var(--color-base-dark-sidebar);
+            border-radius: 5px;
+        }
+    }
+}
