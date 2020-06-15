@@ -10,8 +10,10 @@ import AddEmpresa from "../../screens/Empresa/Add_empresa";
 import ListEmpresa from "../../screens/Empresa/List_empresa";
 import AddChofer from "../../screens/Chofer/Add_chofer";
 import ListChofer from "../../screens/Chofer/List_chofer";
-import AddBus from "../../screens/Buses/addBus";
-import ListBus from "../../screens/Buses/ListBus";
+import AddBus from "../../screens/BusStop/addBus";
+import ListBus from "../../screens/BusStop/ListBus";
+import AddLocation from "../../screens/Location/AddLocation";
+import ListLocation from "../../screens/Location/ListLocation";
 
 const RoutesAuth = () => {
   return (
@@ -25,6 +27,8 @@ const RoutesAuth = () => {
       <Route path="/ListChofer" component={ListChofer} />
       <Route path="/addBus" component={AddBus} />
       <Route path="/listBus" component={ListBus} />
+      <Route path="/addLocation" component={AddLocation} />
+      <Route path="/listLocation" component={ListLocation} />
       <Route path="*" component={PageNotFound} />
     </Switch>
   );

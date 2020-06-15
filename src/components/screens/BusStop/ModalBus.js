@@ -33,7 +33,14 @@ export const ModalBus = (props) => {
             parseFloat(longitud)
           ),
         })
-        .then(setCloseModal(props.handleClose));
+        .then(
+          Swal.fire(
+            "Éxito",
+            "Los datos se actualizaron correctamente",
+            "success"
+          ),
+          setCloseModal(props.handleClose)
+        );
     } else {
       Swal.fire({
         icon: "error",

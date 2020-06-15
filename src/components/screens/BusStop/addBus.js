@@ -12,7 +12,7 @@ function AddBus() {
   //add firebase
   const ButtonAddBus = (e) => {
     e.preventDefault();
-    if ((name != "", latitude != "", longitude != "")) {
+    if (name != "", latitude != "", longitude != "") {
       const fb = firestore();
       fb.collection("busStop")
         .add({

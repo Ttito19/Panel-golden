@@ -79,6 +79,24 @@ const configSideBar = [
     ],
   },
   {
+    type: "multiple",
+    icon: <AiOutlineTable />,
+    title: "Ubicación",
+    subitems: [
+      {
+        icon: <AiOutlineTable />,
+        title: "Agregar Ubicación",
+        link: "/addLocation",
+      },
+      {
+        icon: <AiOutlineTable />,
+        title: "Lista de Ubicaciónes",
+        link: "/listLocation",
+      },
+    ],
+  },
+
+  {
     type: "normal",
     icon: <TiCogOutline />,
     title: "Configuracion",
