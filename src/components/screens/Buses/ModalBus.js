@@ -24,7 +24,7 @@ export const ModalBus = (props) => {
     // console.log(name,latitud,longitud);
 
     if (name && latitud && longitud) {
-      const refDB = firestore().collection("BusStop").doc(props.id.id);
+      const refDB = firestore().collection("busStop").doc(props.id.id);
       refDB
         .update({
           name,

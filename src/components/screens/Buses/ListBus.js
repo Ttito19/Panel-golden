@@ -12,7 +12,7 @@ function ListBus() {
 
   useEffect(() => {
     const unsubscribe = firestore()
-      .collection("BusStop")
+      .collection("busStop")
       .onSnapshot((snapshot) => {
         const listBus = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -28,14 +28,13 @@ function ListBus() {
     setShow(true);
     const newBus = bus.filter((i) => i.id === id);
 
-    if(newBus.length === 1) setId(newBus[0]);
+    if (newBus.length === 1) setId(newBus[0]);
 
     console.log(newBus);
-    
   };
 
   const deleteBus = (id) => {
-    firestore().collection("BusStop").doc(id).delete();
+    firestore().collection("busStop").doc(id).delete();
   };
   return (
     <div className="container pb-2">

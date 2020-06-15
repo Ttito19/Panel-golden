@@ -14,7 +14,7 @@ function AddBus() {
     e.preventDefault();
     if ((name != "", latitude != "", longitude != "")) {
       const fb = firestore();
-      fb.collection("BusStop")
+      fb.collection("busStop")
         .add({
           name,
           coords: new firestore.GeoPoint(
