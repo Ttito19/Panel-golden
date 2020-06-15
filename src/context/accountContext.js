@@ -1,4 +1,5 @@
-import React, { createContext,useEffect, useState } from 'react';
+import React, { createContext,useEffect, useState  } from 'react';
+import { useFirebaseApp } from "reactfire";
 
 const AccountContext = createContext();
 
@@ -37,22 +38,58 @@ const AccountContext = createContext();
 // }
 
 function AccountProvider (props) {
-	const [ userData, setUserData ] = useState("");
+	const [ isValidationUser, setValidationUser ] = useState(false);
 	const [ isLoadingInformation, setLoadingInformation ] = useState(true);
 
-	useEffect(() => {
-		const user = localStorage.getItem('token_user');
+	const firebase = useFirebaseApp()
 
-		// if (user) setUserData(user);
-		
-		setUserData("Bearer asmdañsdas23d5");
+	useEffect(() => {
 		setLoadingInformation(false);	
 	},[])
 
+	// OBSERVER USER
+	firebase.auth().onAuthStateChanged( (user)=>{
+		if(user){
+			setValidationUser(true)
+		}else {
+			
+		}
+	})
 
-	return <AccountContext.Provider value={{ userData, isLoadingInformation  }}>
-		{props.children}
-	</AccountContext.Provider>;
+
+	const validationUser = (email,password) => {
+		firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+			console.log("Usuario o contraseña incorrecta")
+		});
+	}
+
+	const registerUser = (email,password) => {
+		firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+			console.log(error.code)
+			console.log(error.message)
+		});
+	}
+
+	const closeSession = () => {
+		
+	}
+
+
+	const values = {
+		isValidationUser,
+		isLoadingInformation,
+		validationUser,
+		registerUser
+	}
+
+
+
+	return (
+		<AccountContext.Provider value={values}>
+			{props.children}
+		</AccountContext.Provider>
+	);
 }
 
 export { AccountContext, AccountProvider };
+

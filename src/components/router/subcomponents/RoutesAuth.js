@@ -8,8 +8,9 @@ import Addcliente from '../../screens/Cliente/Add_cliente';
 import ListCliente from '../../screens/Cliente/List_cliente';
 import AddEmpresa from '../../screens/Empresa/Add_empresa';
 import ListEmpresa from '../../screens/Empresa/List_empresa';
- import AddChofer from '../../screens/Chofer/Add_chofer';
- import ListChofer from '../../screens/Chofer/List_chofer';
+import AddChofer from '../../screens/Chofer/Add_chofer';
+import ListChofer from '../../screens/Chofer/List_chofer';
+
 
 const RoutesAuth = () => {
 	return (
@@ -22,6 +23,7 @@ const RoutesAuth = () => {
 			<Route path="/AddChofer" component={AddChofer} />
 			<Route path="/ListChofer" component={ListChofer} />
 			<Route path="*" component={PageNotFound} />
+		
 		</Switch>
 	);
 };

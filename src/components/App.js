@@ -2,6 +2,7 @@ import React, { useContext, Fragment } from "react";
 import { AccountContext } from "../context/accountContext";
 import Router from "./router/index";
 import { useFirebaseApp } from "reactfire";
+
 function App() {
   const firebase = useFirebaseApp();
 //   firebase
@@ -20,7 +21,7 @@ function App() {
 
   const { isLoadingInformation } = useContext(AccountContext);
 
-  if (isLoadingInformation) return <div />;
+  if (isLoadingInformation) return <div>....</div>;
   else return <Router />;
 }
 

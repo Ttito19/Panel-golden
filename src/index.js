@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, createContext } from "react";
 import * as ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./components/App";
@@ -6,6 +6,8 @@ import { AccountProvider } from "./context/accountContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FirebaseAppProvider } from "reactfire";
 import firebaseConfig from "./providers/firebase";
+
+
 ReactDOM.render(
   <FirebaseAppProvider firebaseConfig={firebaseConfig}>
     <Suspense fallback={"Conectando la App..."}>
@@ -17,3 +19,5 @@ ReactDOM.render(
 
   document.getElementById("root")
 );
+
+
