@@ -1,25 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useFirebaseApp } from "reactfire";
 import Input from "../../subcomponets/Input";
+import Swal from "sweetalert2";
 function AddBus() {
-  const firebase = useFirebaseApp();
+  //firebase
+  const { firestore } = useFirebaseApp();
+  //states
   const [name, setName] = useState("");
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  //add firebase
   const ButtonAddBus = (e) => {
     e.preventDefault();
-
-    firebase
-      .firestore()
-      .collection("BusStop")
-      .add({
-        name,
-        coords: new firebase.firestore.GeoPoint(
-          parseFloat(latitude),
-          parseFloat(longitude)
-        ),
-      })
-      .then(() => setName(""), setLatitude(0), setLongitude(0));
+    if ((name != "", latitude != "", longitude != "")) {
+      const fb = firestore();
+      fb.collection("BusStop")
+        .add({
+          name,
+          coords: new firestore.GeoPoint(
+            parseFloat(latitude),
+            parseFloat(longitude)
+          ),
+        })
+        .then(
+          // console.error(new Error("I failed you")),
+          () => setName(""),
+          setLatitude(0),
+          setLongitude(0),
+          //alert
+          Swal.fire("Éxito", "Se agrego correctamente", "success")
+        );
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Lo sentimos",
+        text: "No se pudo registrar los datos",
+      });
+    }
   };
 
   return (
@@ -35,14 +52,14 @@ function AddBus() {
         <Input
           value={latitude}
           name="Latitud"
-          type="number"
+          type="text"
           onChange={(e) => setLatitude(e.currentTarget.value)}
         />
 
         <Input
           value={longitude}
           name="Longitud"
-          type="number"
+          type="text"
           onChange={(e) => setLongitude(e.currentTarget.value)}
         />
         <div className="btn pb-2">
