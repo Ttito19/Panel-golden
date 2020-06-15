@@ -10,8 +10,8 @@ import AddEmpresa from "../../screens/Empresa/Add_empresa";
 import ListEmpresa from "../../screens/Empresa/List_empresa";
 import AddChofer from "../../screens/Chofer/Add_chofer";
 import ListChofer from "../../screens/Chofer/List_chofer";
-import AddBus from "../../screens/Buses/AddBus";
-import ListBus from "../../screens/Buses/ListBus"
+import AddBus from "../../screens/Buses/addBus";
+import ListBus from "../../screens/Buses/ListBus";
 
 const RoutesAuth = () => {
   return (
