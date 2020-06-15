@@ -1,58 +1,57 @@
 import React, { useState, useEffect } from "react";
 import { useFirebaseApp } from "reactfire";
 import ReactLoading from "react-loading";
-import { ModalChofer } from "./ModalChofer";
+import { ModalBus } from "./ModalBus";
 import { list } from "../../../loader/typesLoading";
-function ListChofer() {
-  const firebase = useFirebaseApp();
-  const [chofer, setChofer] = useState([]);
+function ListBus() {
+  const { firestore } = useFirebaseApp();
+  const [bus, setBus] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [id, setId] = useState(null);
-  const modalClick = (id) => {
-    setShow(true);
-
-    const newChofer = chofer.filter((i) => i.id === id);
-    setId(newChofer[0]);
-  };
 
   useEffect(() => {
-    const unsubscribe = firebase
-      .firestore()
-      .collection("items")
+    const unsubscribe = firestore()
+      .collection("BusStop")
       .onSnapshot((snapshot) => {
-        const listChofer = snapshot.docs.map((doc) => ({
+        const listBus = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setChofer(listChofer);
+        setBus(listBus);
       });
 
     return () => unsubscribe();
   }, []);
 
-  const deleteChofer = (id) => {
-    firebase.firestore().collection("items").doc(id).delete();
+  const modalBus = (id) => {
+    setShow(true);
+    const newBus = bus.filter((i) => i.id === id);
+
+    if(newBus.length === 1) setId(newBus[0]);
+
+    console.log(newBus);
+    
   };
 
+  const deleteBus = (id) => {
+    firestore().collection("BusStop").doc(id).delete();
+  };
   return (
     <div className="container pb-2">
-      <ModalChofer show={show} handleClose={handleClose} id={id} />
-
+      <ModalBus show={show} handleClose={handleClose} id={id} />
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th>id</th>
-            <th>nombre</th>
-            <th>Tipo</th>
-            <th>Descripcion</th>
-            <th>dni</th>
+            <td>Id</td>
+            <td>Nombre</td>
+            <td>Latitud</td>
+            <td>Longitud</td>
             <th>Editar</th>
             <th>Eliminar</th>
           </tr>
         </thead>
-
-        {chofer == ""
+        {bus == ""
           ? list.map((l) => (
               <tbody key={l.prop}>
                 <tr className="justify-content-center">
@@ -62,18 +61,17 @@ function ListChofer() {
                 </tr>
               </tbody>
             ))
-          : chofer.map((chofer) => (
-              <tbody key={chofer.id}>
+          : bus.map((bus) => (
+              <tbody key={bus.id}>
                 <tr>
-                  <td>{chofer.id}</td>
-                  <td>{chofer.name}</td>
-                  <td>{chofer.type}</td>
-                  <td>{chofer.description}</td>
-                  <td>{chofer.qty}</td>
+                  <td>{bus.id}</td>
+                  <td>{bus.name}</td>
+                  <td>{bus.coords.latitude}</td>
+                  <td>{bus.coords.longitude}</td>
                   <td>
                     <button
                       className="btn btn-success nt-1"
-                      onClick={() => modalClick(chofer.id)}
+                      onClick={() => modalBus(bus.id)}
                     >
                       Editar
                     </button>
@@ -81,7 +79,7 @@ function ListChofer() {
                   <td>
                     <button
                       className="btn btn-danger nt-1"
-                      onClick={() => deleteChofer(chofer.id)}
+                      onClick={() => deleteBus(bus.id)}
                     >
                       Eliminar
                     </button>
@@ -93,4 +91,4 @@ function ListChofer() {
     </div>
   );
 }
-export default ListChofer;
+export default ListBus;

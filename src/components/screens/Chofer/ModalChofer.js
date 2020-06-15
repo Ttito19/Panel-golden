@@ -1,23 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Input from "../../subcomponets/Input";
 import { useFirebaseApp } from "reactfire";
 import Swal from "sweetalert2";
 
 export const ModalChofer = (props) => {
-  const firebase = useFirebaseApp();
-  const [name, setName] = useState("");
-  const [type, setype] = useState("");
-  const [qty, setQty] = useState("");
-  const [description, setDescription] = useState("");
+  //firebase
+  const { firestore } = useFirebaseApp();
+  //cerrar Modal
   const [closeModal, setCloseModal] = useState(false);
+  //Refs
+  const refDescription = useRef();
+  const refName = useRef();
+  const refQty = useRef();
+  const refType = useRef();
 
   const updateClick = () => {
-    if (name != "" && type != "" && qty != "" && description != "") {
-      firebase
-        .firestore()
-        .collection("items")
-        .doc(props.id.id)
+    const description = refDescription.current.value;
+    const name = refName.current.value;
+    const qty = refQty.current.value;
+    const type = refType.current.value;
+    if (name && type && qty && description) {
+      const refDB = firestore().collection("items").doc(props.id.id);
+      refDB
         .update({
           name: name,
           type: type,
@@ -25,15 +30,12 @@ export const ModalChofer = (props) => {
           description: description,
         })
         .then(
-          () => setName(""),
-          setype(""),
-          setQty(""),
-          setDescription(""),
-          Swal.fire(
-            "Éxito",
-            "Los datos se actualizaron correctamente",
-            "success"
-          ),
+          () =>
+            Swal.fire(
+              "Éxito",
+              "Los datos se actualizaron correctamente",
+              "success"
+            ),
           setCloseModal(props.handleClose)
         )
         .catch((error) => {
@@ -63,26 +65,26 @@ export const ModalChofer = (props) => {
             defaultValue={props.id == null ? "" : props.id.description}
             name="description"
             type="text"
-            onChange={(e) => setDescription(e.target.value)}
+            refs={refDescription}
           />
 
           <Input
             defaultValue={props.id == null ? "" : props.id.name}
             name="name"
             type="text"
-            onChange={(e) => setName(e.target.value)}
+            refs={refName}
           />
           <Input
             defaultValue={props.id == null ? "" : props.id.qty}
             name="qty"
             type="text"
-            onChange={(e) => setQty(e.target.value)}
+            refs={refQty}
           />
           <Input
             defaultValue={props.id == null ? "" : props.id.type}
             name="type"
             type="text"
-            onChange={(e) => setype(e.target.value)}
+            refs={refType}
           />
         </form>
       </Modal.Body>
