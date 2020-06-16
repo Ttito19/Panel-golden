@@ -39,8 +39,8 @@ function ListLocation() {
             {/* <th>Id</th> */}
             <th>Latitud</th>
             <th>Longitud</th>
-            <th>Descripción</th>
             <th>Imagen</th>
+            <th>Descripción</th>
             <th>Nombre </th>
             <th>Región</th>
             <th>Editar</th>
@@ -63,7 +63,9 @@ function ListLocation() {
                   {/* <td>{loc.id}</td> */}
                   <td>{loc.coords.latitude}</td>
                   <td>{loc.coords.longitude}</td>
-                  <td>{loc.image}</td>
+                  <td>
+                    <img src={loc.image} width="50" height="50" />
+                  </td>
                   <td>{loc.description}</td>
                   <td>{loc.name}</td>
                   <td>{loc.region}</td>

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Input from "../../subcomponets/Input";
+import TextArea from "../../subcomponets/TextArea";
 import { useFirebaseApp } from "reactfire";
 import Swal from "sweetalert2";
 export const ModalLocation = (props) => {
@@ -13,17 +14,17 @@ export const ModalLocation = (props) => {
   const refLatitud = useRef();
   const refLongitud = useRef();
   const refDescription = useRef();
-  const refImage = useRef();
+  // const refImage = useRef();
   const refName = useRef();
   const refRegion = useRef();
   const updateLocation = () => {
     const latitud = refLatitud.current.value;
     const longitud = refLongitud.current.value;
     const description = refDescription.current.value;
-    const image = refImage.current.value;
+    // const image = refImage.current.value;
     const name = refName.current.value;
     const region = refRegion.current.value;
-    if (latitud && longitud && description && image && name && region) {
+    if (latitud && longitud && description && name && region) {
       const refDB = firestore().collection("location").doc(props.id.id);
       refDB
         .update({
@@ -32,7 +33,7 @@ export const ModalLocation = (props) => {
             parseFloat(longitud)
           ),
           description,
-          image,
+          // image,
           name,
           region,
         })
@@ -42,7 +43,8 @@ export const ModalLocation = (props) => {
             "Los datos se actualizaron correctamente",
             "success"
           ),
-          setCloseModal(props.handleClose));
+          setCloseModal(props.handleClose)
+        );
     } else {
       Swal.fire({
         icon: "error",
@@ -54,7 +56,7 @@ export const ModalLocation = (props) => {
   return (
     <Modal show={props.show} onHide={props.handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Actualizar Bus</Modal.Title>
+        <Modal.Title>Actualizar Ubicación</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form className="form-group">
@@ -71,18 +73,18 @@ export const ModalLocation = (props) => {
             type="text"
             refs={refLongitud}
           />
-          <Input
+          <TextArea
             defaultValue={props.id == null ? "" : props.id.description}
             name="Descripción"
             type="text"
             refs={refDescription}
           />
-          <Input
+          {/* <Input
             defaultValue={props.id == null ? "" : props.id.image}
             name="Url Imagen"
             type="text"
             refs={refImage}
-          />
+          /> */}
 
           <Input
             defaultValue={props.id == null ? "" : props.id.name}

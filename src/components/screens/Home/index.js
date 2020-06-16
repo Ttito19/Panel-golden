@@ -16,7 +16,7 @@ const Home = (props) => {
   return (
     <div className="screen-body-dashboard">
       <header className="container-title">
-        <h1 className="title">DashBoard</h1>
+        <h1 className="title">Panel Principal</h1>
         <div className="datenow">
           <p className="today">Hoy</p>
           <p className="date">{date}</p>

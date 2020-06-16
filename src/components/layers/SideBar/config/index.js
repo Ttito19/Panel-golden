@@ -6,7 +6,7 @@ const configSideBar = [
   {
     type: "normal",
     icon: <AiOutlineHome />,
-    title: "Dashboard",
+    title: "Panel Principal",
     link: "/",
   },
   {
@@ -29,7 +29,7 @@ const configSideBar = [
   {
     type: "multiple",
     icon: <AiOutlineTable />,
-    title: "Cliente",
+    title: "Clientes",
     subitems: [
       {
         icon: <AiOutlineTable />,
@@ -64,16 +64,16 @@ const configSideBar = [
   {
     type: "multiple",
     icon: <AiOutlineTable />,
-    title: "Buses",
+    title: "Paraderos",
     subitems: [
       {
         icon: <AiOutlineTable />,
-        title: "Agregar Bus",
+        title: "Agregar paradero",
         link: "/AddBus",
       },
       {
         icon: <AiOutlineTable />,
-        title: "Lista de Buses",
+        title: "Lista de paraderos",
         link: "/ListBus",
       },
     ],

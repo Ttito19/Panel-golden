@@ -1,12 +1,12 @@
 import React from "react";
 
-const Input = (props) => {
+const TextArea = (props) => {
   // ref.current.focus();
   const { value, defaultValue, name, type, onChange, refs } = props;
   return (
     <div>
       <label>{props.name}</label>
-      <input
+      <textarea
         value={value}
         className="form-control"
         defaultValue={defaultValue}
@@ -15,9 +15,10 @@ const Input = (props) => {
         onChange={onChange}
         ref={refs}
         required
+        rows="5"
       />
     </div>
   );
 };
 
-export default Input;
+export default TextArea;

@@ -76,7 +76,7 @@ function AddLocation() {
         <Input
           value={image}
           name="Url Imagen"
-          type="text"
+          type="file"
           onChange={(e) => setImage(e.currentTarget.value)}
         />
 
