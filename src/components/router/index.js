@@ -9,7 +9,9 @@ import RoutesNotAuth from './subcomponents/RoutesNotAuth';
 import { AccountContext } from '../../context/accountContext';
 import { BrowserRouter } from 'react-router-dom';
 
+
 const Router = () => {
+
 	const { isValidationUser } = useContext(AccountContext);
 
 	if (!isValidationUser) return <RoutesNotAuth />;
@@ -20,7 +22,8 @@ const Router = () => {
 				<RoutesAuth />
 			</TemplateBars>
 		</BrowserRouter>
-	);
+	);	
+	
 };
 
 export default Router;

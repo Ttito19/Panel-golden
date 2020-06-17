@@ -10,6 +10,23 @@ const configSideBar = [
     link: "/",
   },
   {
+    type:"multiple",
+    icon:<AiOutlineTable />,
+    title:"Usuarios",
+    subitems : [
+      {
+        icon: <AiOutlineTable />,
+        title: "Agregar Usuario",
+        link: "/AddUsuario"
+      },
+      {
+        icon: <AiOutlineTable />,
+        title: "Lista de Usuarios",
+        link: "/ListUsuario",
+      },
+    ]
+  },
+  {
     type: "multiple",
     icon: <AiOutlineTable />,
     title: "Empresa",
@@ -89,7 +106,7 @@ const configSideBar = [
     type: "normal",
     icon: <AiOutlineLogout />,
     title: "Cerrar Sesión",
-    link: "",
+    link: "/Cerrar_session"
   },
 ];
 

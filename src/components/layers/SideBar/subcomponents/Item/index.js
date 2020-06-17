@@ -1,7 +1,12 @@
 import React, { Fragment, FunctionComponent, useEffect, Children } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
+
+//TRAER LA BASE DE DATOS DEL ADMIN.
+
+
 import './index.scss';
+
 
 //Component
 import ItemHide from '../ItemHide';
@@ -18,6 +23,7 @@ const Item = (props) => {
 
 	//Const
 	const { icon, title, subitems, link } = props.list;
+
 	const onPressLink = () => {
 		if (multiple) onPress();
 		else {

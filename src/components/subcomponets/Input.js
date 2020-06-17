@@ -5,7 +5,7 @@ const Input = (props) => {
   const { value, defaultValue, name, type, onChange, refs } = props;
   return (
     <div className="col-8">
-      <label>{props.name}</label>
+      <label>{name}</label>
       <input
         value={value}
         className="form-control"
