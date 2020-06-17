@@ -3,35 +3,25 @@ import { Modal, Button } from "react-bootstrap";
 import Input from "../../subcomponets/Input";
 import { useFirebaseApp } from "reactfire";
 import Swal from "sweetalert2";
-
 export const ModalBus = (props) => {
-  //States
   const [closeModal, setCloseModal] = useState(false);
-
-  //Firebase
   const { firestore } = useFirebaseApp();
-
-  //Refs
+  //refs
   const refName = useRef();
-  const refLatitud = useRef();
-  const refLongitud = useRef();
-
+  const refSeatDesign = useRef();
+  const refType = useRef();
   const updateBus = () => {
     const name = refName.current.value;
-    const latitud = refLatitud.current.value;
-    const longitud = refLongitud.current.value;
+    const seatDesign = refSeatDesign.current.value;
+    const type = refType.current.value;
 
-    // console.log(name,latitud,longitud);
-
-    if (name && latitud && longitud) {
-      const refDB = firestore().collection("busStop").doc(props.id.id);
+    if (name && seatDesign && type) {
+      const refDB = firestore().collection("bus").doc(props.id.id);
       refDB
         .update({
           name,
-          coords: new firestore.GeoPoint(
-            parseFloat(latitud),
-            parseFloat(longitud)
-          ),
+          seatDesign,
+          type,
         })
         .then(
           Swal.fire(
@@ -65,16 +55,18 @@ export const ModalBus = (props) => {
           />
 
           <Input
-            defaultValue={props.id == null ? "" : props.id.coords.latitude}
-            name="Latitud"
-            type="text"
-            refs={refLatitud}
+            defaultValue={props.id == null ? "" : props.id.seatDesign}
+            name="Diseño de asiento"
+            type="number"
+            refs={refSeatDesign}
+            maxLength="7"
           />
+
           <Input
-            defaultValue={props.id == null ? "" : props.id.coords.longitude}
-            name="Longitud"
+            defaultValue={props.id == null ? "" : props.id.type}
+            name="Tipo"
             type="text"
-            refs={refLongitud}
+            refs={refType}
           />
         </form>
       </Modal.Body>

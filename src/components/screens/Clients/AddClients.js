@@ -1,9 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Input from "../../subcomponets/Input";
 import { useFirebaseApp } from "reactfire";
 import Swal from "sweetalert2";
 
 function AddClients() {
+  const [documentImage, setDocumentImage] = useState("Seleccionar Dni");
+  const [profileImage, setProfileImage] = useState(" Seleccionar Foto");
+
   const fb = useFirebaseApp();
   const refCity = useRef();
   const refCode = useRef();
@@ -85,37 +88,47 @@ function AddClients() {
       });
     }
   };
+
+  const handleDocumentImage = (e) => {
+    setDocumentImage(refDocumentImage.current.files[0].name);
+  };
+  const handleProfileImage = (e) => {
+    setProfileImage(refProfileImage.current.files[0].name);
+  };
+
   return (
     <div className="container mt-4">
       <form className="row">
         <div className="col-6">
           <div className="custom-file">
-            <Input
+            <input
               type="file"
               className="custom-file-input "
               id="customFileLang"
               lang="es"
-              refs={refDocumentImage}
+              ref={refDocumentImage}
+              onChange={handleDocumentImage}
             />
-            {/* <label className="custom-file-label" for="customFileLang">
-              Seleccionar Dni
-            </label> */}
+            <label className="custom-file-label" htmlFor="customFileLang">
+              {documentImage}
+            </label>
           </div>
           <Input name="Ciudad" type="text" refs={refCity} />
         </div>
 
         <div className="col-6">
           <div className="custom-file">
-            <Input
+            <input
               type="file"
               className="custom-file-input "
               id="customFileLang"
               lang="es"
-              refs={refProfileImage}
+              ref={refProfileImage}
+              onChange={handleProfileImage}
             />
-            {/* <label className="custom-file-label" for="customFileLang">
-              Seleccionar Foto
-            </label> */}
+            <label className="custom-file-label" htmlFor="customFileLang">
+              {profileImage}
+            </label>
           </div>
           <Input name="Código" type="text" refs={refCode} />
         </div>

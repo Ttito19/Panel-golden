@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useFirebaseApp } from "reactfire";
 import Input from "../../subcomponets/Input";
 import Swal from "sweetalert2";
@@ -6,21 +6,25 @@ function AddLocation() {
   //firebase
   const { firestore } = useFirebaseApp();
   //states
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
-  const [name, setName] = useState("");
-  const [region, setRegion] = useState("");
+  const [imageLoc, setImageLoc] = useState("Seleccionar imagen del lugar");
+  const refLatitude = useRef();
+  const refLongitude = useRef();
+  const refDescription = useRef();
+  const refImage = useRef();
+  const refName = useRef();
+  const refRegion = useRef();
+
   const ButtonAddLocation = (e) => {
     e.preventDefault();
-    if (
-      latitude != "" &&
-      longitude != "" &&
-      description != "" &&
-      image != "" &&
-      region != ""
-    ) {
+
+    const latitude = refLatitude.current.value;
+    const longitude = refLongitude.current.value;
+    const description = refDescription.current.value;
+    const image = refImage.current.value;
+    const name = refName.current.value;
+    const region = refRegion.current.value;
+
+    if (latitude && longitude && description && image && name && region) {
       const fb = firestore();
       fb.collection("location")
         .add({
@@ -33,15 +37,7 @@ function AddLocation() {
           name,
           region,
         })
-        .then(
-          () => setLatitude(0),
-          setLongitude(0),
-          setDescription(""),
-          setImage(""),
-          setName(""),
-          setRegion(""),
-          Swal.fire("Éxito", "Se agrego correctamente", "success")
-        );
+        .then(() => Swal.fire("Éxito", "Se agrego correctamente", "success"));
     } else {
       Swal.fire({
         icon: "error",
@@ -50,49 +46,38 @@ function AddLocation() {
       });
     }
   };
+  const handleImage = (e) => {
+    setImageLoc(refImage.current.files[0].name);
+  };
+
   return (
     <div className="container">
       <form className="form-group">
-        <Input
-          value={latitude}
-          name="Latitud"
-          type="number"
-          onChange={(e) => setLatitude(e.currentTarget.value)}
-        />
+        <div className="col-6">
+          <Input refs={refLatitude} name="Latitud" type="number" />
 
-        <Input
-          value={longitude}
-          name="Longitud"
-          type="number"
-          onChange={(e) => setLongitude(e.currentTarget.value)}
-        />
+          <Input refs={refLongitude} name="Longitud" type="number" />
 
-        <Input
-          value={description}
-          name="Descripción"
-          type="text"
-          onChange={(e) => setDescription(e.currentTarget.value)}
-        />
-        <Input
-          value={image}
-          name="Url Imagen"
-          type="file"
-          onChange={(e) => setImage(e.currentTarget.value)}
-        />
+          <Input refs={refDescription} name="Descripción" type="text" />
 
-        <Input
-          value={name}
-          name="Nombre de Ubicación"
-          type="text"
-          onChange={(e) => setName(e.currentTarget.value)}
-        />
+          <div className="custom-file mt-3 mb-3">
+            <input
+              type="file"
+              className="custom-file-input "
+              id="customFileLang"
+              lang="es"
+              ref={refImage}
+              onChange={handleImage}
+            />
+            <label className="custom-file-label" htmlFor="customFileLang">
+              {imageLoc}
+            </label>
+          </div>
 
-        <Input
-          value={region}
-          name="Región"
-          type="text"
-          onChange={(e) => setRegion(e.currentTarget.value)}
-        />
+          <Input refs={refName} name="Nombre de Ubicación" type="text" />
+
+          <Input refs={refRegion} name="Región" type="text" />
+        </div>
         <div className="btn pb-2">
           <button className="btn btn-primary" onClick={ButtonAddLocation}>
             Agregar

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useFirebaseApp } from "reactfire";
 import ReactLoading from "react-loading";
-import { ModalBus } from "./ModalBus";
+import { ModalBusStop } from "./ModalBusStop";
 import { list } from "../../../loader/typesLoading";
-function ListBus() {
+function ListBusStop() {
   const { firestore } = useFirebaseApp();
   const [bus, setBus] = useState([]);
   const [show, setShow] = useState(false);
@@ -24,21 +24,21 @@ function ListBus() {
     return () => unsubscribe();
   }, []);
 
-  const modalBus = (id) => {
+  const modalBusStop = (id) => {
     setShow(true);
-    const newBus = bus.filter((i) => i.id === id);
+    const newBusStop = bus.filter((i) => i.id === id);
 
-    if (newBus.length === 1) setId(newBus[0]);
+    if (newBusStop.length === 1) setId(newBusStop[0]);
 
-    console.log(newBus);
+    console.log(newBusStop);
   };
 
-  const deleteBus = (id) => {
+  const deleteBusStop = (id) => {
     firestore().collection("busStop").doc(id).delete();
   };
   return (
     <div className="container pb-2">
-      <ModalBus show={show} handleClose={handleClose} id={id} />
+      <ModalBusStop show={show} handleClose={handleClose} id={id} />
       <table className="table table-bordered">
         <thead>
           <tr>
@@ -70,7 +70,7 @@ function ListBus() {
                   <td>
                     <button
                       className="btn btn-success nt-1"
-                      onClick={() => modalBus(bus.id)}
+                      onClick={() => modalBusStop(bus.id)}
                     >
                       Editar
                     </button>
@@ -78,7 +78,7 @@ function ListBus() {
                   <td>
                     <button
                       className="btn btn-danger nt-1"
-                      onClick={() => deleteBus(bus.id)}
+                      onClick={() => deleteBusStop(bus.id)}
                     >
                       Eliminar
                     </button>
@@ -90,4 +90,4 @@ function ListBus() {
     </div>
   );
 }
-export default ListBus;
+export default ListBusStop;

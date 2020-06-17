@@ -69,12 +69,12 @@ const configSideBar = [
       {
         icon: <AiOutlineTable />,
         title: "Agregar paradero",
-        link: "/AddBus",
+        link: "/AddBusStop",
       },
       {
         icon: <AiOutlineTable />,
         title: "Lista de paraderos",
-        link: "/ListBus",
+        link: "/ListBusStop",
       },
     ],
   },
@@ -92,6 +92,23 @@ const configSideBar = [
         icon: <AiOutlineTable />,
         title: "Lista de Ubicaciónes",
         link: "/listLocation",
+      },
+    ],
+  },
+  {
+    type: "multiple",
+    icon: <AiOutlineTable />,
+    title: "Bus",
+    subitems: [
+      {
+        icon: <AiOutlineTable />,
+        title: "Agregar Bus",
+        link: "/addBus",
+      },
+      {
+        icon: <AiOutlineTable />,
+        title: "Lista de Buses",
+        link: "/listBus",
       },
     ],
   },
