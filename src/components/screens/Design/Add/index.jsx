@@ -1,10 +1,10 @@
 import React from "react";
-import SeatList from "../SeatList";
-import { SeatProvider } from "../../../../context/SeatDesign";
+import TemplateDesign from "../TemplateDesign";
+import { SeatProvider } from "../../../../context/seatContext";
 
 const DesignAdd = () => {
   return <SeatProvider>
-    <SeatList />
+    <TemplateDesign />
   </SeatProvider>
 }
 

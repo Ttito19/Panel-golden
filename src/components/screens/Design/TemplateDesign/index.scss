@@ -1,0 +1,40 @@
+.section-design {
+  width: 80%;
+  margin: 0 auto;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  grid-gap: 1em;
+  padding: 2em 1em;
+
+  .container-actions {
+    width: 80%;
+    height: 100%;
+    overflow: auto;
+    padding: 0 1em;
+
+    .container-inputs {
+      width: 100%;
+      display: grid;
+      grid-gap: 20px;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .container-seat-design {
+    width: 100%;
+    padding: 1em;
+    overflow-x: auto;
+
+    .container-seat {
+      width: max-content;
+      height: max-content;
+      display: grid;
+      grid-gap : 5px;
+      justify-content: center;
+    }    
+  }
+}
