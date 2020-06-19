@@ -3,103 +3,49 @@ import { useFirebaseApp } from "reactfire";
 
 const AccountContext = createContext();
 
-// class AccountProvider extends Component {
-// 	constructor(props) {
-// 		super(props);
-// 		this.state = {
-// 			userData: '',
-// 			isLoadingInformation: true
-// 		};
-// 	}
+function AccountProvider (props) {
+	const [ isValidationUser, setValidationUser ] = useState(false);
+	const [ isLoadingInformation, setLoadingInformation ] = useState(true);
 
-// 	//CICLOS DE VIDA DE UN COMPONENTE
-// 	//componentWillMount se ejecuta antes del render
-// 	componentWillMount() {
-// 		const user = localStorage.getItem('token_user');
+	const firebase = useFirebaseApp()
 
-// 		if (user) {
-// 			this.setState({
-// 				userData: user
-// 			});
-// 		}
+	useEffect(() => {
+		// OBSERVER USER
+		const eventAuth = firebase.auth().onAuthStateChanged( (user)=>{
+			if(user) setValidationUser(true);
+			else setValidationUser(false);
 
-// 		this.setState({ isLoadingInformation: false });
-// 	}
+			setLoadingInformation(false);
+		})
+		
+		return () => eventAuth();
+	},[])
 
-// 	//componentDidMount se ejecuta despues del render
-// 	componentDidMount() {}
+	const validationUser = (email,password) => {
+		firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+			console.log("Usuario o contraseña incorrecta")
+		});
+	}
 
-// 	render() {
-// 		const { state, props } = this;
-// 		const { children } = props;
+	const registerUser = (email,password) => {
+		firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+			console.log(error.code)
+			console.log(error.message)
+		});
+	}
 
-// 		return <AccountContext.Provider value={{ ...state }}>{children}</AccountContext.Provider>;
-// 	}
-// }
+	const values = {
+		isValidationUser,
+		isLoadingInformation,
+		validationUser,
+		registerUser
+	}
 
-function AccountProvider(props) {
-  const [isValidationUser, setValidationUser] = useState(false);
-  const [isLoadingInformation, setLoadingInformation] = useState(true);
-
-  const firebase = useFirebaseApp();
-
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setValidationUser(true);
-      } else {
-        setValidationUser(false);
-      }
-      setLoadingInformation(false);
-    });
-  }, []);
-
-  // OBSERVER USER
-
-  const validationUser = (email, password) => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch(function (error) {
-        console.log("Usuario o contraseña incorrecta");
-      });
-  };
-
-  const registerUser = (email, password) => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .catch(function (error) {
-        console.log(error.code);
-        console.log(error.message);
-      });
-  };
-
-  const closeSession = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        // --
-        console.log("Saliendo de la session");
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const values = {
-    isValidationUser,
-    isLoadingInformation,
-    validationUser,
-    registerUser,
-  };
-
-  return (
-    <AccountContext.Provider value={values}>
-      {props.children}
-    </AccountContext.Provider>
-  );
+	return (
+		<AccountContext.Provider value={values}>
+			{props.children}
+		</AccountContext.Provider>
+	);
 }
 
 export { AccountContext, AccountProvider };

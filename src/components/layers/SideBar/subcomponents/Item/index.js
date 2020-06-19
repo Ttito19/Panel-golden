@@ -22,19 +22,18 @@ const Item = (props) => {
 	const { multiple, loading, classItem } = useItemSideBar(props);
 
 	//Const
-	const { icon, title, subitems, link } = props.list;
-
+	const { icon, title, subitems, link , onClick } = props.list;
 	const onPressLink = () => {
 		if (multiple) onPress();
 		else {
-			history.push(link ? link : '/');
+			if(link) history.push(link);
 		}
 	};
 
 	if (loading) return <Fragment />;
 
 	return (
-		<li className={`item-list ${classItem}`}>
+		<li className={`item-list ${classItem}`} onClick={onClick}>
 			<div className="item" onClick={onPressLink}>
 				<div className="item-container">
 					<span className="item-icon">{icon}</span>

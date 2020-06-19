@@ -1,0 +1,57 @@
+.seat-box {
+  width : 70px;
+  height : 70px;
+  border-radius: 5px;
+  border: 2px solid #F8B83E;
+  padding: 0 5px;
+  line-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+
+  .input-box-name {
+    width: 100%;
+    color: #F8B83E;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .icon {
+    line-height: 0;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: rgb(37, 37, 37);
+  }
+
+  &.edit {
+    cursor: pointer;
+    transition: .3s;
+
+    .name {
+      color: #F8B83E;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+
+    &:hover {
+      box-shadow: 0 0 8px #F8B83E;
+    }
+  }
+
+  &.hide {
+    background: rgb(240, 240, 240);
+    border-color: rgb(240, 240, 240);
+
+    .icon{
+      display:none;
+    }
+
+    &:hover{
+      box-shadow: none;
+    }
+  }
+}

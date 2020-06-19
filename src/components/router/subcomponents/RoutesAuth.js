@@ -1,8 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
-//Screens
-
 ///ttito imports
 import PageNotFound from "../../screens/PageNotFound";
 import Home from "../../screens/Home";
@@ -19,10 +17,15 @@ import ListLocation from "../../screens/Location/ListLocation";
 import AddBus from "../../screens/Bus/addBus";
 import ListBus from "../../screens/Bus/listBus";
 import prueba from "../../screens/prueba/prueba";
+
 //Imanol imports
 import AddUsuario from "../../screens/Usuarios/AddUsuario";
 import ListUsuario from "../../screens/Usuarios/ListUsuario";
 import CloseSession from "../../screens/Close_session/";
+
+//Billy Imports
+import { AddDesign , ListDesign } from "../../screens/Design";
+
 const RoutesAuth = () => {
   return (
     <Switch>
@@ -47,6 +50,11 @@ const RoutesAuth = () => {
       <Route path="/ListUsuario" component={ListUsuario} />
       <Route path="/Cerrar_session" component={CloseSession} />
 
+      {/* Billy */}
+      <Route path="/addDesign" component={AddDesign} />
+      <Route path="/listDesign" component={ListDesign} />
+
+      
       <Route path="*" component={PageNotFound} />
     </Switch>
   );
