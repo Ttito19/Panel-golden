@@ -1,7 +1,11 @@
 import React from "react";
+import SeatList from "../SeatList";
+import { SeatProvider } from "../../../../context/SeatDesign";
 
 const DesignAdd = () => {
-  return <div></div>
+  return <SeatProvider>
+    <SeatList />
+  </SeatProvider>
 }
 
 export default DesignAdd;
