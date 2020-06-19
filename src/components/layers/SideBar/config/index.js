@@ -112,7 +112,12 @@ const configSideBar = [
       },
     ],
   },
-
+  {
+    type: "normal",
+    icon: <TiCogOutline />,
+    title: "Prueba",
+    link: "./prueba",
+  },
   {
     type: "normal",
     icon: <TiCogOutline />,

@@ -16,6 +16,7 @@ import AddLocation from "../../screens/Location/AddLocation";
 import ListLocation from "../../screens/Location/ListLocation";
 import AddBus from "../../screens/Bus/addBus";
 import ListBus from "../../screens/Bus/listBus";
+import prueba from "../../screens/prueba/prueba";
 const RoutesAuth = () => {
   return (
     <Switch>
@@ -32,6 +33,7 @@ const RoutesAuth = () => {
       <Route path="/listLocation" component={ListLocation} />
       <Route path="/addBus" component={AddBus} />
       <Route path="/ListBus" component={ListBus} />
+      <Route path="/prueba" component={prueba} />
       <Route path="*" component={PageNotFound} />
     </Switch>
   );

@@ -2,17 +2,30 @@ import React, { useState, useRef } from "react";
 import { useFirebaseApp } from "reactfire";
 import Input from "../../subcomponets/Input";
 import Swal from "sweetalert2";
+import { storage } from "../../../providers/firebase";
 function AddLocation() {
   //firebase
   const { firestore } = useFirebaseApp();
+
   //states
   const [imageLoc, setImageLoc] = useState("Seleccionar imagen del lugar");
+  const [archivoImagen, setArchivoImagen] = useState("");
+  const [UrlImagen, setUrlImagen] = useState("");
+  const [progress, setProgress] = useState(0);
+
+  //Ref
   const refLatitude = useRef();
   const refLongitude = useRef();
   const refDescription = useRef();
   const refImage = useRef();
   const refName = useRef();
   const refRegion = useRef();
+  const handleImage = (e) => {
+    setImageLoc(refImage.current.files[0].name);
+    if (e.target.files[0]) {
+      setArchivoImagen(e.target.files[0]);
+    }
+  };
 
   const ButtonAddLocation = (e) => {
     e.preventDefault();
@@ -25,19 +38,48 @@ function AddLocation() {
     const region = refRegion.current.value;
 
     if (latitude && longitude && description && image && name && region) {
-      const fb = firestore();
-      fb.collection("location")
-        .add({
-          coords: new firestore.GeoPoint(
-            parseFloat(latitude),
-            parseFloat(longitude)
-          ),
-          description,
-          image,
-          name,
-          region,
-        })
-        .then(() => Swal.fire("Éxito", "Se agrego correctamente", "success"));
+      const uploadTask = storage
+        .ref(`images/${archivoImagen.name}`)
+        .put(archivoImagen);
+      uploadTask.on(
+        "state_changed",
+        (snapShot) => {
+          const progress = Math.round(
+            (snapShot.bytesTransferred / snapShot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (err) => {
+          // console.error(err);
+        },
+        () => {
+          storage
+            .ref("images")
+            .child(archivoImagen.name)
+            .getDownloadURL()
+            .then((fireBaseUrl) => {
+              setUrlImagen(fireBaseUrl);
+
+              const fb = firestore();
+              fb.collection("location")
+                .add({
+                  coords: new firestore.GeoPoint(
+                    parseFloat(latitude),
+                    parseFloat(longitude)
+                  ),
+                  description,
+                  image: fireBaseUrl,
+                  name,
+                  region,
+                })
+                .then(
+                  () => console.log(UrlImagen)
+
+                  // Swal.fire("Éxito", "Se agrego correctamente", "success")
+                );
+            });
+        }
+      );
     } else {
       Swal.fire({
         icon: "error",
@@ -46,14 +88,12 @@ function AddLocation() {
       });
     }
   };
-  const handleImage = (e) => {
-    setImageLoc(refImage.current.files[0].name);
-  };
 
   return (
     <div className="container">
       <form className="form-group">
         <div className="col-6">
+          <p>{UrlImagen}</p>
           <Input refs={refLatitude} name="Latitud" type="number" />
 
           <Input refs={refLongitude} name="Longitud" type="number" />
@@ -72,8 +112,9 @@ function AddLocation() {
             <label className="custom-file-label" htmlFor="customFileLang">
               {imageLoc}
             </label>
+            <progress value={progress} max="100" />
           </div>
-
+          <img src={UrlImagen} width="100" />
           <Input refs={refName} name="Nombre de Ubicación" type="text" />
 
           <Input refs={refRegion} name="Región" type="text" />
