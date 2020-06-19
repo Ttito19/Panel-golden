@@ -41,31 +41,33 @@ function AddChofer() {
 
   return (
     <div className="container-fluid ">
-      <form className="form-group   ">
-        <Input
-          value={description}
-          name="description"
-          type="text"
-          onChange={(e) => setDescription(e.currentTarget.value)}
-        />
-        <Input
-          value={name}
-          name="name"
-          type="text"
-          onChange={(e) => setName(e.currentTarget.value)}
-        />
-        <Input
-          value={qty}
-          name="qty"
-          type="text"
-          onChange={(e) => setQty(e.currentTarget.value)}
-        />
-        <Input
-          value={type}
-          name="type"
-          type="text"
-          onChange={(e) => setype(e.currentTarget.value)}
-        />
+      <form className="form-group">
+        <div className="col-6">
+          <Input
+            value={description}
+            name="description"
+            type="text"
+            onChange={(e) => setDescription(e.currentTarget.value)}
+          />
+          <Input
+            value={name}
+            name="name"
+            type="text"
+            onChange={(e) => setName(e.currentTarget.value)}
+          />
+          <Input
+            value={qty}
+            name="qty"
+            type="text"
+            onChange={(e) => setQty(e.currentTarget.value)}
+          />
+          <Input
+            value={type}
+            name="type"
+            type="text"
+            onChange={(e) => setype(e.currentTarget.value)}
+          />
+        </div>
 
         <div className="btn pb-2">
           <button className="btn btn-primary" onClick={ButtonAddChofer}>

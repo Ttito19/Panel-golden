@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { useFirebaseApp } from "reactfire";
 import Input from "../../subcomponets/Input";
 import Swal from "sweetalert2";
-function AddBus() {
+function AddBusStop() {
   //firebase
   const { firestore } = useFirebaseApp();
-  //states
-  const [name, setName] = useState("");
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
+  //refs
+  const refName = useRef();
+  const refLatitude = useRef();
+  const refLongitude = useRef();
   //add firebase
   const ButtonAddBus = (e) => {
     e.preventDefault();
-    if ((name != "", latitude != "", longitude != "")) {
+
+    const name = refName.current.value;
+    const latitude = refLatitude.current.value;
+    const longitude = refLongitude.current.value;
+
+    if ((name, latitude, longitude)) {
       const fb = firestore();
       fb.collection("busStop")
         .add({
@@ -22,14 +27,16 @@ function AddBus() {
             parseFloat(longitude)
           ),
         })
-        .then(
-          // console.error(new Error("I failed you")),
-          () => setName(""),
-          setLatitude(0),
-          setLongitude(0),
+        .then(() =>
           //alert
           Swal.fire("Éxito", "Se agrego correctamente", "success")
-        );
+        )
+        .catch(function (error) {
+          // Handle Errors here.
+          console.log(error);
+
+          // ...
+        });
     } else {
       Swal.fire({
         icon: "error",
@@ -42,26 +49,14 @@ function AddBus() {
   return (
     <div className="container">
       <form className="form-group">
-        <Input
-          value={name}
-          name="Nombre"
-          type="text"
-          onChange={(e) => setName(e.currentTarget.value)}
-        />
+        <div className="col-6">
+          <Input name="Nombre" type="text" refs={refName} />
 
-        <Input
-          value={latitude}
-          name="Latitud"
-          type="text"
-          onChange={(e) => setLatitude(e.currentTarget.value)}
-        />
+          <Input name="Latitud" type="text" refs={refLatitude} />
 
-        <Input
-          value={longitude}
-          name="Longitud"
-          type="text"
-          onChange={(e) => setLongitude(e.currentTarget.value)}
-        />
+          <Input name="Longitud" type="text" refs={refLongitude} />
+        </div>
+
         <div className="btn pb-2">
           <button className="btn btn-primary" onClick={ButtonAddBus}>
             Agregar
@@ -72,4 +67,4 @@ function AddBus() {
   );
 }
 
-export default AddBus;
+export default AddBusStop;

@@ -6,7 +6,7 @@ const configSideBar = [
   {
     type: "normal",
     icon: <AiOutlineHome />,
-    title: "Dashboard",
+    title: "Panel Principal",
     link: "/",
   },
   {
@@ -46,7 +46,7 @@ const configSideBar = [
   {
     type: "multiple",
     icon: <AiOutlineTable />,
-    title: "Cliente",
+    title: "Clientes",
     subitems: [
       {
         icon: <AiOutlineTable />,
@@ -81,19 +81,59 @@ const configSideBar = [
   {
     type: "multiple",
     icon: <AiOutlineTable />,
-    title: "Buses",
+    title: "Paraderos",
+    subitems: [
+      {
+        icon: <AiOutlineTable />,
+        title: "Agregar paradero",
+        link: "/AddBusStop",
+      },
+      {
+        icon: <AiOutlineTable />,
+        title: "Lista de paraderos",
+        link: "/ListBusStop",
+      },
+    ],
+  },
+  {
+    type: "multiple",
+    icon: <AiOutlineTable />,
+    title: "Ubicación",
+    subitems: [
+      {
+        icon: <AiOutlineTable />,
+        title: "Agregar Ubicación",
+        link: "/addLocation",
+      },
+      {
+        icon: <AiOutlineTable />,
+        title: "Lista de Ubicaciónes",
+        link: "/listLocation",
+      },
+    ],
+  },
+  {
+    type: "multiple",
+    icon: <AiOutlineTable />,
+    title: "Bus",
     subitems: [
       {
         icon: <AiOutlineTable />,
         title: "Agregar Bus",
-        link: "/AddBus",
+        link: "/addBus",
       },
       {
         icon: <AiOutlineTable />,
         title: "Lista de Buses",
-        link: "/ListBus",
+        link: "/listBus",
       },
     ],
+  },
+  {
+    type: "normal",
+    icon: <TiCogOutline />,
+    title: "Prueba",
+    link: "./prueba",
   },
   {
     type: "normal",

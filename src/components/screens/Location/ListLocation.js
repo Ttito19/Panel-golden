@@ -1,56 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { useFirebaseApp } from "reactfire";
 import ReactLoading from "react-loading";
-import { ModalBus } from "./ModalBus";
+import { ModalLocation } from "./ModalLocation";
 import { list } from "../../../loader/typesLoading";
-function ListBus() {
+function ListLocation() {
   const { firestore } = useFirebaseApp();
-  const [bus, setBus] = useState([]);
+  const [location, setlocation] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [id, setId] = useState(null);
 
+  const modalLocation = (id) => {
+    setShow(true);
+    const newLoc = location.filter((i) => i.id === id);
+    setId(newLoc[0]);
+  };
+  const deleteLocation = (id) => {
+    firestore().collection("location").doc(id).delete();
+  };
   useEffect(() => {
     const unsubscribe = firestore()
-      .collection("busStop")
+      .collection("location")
       .onSnapshot((snapshot) => {
-        const listBus = snapshot.docs.map((doc) => ({
+        const listLocation = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setBus(listBus);
+        setlocation(listLocation);
       });
-
     return () => unsubscribe();
   }, []);
-
-  const modalBus = (id) => {
-    setShow(true);
-    const newBus = bus.filter((i) => i.id === id);
-
-    if (newBus.length === 1) setId(newBus[0]);
-
-    console.log(newBus);
-  };
-
-  const deleteBus = (id) => {
-    firestore().collection("busStop").doc(id).delete();
-  };
   return (
     <div className="container pb-2">
-      <ModalBus show={show} handleClose={handleClose} id={id} />
+      <ModalLocation show={show} handleClose={handleClose} id={id} />
       <table className="table table-bordered">
         <thead>
           <tr>
-            <td>Id</td>
-            <td>Nombre</td>
-            <td>Latitud</td>
-            <td>Longitud</td>
+            {/* <th>Id</th> */}
+            <th>Latitud</th>
+            <th>Longitud</th>
+            <th>Imagen</th>
+            <th>Descripción</th>
+            <th>Nombre </th>
+            <th>Región</th>
             <th>Editar</th>
             <th>Eliminar</th>
           </tr>
         </thead>
-        {bus == ""
+        {location == ""
           ? list.map((l) => (
               <tbody key={l.prop}>
                 <tr className="justify-content-center">
@@ -60,17 +57,22 @@ function ListBus() {
                 </tr>
               </tbody>
             ))
-          : bus.map((bus) => (
-              <tbody key={bus.id}>
+          : location.map((loc) => (
+              <tbody key={loc.id}>
                 <tr>
-                  <td>{bus.id}</td>
-                  <td>{bus.name}</td>
-                  <td>{bus.coords.latitude}</td>
-                  <td>{bus.coords.longitude}</td>
+                  {/* <td>{loc.id}</td> */}
+                  <td>{loc.coords.latitude}</td>
+                  <td>{loc.coords.longitude}</td>
+                  <td>
+                    <img src={loc.image} width="50" height="50" />
+                  </td>
+                  <td>{loc.description}</td>
+                  <td>{loc.name}</td>
+                  <td>{loc.region}</td>
                   <td>
                     <button
                       className="btn btn-success nt-1"
-                      onClick={() => modalBus(bus.id)}
+                      onClick={() => modalLocation(loc.id)}
                     >
                       Editar
                     </button>
@@ -78,7 +80,7 @@ function ListBus() {
                   <td>
                     <button
                       className="btn btn-danger nt-1"
-                      onClick={() => deleteBus(bus.id)}
+                      onClick={() => deleteLocation(loc.id)}
                     >
                       Eliminar
                     </button>
@@ -90,4 +92,5 @@ function ListBus() {
     </div>
   );
 }
-export default ListBus;
+
+export default ListLocation;

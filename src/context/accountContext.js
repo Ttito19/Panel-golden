@@ -1,6 +1,5 @@
-import React, { createContext,useEffect, useState  } from 'react';
+import React, { createContext, useEffect, useState } from "react";
 import { useFirebaseApp } from "reactfire";
-
 
 const AccountContext = createContext();
 
@@ -38,88 +37,69 @@ const AccountContext = createContext();
 // 	}
 // }
 
-function AccountProvider (props) {
-	const [ isValidationUser, setValidationUser ] = useState(false);
-	const [ isLoadingInformation, setLoadingInformation ] = useState(true);
-	/*
-	id , username , password , nickname , avatar , tipoUsuario ...
-	*/
-	const [ userData , setUserData ] = useState({})
-	
-	const auth = useFirebaseApp().auth()
-	const db = useFirebaseApp().firestore()
+function AccountProvider(props) {
+  const [isValidationUser, setValidationUser] = useState(false);
+  const [isLoadingInformation, setLoadingInformation] = useState(true);
 
+  const firebase = useFirebaseApp();
 
-	useEffect(() => {
-		setLoadingInformation(false);	
-	},[])
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        setValidationUser(true);
+      } else {
+        setValidationUser(false);
+      }
+      setLoadingInformation(false);
+    });
+  }, []);
 
-	// OBSERVER USER
-	auth.onAuthStateChanged( (user)=>{
-		if(user){
-			setValidationUser(true)
-		}else {
-			setValidationUser(false)
-		}
-	})
+  // OBSERVER USER
 
+  const validationUser = (email, password) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(function (error) {
+        console.log("Usuario o contraseña incorrecta");
+      });
+  };
 
-	const validationUser = (email,password) => {
-		auth.signInWithEmailAndPassword(email, password)
-		.then( (user)=>{
-			console.log("Inicio session correctamente")
-		})
-		.catch( (e)=>{
-			console.log("Usuario o contraseña incorrecta")
-		})
-	}
+  const registerUser = (email, password) => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .catch(function (error) {
+        console.log(error.code);
+        console.log(error.message);
+      });
+  };
 
-	const registerUser = (user) => {
-		auth.createUserWithEmailAndPassword(user.email, user.password)
-		.then( u => { 
-			db.collection("admin").add({
-				id : u.user.uid, 
-				avatar : "default-avatar",
-				name : user.nickName,
-				type: user.tipoUsuario,
-			})
-			.then((doc)=>{ console.log("Administrador Creado correctamente") })
-			.catch((e)=>{ console.log(e) })
+  const closeSession = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        // --
+        console.log("Saliendo de la session");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
-			console.log("Usuario Creado exitosamente")
-		})
-		.catch( (e) => { console.log(e) } );
-	}
+  const values = {
+    isValidationUser,
+    isLoadingInformation,
+    validationUser,
+    registerUser,
+  };
 
-	const closeSession = () => {
-		auth.signOut()
-		.then(()=>{
-			// -- 
-			console.log('Saliendo de la session')
-		}).catch((e)=>{
-			console.log(e)
-		})
-	}
-
-
-
-	const values = {
-		isValidationUser,
-		isLoadingInformation,
-		userData,
-		validationUser,
-		registerUser,
-		closeSession
-	}
-
-
-
-	return (
-		<AccountContext.Provider value={values}>
-			{props.children}
-		</AccountContext.Provider>
-	);
+  return (
+    <AccountContext.Provider value={values}>
+      {props.children}
+    </AccountContext.Provider>
+  );
 }
 
 export { AccountContext, AccountProvider };
-
