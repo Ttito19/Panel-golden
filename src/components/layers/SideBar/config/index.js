@@ -1,4 +1,5 @@
 import React from "react";
+import { auth } from "firebase";
 import { AiOutlineHome, AiOutlineTable, AiOutlineLogout } from "react-icons/ai";
 import { TiCogOutline } from "react-icons/ti";
 
@@ -43,7 +44,23 @@ const configSideBar = [
       },
     ],
   },
-
+  {
+    type: "multiple",
+    icon: <AiOutlineTable />,
+    title: "Diseño",
+    subitems: [
+      {
+        icon: <AiOutlineTable />,
+        title: "Crear Diseño",
+        link: "/addDesign",
+      },
+      {
+        icon: <AiOutlineTable />,
+        title: "Lista de Diseños",
+        link: "/listDesign",
+      },
+    ],
+  },
   {
     type: "multiple",
     icon: <AiOutlineTable />,
@@ -82,14 +99,18 @@ const configSideBar = [
     type: "normal",
     icon: <TiCogOutline />,
     title: "Configuracion",
-    link: "",
+    link: "/config",
   },
-
   {
     type: "normal",
     icon: <AiOutlineLogout />,
     title: "Cerrar Sesión",
-    link: "",
+    onClick : () => {
+      const election = window.confirm("¿Deseas cerrar tu sesión?"); 
+
+      if(election) 
+        auth().signOut();
+    }
   },
 ];
 

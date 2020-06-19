@@ -12,6 +12,7 @@ import AddChofer from "../../screens/Chofer/Add_chofer";
 import ListChofer from "../../screens/Chofer/List_chofer";
 import AddBus from "../../screens/Buses/addBus";
 import ListBus from "../../screens/Buses/ListBus";
+import { AddDesign , ListDesign } from "../../screens/Design";
 
 const RoutesAuth = () => {
   return (
@@ -25,6 +26,8 @@ const RoutesAuth = () => {
       <Route path="/ListChofer" component={ListChofer} />
       <Route path="/addBus" component={AddBus} />
       <Route path="/listBus" component={ListBus} />
+      <Route path="/addDesign" component={AddDesign} />
+      <Route path="/listDesign" component={ListDesign} />
       <Route path="*" component={PageNotFound} />
     </Switch>
   );
