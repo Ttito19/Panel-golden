@@ -1,22 +1,32 @@
 .section-design {
-  width: 80%;
+  width: 85%;
   margin: 0 auto;
   height: 100%;
   display: grid;
   grid-template-columns: 350px 1fr;
   grid-gap: 1em;
-  padding: 2em 1em;
+  padding: 3em 0;
 
   .container-actions {
     width: 80%;
     height: 100%;
     overflow: auto;
     padding: 0 1em;
+    display: grid;
+    align-content: flex-start;
+    grid-gap: 20px;
 
-    .container-inputs {
+    .container-inputs , .container-buttons {
       width: 100%;
       display: grid;
+    }
+
+    .container-inputs {
       grid-gap: 20px;
+    }
+
+    .container-buttons {
+      grid-gap: 5px;
     }
 
     &::-webkit-scrollbar {
@@ -35,6 +45,10 @@
       display: grid;
       grid-gap : 5px;
       justify-content: center;
-    }    
+    }
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }

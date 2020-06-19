@@ -1,19 +1,27 @@
-import React , { useState , createContext } from "react";
+import React , { useState , createContext, useEffect } from "react";
+import { useFirebaseApp } from "reactfire";
 
 const SeatContext = createContext();
 const SeatProvider = (props) => {
   const { children } = props;
 
+  //Firestore
+  const { firestore } = useFirebaseApp();
+
   //States
   const [ edit , setEdit ] = useState(false);
-  const [ columns , setColumns ] = useState(0);
+  const [ columns , setColumns ] = useState(7);
   const [ seatNumber , setSeatNumber ] = useState(0);
   const [ seatTemplate , setSeatTemplate ] = useState([]);
+  const [ nameDesign , setNameDesign ] = useState("");
 
   /**Actions**/
 
   // - Editar Columnas
-  const changeColumns = (value) => setColumns(value);
+  const changeColumns = value => setColumns(value);
+
+  // - Editar Nombre del Diseño
+  const changeNameDesign = value => setNameDesign(value);
 
   // - Habilitar la edicion de los asientos
   const editEnabled = () => {
@@ -57,9 +65,12 @@ const SeatProvider = (props) => {
   }
 
   // - Guardar Diseño
-  const designSave = () => {
+  const designSave = async () => {
     if(!seatTemplate.length){
       alert("No tienes ningun asiento agregado");
+      return;
+    }else if(!nameDesign){
+      alert("El diseño necesita un nombre");
       return;
     }
 
@@ -79,9 +90,24 @@ const SeatProvider = (props) => {
         }
       }
 
-      console.log(seatData);
+      var data = {
+        name : nameDesign,
+        seats : seatData,
+        seatColumns : columns
+      }
+
+      try{
+        await firestore().collection("seatDesign").add(data);
+        alert("Se agrego el nuevo diseño");
+      }catch(e){
+        console.log(e);
+      }
     }
   }
+
+  useEffect(() => {
+    if(columns > 10) setColumns(10);
+  },[columns])
 
   return <SeatContext.Provider value={{ 
     seatTemplate, 
@@ -93,7 +119,8 @@ const SeatProvider = (props) => {
     hideSeat,
     changeColumns,
     createSeatTemplate,
-    designSave
+    designSave,
+    changeNameDesign
   }}>
     {children}
   </SeatContext.Provider>
