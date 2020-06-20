@@ -1,31 +1,52 @@
 import React , { useContext } from "react";
+import { Redirect , useRouteMatch } from "react-router-dom";
 import "./index.scss";
 
+//Parent Context
+import { SeatDesignContext } from "../../../../context/seatDesignContext";
 import { SeatContext } from "../../../../context/seatContext";
+
+//Components
 import Seat from "./Seat";
-import Input from "./Input";
-import Button from "./Button";
+import FormController from "./FormController";
+import LoaderSpinner from "../../../UIComponents/LoaderSpinner";
 
-const SeatList = () => {
+const TemplateDesign = props => {
+  const { view } = props;
+
+  //Hooks
+  const { params } = useRouteMatch();
+
   //Context
-  const { seatTemplate , seatNumber , edit , changeNameDesign , columns, editEnabled, createSeatTemplate, changeColumns, designSave } = useContext(SeatContext);
+  const { seatTemplate, columns } = useContext(SeatContext);
+  const { searchSeatDesignFromId , loadingData } = useContext(SeatDesignContext);
 
-  const onChangeSeat = (ev) => createSeatTemplate(ev.target.value);
-  const onChangeColumns = (ev) => changeColumns(ev.target.value);
-  const onChangeName = (ev) => changeNameDesign(ev.target.value);
+  if(view){
+
+    if(loadingData) 
+      return <LoaderSpinner height="100%" color="black" />
+
+    const data = searchSeatDesignFromId(params.id);
+
+    if(!data) 
+      return <Redirect to="/listDesign" />
+
+    return <section className="section-design view-design">
+      <div className="container-seat-design">
+        <div className="container-seat" style={{ gridTemplateColumns : `repeat(${data.seatColumns},1fr)` }} >
+          { 
+            data.seats.map((v,i) => {
+              if(v) return <Seat name={v} key={i} view />
+              else return <Seat hideSeatProp={true} name={v} key={i} view />
+            }
+          )}
+        </div>      
+      </div>
+    </section>
+  }
 
   return <section className="section-design">
-    <div className="container-actions">
-      <div className="container-inputs">
-        <Input title="Nombre del Diseño" onChange={onChangeName} />
-        <Input title="Numero de Asientos" onChange={onChangeSeat} />
-        <Input title="Numero de Columnas" DefValue={columns} onChange={onChangeColumns} />
-      </div>  
-      <div className="container-buttons">
-        <Button text={!edit ? "Editar Nombres" : "Guardar" } ghost onClick={editEnabled} />
-        { !edit ? <Button text="Guardar Diseño" onClick={designSave} /> : null }
-      </div>
-    </div>
+    <FormController />
     <div className="container-seat-design">
       <div className="container-seat" style={{ gridTemplateColumns : `repeat(${columns},1fr)` }} >
         { seatTemplate.map((v,i) => <Seat edit={v.edit} name={v.name} id={i} key={i} />) }
@@ -34,4 +55,4 @@ const SeatList = () => {
   </section>
 }
 
-export default SeatList;
+export default TemplateDesign;

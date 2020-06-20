@@ -9,6 +9,8 @@
   justify-content: center;
   align-items: center;
   background-color: #fff;
+  opacity: 0;
+  animation: aparecer .5s linear forwards;
 
   .input-box-name {
     width: 100%;
@@ -45,8 +47,8 @@
   }
 
   &.hide {
-    background: rgb(240, 240, 240);
-    border-color: rgb(240, 240, 240);
+    background: rgb(250, 250, 250);
+    border-color: rgb(250, 250, 250);
 
     .icon{
       display:none;
@@ -55,5 +57,16 @@
     &:hover{
       box-shadow: none;
     }
+  }
+
+  &.view {
+    cursor: initial;
+    &:hover{
+      box-shadow: none;
+    }
+  }
+
+  @keyframes aparecer {
+    to{ opacity: 1; }
   }
 }

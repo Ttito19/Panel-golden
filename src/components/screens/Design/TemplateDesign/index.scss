@@ -7,33 +7,6 @@
   grid-gap: 1em;
   padding: 3em 0;
 
-  .container-actions {
-    width: 80%;
-    height: 100%;
-    overflow: auto;
-    padding: 0 1em;
-    display: grid;
-    align-content: flex-start;
-    grid-gap: 20px;
-
-    .container-inputs , .container-buttons {
-      width: 100%;
-      display: grid;
-    }
-
-    .container-inputs {
-      grid-gap: 20px;
-    }
-
-    .container-buttons {
-      grid-gap: 5px;
-    }
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
   .container-seat-design {
     width: 100%;
     padding: 1em;
@@ -49,6 +22,14 @@
     
     &::-webkit-scrollbar {
       display: none;
+    }
+  }
+
+  &.view-design {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    .container-seat-design {
+      width: max-content;
     }
   }
 }

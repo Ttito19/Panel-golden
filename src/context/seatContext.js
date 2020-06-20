@@ -1,4 +1,4 @@
-import React , { useState , createContext, useEffect } from "react";
+import React , { useState , createContext, useEffect, useRef } from "react";
 import { useFirebaseApp } from "reactfire";
 
 const SeatContext = createContext();
@@ -8,31 +8,35 @@ const SeatProvider = (props) => {
   //Firestore
   const { firestore } = useFirebaseApp();
 
+  //Referencias
+  const refInputSeatNumber = useRef();
+  const refInputSeatDesignName = useRef();
+  const refInputSeatColumn = useRef();
+
   //States
+  const [ seatCreate , setSeatCreate ] = useState(false);
+  const [ columns , setColumns ] = useState(0);
   const [ edit , setEdit ] = useState(false);
-  const [ columns , setColumns ] = useState(7);
-  const [ seatNumber , setSeatNumber ] = useState(0);
   const [ seatTemplate , setSeatTemplate ] = useState([]);
-  const [ nameDesign , setNameDesign ] = useState("");
 
   /**Actions**/
-
-  // - Editar Columnas
-  const changeColumns = value => setColumns(value);
-
-  // - Editar Nombre del Diseño
-  const changeNameDesign = value => setNameDesign(value);
 
   // - Habilitar la edicion de los asientos
   const editEnabled = () => {
     let template = [...seatTemplate];
 
     template = template.map(v => {
-      return { ...v, edit : !edit }
+      if(v !== "*") return { name : v.name, edit : !edit }
+      else return v;
     });
 
     setEdit(!edit);
     setSeatTemplate(template);
+
+    if(refInputSeatColumn.current && refInputSeatNumber.current){
+      refInputSeatNumber.current.disabled = !edit;
+      refInputSeatColumn.current.disabled = !edit;      
+    }
   }
 
   // - Actualizar el nombre del asiento
@@ -46,22 +50,48 @@ const SeatProvider = (props) => {
   const hideSeat = (index,hide) => {
     let template = [...seatTemplate];
 
-    if(!hide) template[index] = "-";
+    if(!hide) template[index] = "*";
     else template[index] = { name : "" , edit : false }
-    
+
     setSeatTemplate(template);    
   }
 
-  // - Crear Asientos
-  const createSeatTemplate = (value) => {
-    let template = [];
-    for(var i = 0; i < value; i++){
-      template.push({
-        name : "",
-        edit : false
-      })
+  // - Crear Asientos / Actualizar Asientos
+  const createSeatTemplate = (ev) => {
+    ev.preventDefault();
+
+    let template = [],
+      seatNumber = refInputSeatNumber.current.value,
+      columns = refInputSeatColumn.current.value;
+
+    if(seatNumber && columns){
+      let question = true;
+
+      if(seatTemplate.length){
+        let ts = [...seatTemplate];
+        for(let i = 0; i < ts.length; i++){
+          if(ts[i].name){
+            question = window.confirm("Al actualizar la estructura todos los nombres se resetearan tambien. ¿Esta Seguro de esto?");
+            break;
+          }
+        }
+      }
+
+      if(question){
+        for(var i = 0; i < seatNumber; i++){
+          template.push({
+            name : "",
+            edit : false
+          })
+        }
+
+        setColumns(columns);
+        setSeatTemplate(template);
+        setSeatCreate(true);         
+      }
+    }else {
+      alert("Usted no puede hackear este sistema >:v");
     }
-    setSeatTemplate(template);
   }
 
   // - Guardar Diseño
@@ -69,7 +99,7 @@ const SeatProvider = (props) => {
     if(!seatTemplate.length){
       alert("No tienes ningun asiento agregado");
       return;
-    }else if(!nameDesign){
+    }else if(!refInputSeatDesignName.current.value){
       alert("El diseño necesita un nombre");
       return;
     }
@@ -82,7 +112,7 @@ const SeatProvider = (props) => {
     }else{
       let seatData = [];
       for(var i = 0; i < seatTemplate.length; i++){
-        if(seatTemplate[i] !== "-"){
+        if(seatTemplate[i] !== "*"){
           let key = seatTemplate[i].name ? seatTemplate[i].name : "AD";
           seatData.push(key);
         }else{
@@ -91,9 +121,9 @@ const SeatProvider = (props) => {
       }
 
       var data = {
-        name : nameDesign,
+        name : refInputSeatDesignName.current.value,
         seats : seatData,
-        seatColumns : columns
+        seatColumns : refInputSeatColumn.current.value
       }
 
       try{
@@ -105,22 +135,19 @@ const SeatProvider = (props) => {
     }
   }
 
-  useEffect(() => {
-    if(columns > 10) setColumns(10);
-  },[columns])
-
   return <SeatContext.Provider value={{ 
-    seatTemplate, 
-    columns, 
+    refInputSeatNumber,
+    refInputSeatDesignName,
+    refInputSeatColumn,
+    seatTemplate,
+    seatCreate,
     edit,
-    seatNumber,
-    editEnabled,
-    updateSeat,
+    columns,
     hideSeat,
-    changeColumns,
-    createSeatTemplate,
     designSave,
-    changeNameDesign
+    updateSeat,
+    editEnabled,
+    createSeatTemplate,
   }}>
     {children}
   </SeatContext.Provider>
