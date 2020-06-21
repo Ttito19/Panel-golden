@@ -21,7 +21,6 @@ import prueba from "../../screens/prueba/prueba";
 //Imanol imports
 import AddUsuario from "../../screens/Usuarios/AddUsuario";
 import ListUsuario from "../../screens/Usuarios/ListUsuario";
-import CloseSession from "../../screens/Close_session/";
 
 //Billy Imports
 import { AddDesign , ListDesign , UpdateDesign } from "../../screens/Design";
@@ -52,13 +51,13 @@ const RoutesAuth = () => {
         {/* Imanol */}
         <Route path="/AddUsuario" component={AddUsuario} />
         <Route path="/ListUsuario" component={ListUsuario} />
-        <Route path="/Cerrar_session" component={CloseSession} />
 
         {/* Billy */}
         <Route path="/addDesign" component={AddDesign} />
         <Route path="/listDesign" component={ListDesign} />
         <Route path="/updateSeatDesign/:id" component={UpdateDesign} />
         
+        {/* Page Not Found */}
         <Route path="*" component={PageNotFound} />
       </Switch>      
     </SeatDesignProvider>

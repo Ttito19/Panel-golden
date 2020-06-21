@@ -1,7 +1,9 @@
 import React from "react";
 
 function PageNotFound() {
-  return <h1 className="text-center">Página no econtrada</h1>;
+  return <div>
+    
+  </div>
 }
 
 export default PageNotFound;

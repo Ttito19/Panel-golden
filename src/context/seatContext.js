@@ -1,5 +1,6 @@
-import React , { useState , createContext, useEffect, useRef } from "react";
+import React , { useState , createContext, useRef } from "react";
 import { useFirebaseApp } from "reactfire";
+import Swal from "sweetalert2";
 
 const SeatContext = createContext();
 const SeatProvider = (props) => {
@@ -94,6 +95,17 @@ const SeatProvider = (props) => {
     }
   }
 
+  // - Resetear Diseño
+  const resetAll = () => {
+    refInputSeatNumber.current.value = "";
+    refInputSeatDesignName.current.value = "";
+    refInputSeatColumn.current.value = "";
+
+    setColumns(0);
+    setSeatTemplate([]);
+    setSeatCreate(false);
+  }
+
   // - Guardar Diseño
   const designSave = async () => {
     if(!seatTemplate.length){
@@ -128,7 +140,8 @@ const SeatProvider = (props) => {
 
       try{
         await firestore().collection("seatDesign").add(data);
-        alert("Se agrego el nuevo diseño");
+        Swal.fire("Éxito", "Se agrego correctamente", "success");
+        resetAll();
       }catch(e){
         console.log(e);
       }
