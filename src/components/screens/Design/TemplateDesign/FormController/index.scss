@@ -1,0 +1,26 @@
+.container-actions {
+  width: 80%;
+  height: 100%;
+  overflow: auto;
+  padding: 0 1em;
+  display: grid;
+  align-content: flex-start;
+  grid-gap: 20px;
+
+  .container-inputs , .container-buttons {
+    width: 100%;
+    display: grid;
+  }
+
+  .container-inputs {
+    grid-gap: 20px;
+  }
+
+  .container-buttons {
+    grid-gap: 5px;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

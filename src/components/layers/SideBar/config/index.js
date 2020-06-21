@@ -68,13 +68,13 @@ const configSideBar = [
     subitems: [
       {
         icon: <AiOutlineTable />,
-        title: "Crear Diseño",
-        link: "/addDesign",
+        title: "Lista de Diseños",
+        link: "/listDesign",
       },
       {
         icon: <AiOutlineTable />,
-        title: "Lista de Diseños",
-        link: "/listDesign",
+        title: "Crear Diseño",
+        link: "/addDesign",
       },
     ],
   },

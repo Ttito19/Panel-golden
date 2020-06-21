@@ -24,39 +24,44 @@ import ListUsuario from "../../screens/Usuarios/ListUsuario";
 import CloseSession from "../../screens/Close_session/";
 
 //Billy Imports
-import { AddDesign , ListDesign } from "../../screens/Design";
+import { AddDesign , ListDesign , UpdateDesign } from "../../screens/Design";
+
+//Parent Context
+import { SeatDesignProvider } from "../../../context/seatDesignContext";
 
 const RoutesAuth = () => {
   return (
-    <Switch>
-      {/*ttito    */}
-      <Route exact path="/" component={Home} />
-      <Route path="/AddCliente" component={AddClients} />
-      <Route path="/ListCliente" component={ListClients} />
-      <Route path="/AddEmpresa" component={AddEmpresa} />
-      <Route path="/ListEmpresa" component={ListEmpresa} />
-      <Route path="/AddChofer" component={AddChofer} />
-      <Route path="/ListChofer" component={ListChofer} />
-      <Route path="/addBusStop" component={AddBusStop} />
-      <Route path="/listBusStop" component={ListBusStop} />
-      <Route path="/addLocation" component={AddLocation} />
-      <Route path="/listLocation" component={ListLocation} />
-      <Route path="/addBus" component={AddBus} />
-      <Route path="/ListBus" component={ListBus} />
-      <Route path="/prueba" component={prueba} />
+    <SeatDesignProvider>
+      <Switch>
+        {/*ttito    */}
+        <Route exact path="/" component={Home} />
+        <Route path="/AddCliente" component={AddClients} />
+        <Route path="/ListCliente" component={ListClients} />
+        <Route path="/AddEmpresa" component={AddEmpresa} />
+        <Route path="/ListEmpresa" component={ListEmpresa} />
+        <Route path="/AddChofer" component={AddChofer} />
+        <Route path="/ListChofer" component={ListChofer} />
+        <Route path="/addBusStop" component={AddBusStop} />
+        <Route path="/listBusStop" component={ListBusStop} />
+        <Route path="/addLocation" component={AddLocation} />
+        <Route path="/listLocation" component={ListLocation} />
+        <Route path="/addBus" component={AddBus} />
+        <Route path="/ListBus" component={ListBus} />
+        <Route path="/prueba" component={prueba} />
 
-      {/* Imanol */}
-      <Route path="/AddUsuario" component={AddUsuario} />
-      <Route path="/ListUsuario" component={ListUsuario} />
-      <Route path="/Cerrar_session" component={CloseSession} />
+        {/* Imanol */}
+        <Route path="/AddUsuario" component={AddUsuario} />
+        <Route path="/ListUsuario" component={ListUsuario} />
+        <Route path="/Cerrar_session" component={CloseSession} />
 
-      {/* Billy */}
-      <Route path="/addDesign" component={AddDesign} />
-      <Route path="/listDesign" component={ListDesign} />
-
-      
-      <Route path="*" component={PageNotFound} />
-    </Switch>
+        {/* Billy */}
+        <Route path="/addDesign" component={AddDesign} />
+        <Route path="/listDesign" component={ListDesign} />
+        <Route path="/updateSeatDesign/:id" component={UpdateDesign} />
+        
+        <Route path="*" component={PageNotFound} />
+      </Switch>      
+    </SeatDesignProvider>
   );
 };
 

@@ -2,10 +2,10 @@ import React from "react";
 import TemplateDesign from "../TemplateDesign";
 import { SeatProvider } from "../../../../context/seatContext";
 
-const DesignAdd = () => {
+const DesignUpdate = () => {
   return <SeatProvider>
-    <TemplateDesign />
+    <TemplateDesign view />
   </SeatProvider>
 }
 
-export default DesignAdd;
+export default DesignUpdate;

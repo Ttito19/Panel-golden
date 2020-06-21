@@ -3,17 +3,17 @@ import { MdModeEdit } from "react-icons/md";
 import "./index.scss";
 
 //Context
-import { SeatContext } from "../../../../../context/SeatDesign";
+import { SeatContext } from "../../../../../context/seatContext";
 
 const Seat = (props) => {
   //Props
-  const { id , name , edit } = props;
+  const { id , name , edit , view , hideSeatProp } = props;
 
   //Context
   const { updateSeat, hideSeat } = useContext(SeatContext);
 
   //States
-  const [ hide , setHide ] = useState(false);
+  const [ hide , setHide ] = useState(hideSeatProp);
   const [ editState , setEditState ] = useState(false);
 
   //Referencias
@@ -29,8 +29,18 @@ const Seat = (props) => {
     if(editState) refInput.current.focus();
   },[editState])
 
+  useEffect(() => {
+    if(editState) setEditState(false);
+  },[edit])
+
 
   if(!edit){
+    if(view){
+      return <div className={`seat-box edit view ${hide ? "hide" : ""}`}>
+        <p className="name">{name}</p>
+      </div>
+    }
+
     const onClick = () => {
       setHide(!hide);
       hideSeat(id,hide);
@@ -48,7 +58,7 @@ const Seat = (props) => {
           type="text"
           className="input-box-name"
           defaultValue={name}
-          maxlength="4"
+          maxLength="4"
           onBlur={onBlur}
           onChange={onChange}
           ref={refInput}
@@ -59,5 +69,9 @@ const Seat = (props) => {
     }
   </div>
 };
+
+Seat.defaultProps = {
+  hideSeatProp : false
+}
 
 export default Seat;
