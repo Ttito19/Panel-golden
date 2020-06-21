@@ -6,7 +6,7 @@
   --color-text-sidebar: #a8aeb3;
   --color-link: rgb(20, 117, 228);
   --width-sidebar: 270px;
-  --position-sidebar-movil : -270px;
+  --position-sidebar-movil : calc(var(--width-sidebar) * -1);
   --height-sidebar-header: 70px;
 }
 
@@ -47,8 +47,7 @@ section.container-cards article.card {
 }
 
 
-@media ( max-width : 500px ) {
-
+@media ( max-width : 750px ) {
   .sidebar {
     position: absolute;
     left : var(--position-sidebar-movil)
@@ -56,5 +55,4 @@ section.container-cards article.card {
   .container-page {
     width: 100% !important;
   }
-
 }

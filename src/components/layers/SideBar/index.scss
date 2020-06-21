@@ -10,6 +10,8 @@
     }
 }
 
+$time-transition : .3s;
+
 .open-panel {
     position : absolute ;
     left : 0;
@@ -21,11 +23,12 @@
     justify-content: center;
     align-items: center;
     margin:0;
-    background : #05121a;
-    color:#a8aeb3;
-    font-size: 30px;
-    transition: left 1s;
+    background : var(--color-base-dark-sidebar);
+    color:var(--color-text-sidebar);
+    font-size: 22px;
+    transition: left $time-transition;
     z-index: 100;
+    cursor: pointer;
 }
 
 .sidebar{
@@ -33,7 +36,7 @@
     min-width: var(--width-sidebar);
     height: 100vh;
     background: var(--color-base-sidebar);
-    transition: left 1s ;
+    transition: left $time-transition;
     z-index: 100;
     
     .header-sidebar{
