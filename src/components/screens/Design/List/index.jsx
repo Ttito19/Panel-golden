@@ -36,8 +36,8 @@ const DesignList = (props) => {
                   <tr key={i}>
                     <td>{v.name}</td>
                     <td>{v.seatColumns}</td>
-                    <td><button>Ver Diseño</button></td>
-                    <td><Link className="btn btn-primary" to={`/updateSeatDesign/${v.id}`}>Actualizar</Link></td>
+                    <td><button>Actualizar</button></td>
+                    <td><Link className="btn btn-primary" to={`/design/${v.id}`}>Ver Diseño</Link></td>
                     <td><button className="btn btn-danger" onClick={() => deleteSeatDesignFromId(v.id)}>Eliminar</button></td>
                   </tr>
                 ))

@@ -7,24 +7,6 @@
   grid-gap: 1em;
   padding: 3em 0;
 
-  .container-seat-design {
-    width: 100%;
-    padding: 1em;
-    overflow-x: auto;
-
-    .container-seat {
-      width: max-content;
-      height: max-content;
-      display: grid;
-      grid-gap : 5px;
-      justify-content: center;
-    }
-    
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
   &.view-design {
     grid-template-columns: 1fr;
     justify-items: center;

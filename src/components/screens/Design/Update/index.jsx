@@ -4,7 +4,7 @@ import { SeatProvider } from "../../../../context/seatContext";
 
 const DesignUpdate = () => {
   return <SeatProvider>
-    <TemplateDesign view />
+    <TemplateDesign view={true} />
   </SeatProvider>
 }
 

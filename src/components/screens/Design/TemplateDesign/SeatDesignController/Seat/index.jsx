@@ -3,7 +3,7 @@ import { MdModeEdit } from "react-icons/md";
 import "./index.scss";
 
 //Context
-import { SeatContext } from "../../../../../context/seatContext";
+import { SeatContext } from "../../../../../../context/seatContext";
 
 const Seat = (props) => {
   //Props

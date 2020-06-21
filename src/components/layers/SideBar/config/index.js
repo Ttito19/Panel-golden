@@ -69,12 +69,12 @@ const configSideBar = [
       {
         icon: <AiOutlineTable />,
         title: "Lista de Diseños",
-        link: "/listDesign",
+        link: "/design/list",
       },
       {
         icon: <AiOutlineTable />,
         title: "Crear Diseño",
-        link: "/addDesign",
+        link: "/design/add",
       },
     ],
   },

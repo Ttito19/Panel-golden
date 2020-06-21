@@ -53,9 +53,9 @@ const RoutesAuth = () => {
         <Route path="/ListUsuario" component={ListUsuario} />
 
         {/* Billy */}
-        <Route path="/addDesign" component={AddDesign} />
-        <Route path="/listDesign" component={ListDesign} />
-        <Route path="/updateSeatDesign/:id" component={UpdateDesign} />
+        <Route path="/design/add" component={AddDesign} />
+        <Route path="/design/list" component={ListDesign} />
+        <Route path="/design/:id" component={UpdateDesign} />
         
         {/* Page Not Found */}
         <Route path="*" component={PageNotFound} />
