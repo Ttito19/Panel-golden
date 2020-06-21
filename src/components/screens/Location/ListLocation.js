@@ -14,6 +14,7 @@ function ListLocation() {
     setShow(true);
     const newLoc = location.filter((i) => i.id === id);
     setId(newLoc[0]);
+    // console.log(newLoc[0]);
   };
   const deleteLocation = (id) => {
     firestore().collection("location").doc(id).delete();
@@ -64,7 +65,7 @@ function ListLocation() {
                   <td>{loc.coords.latitude}</td>
                   <td>{loc.coords.longitude}</td>
                   <td>
-                    <img src={loc.image} width="50" height="50" />
+                    <img src={loc.image.url} width="50" height="50" />
                   </td>
                   <td>{loc.description}</td>
                   <td>{loc.name}</td>

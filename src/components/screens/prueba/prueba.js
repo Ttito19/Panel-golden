@@ -24,10 +24,11 @@ function Prueba() {
   };
   const btnAdd = (e) => {
     e.preventDefault();
+
     const uploadTask = storage
       .ref(`images/${archivoImagen.name}`)
       .put(archivoImagen);
-
+    console.log(uploadTask);
     uploadTask.on(
       "state_changed",
       (snapShot) => {
@@ -47,10 +48,6 @@ function Prueba() {
           .then((fireBaseUrl) => {
             console.log(fireBaseUrl);
             setUrlImagen(fireBaseUrl);
-            // setUrlImagen((prevObject) => ({
-            //   ...prevObject,
-            //   imgUrl: fireBaseUrl,
-            // }));
           });
       }
     );
@@ -58,9 +55,8 @@ function Prueba() {
 
   const btnDelete = (e) => {
     e.preventDefault();
-    var storageRef = storage.ref();
-    var dlt = storageRef.child("images/asa.jpg");
-    dlt
+    var storageRef = storage.ref(`images/cancha123.png`);
+    storageRef
       .delete()
       .then(function () {
         console.log("eliminado correctamente");

@@ -21,7 +21,14 @@ function AddLocation() {
   const refName = useRef();
   const refRegion = useRef();
   const handleImage = (e) => {
-    setImageLoc(refImage.current.files[0].name);
+    setImageLoc(
+      refImage.current.files[0] == undefined
+        ? imageLoc
+        : refImage.current.files[0].name
+    );
+
+    // console.log(refImage.current.files[0].name);
+
     if (e.target.files[0]) {
       setArchivoImagen(e.target.files[0]);
     }
@@ -39,7 +46,7 @@ function AddLocation() {
 
     if (latitude && longitude && description && image && name && region) {
       const uploadTask = storage
-        .ref(`images/${archivoImagen.name}`)
+        .ref(`location/${archivoImagen.name}`)
         .put(archivoImagen);
       uploadTask.on(
         "state_changed",
@@ -54,7 +61,7 @@ function AddLocation() {
         },
         () => {
           storage
-            .ref("images")
+            .ref("location")
             .child(archivoImagen.name)
             .getDownloadURL()
             .then((fireBaseUrl) => {
@@ -68,14 +75,15 @@ function AddLocation() {
                     parseFloat(longitude)
                   ),
                   description,
-                  image: fireBaseUrl,
+                  image: {
+                    name: archivoImagen.name,
+                    url: fireBaseUrl,
+                  },
                   name,
                   region,
                 })
-                .then(
-                  () => console.log(UrlImagen)
-
-                  // Swal.fire("Éxito", "Se agrego correctamente", "success")
+                .then(() =>
+                  Swal.fire("Éxito", "Se agrego correctamente", "success")
                 );
             });
         }
@@ -93,7 +101,6 @@ function AddLocation() {
     <div className="container">
       <form className="form-group">
         <div className="col-6">
-          <p>{UrlImagen}</p>
           <Input refs={refLatitude} name="Latitud" type="number" />
 
           <Input refs={refLongitude} name="Longitud" type="number" />
@@ -114,7 +121,6 @@ function AddLocation() {
             </label>
             <progress value={progress} max="100" />
           </div>
-          <img src={UrlImagen} width="100" />
           <Input refs={refName} name="Nombre de Ubicación" type="text" />
 
           <Input refs={refRegion} name="Región" type="text" />

@@ -39,9 +39,11 @@ function AddBus() {
   return (
     <div className="container">
       <form className="form-group">
-        <Input name="Nombre del Bus" type="text" refs={refName} />
-        <Input name="Diseño de asiento" type="text" refs={refSeatDesign} />
-        <Input name="Tipo" type="text" refs={refType} />
+        <div className="col-6">
+          <Input name="Nombre del Bus" type="text" refs={refName} />
+          <Input name="Diseño de asiento" type="text" refs={refSeatDesign} />
+          <Input name="Tipo" type="text" refs={refType} />
+        </div>
         <div className="btn pb-2">
           <button className="btn btn-primary" onClick={addBus}>
             Agregar
