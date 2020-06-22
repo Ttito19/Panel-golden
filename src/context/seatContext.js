@@ -1,6 +1,10 @@
-import React , { useState , createContext, useRef } from "react";
+import React , { useState , createContext, useRef, useEffect , useContext } from "react";
 import { useFirebaseApp } from "reactfire";
 import Swal from "sweetalert2";
+
+//Parent Context
+import { SeatDesignContext } from "./seatDesignContext";
+import { useRouteMatch } from "react-router-dom";
 
 const SeatContext = createContext();
 const SeatProvider = (props) => {
@@ -8,6 +12,12 @@ const SeatProvider = (props) => {
 
   //Firestore
   const { firestore } = useFirebaseApp();
+
+  //Context
+  const { dataFromDocument , searchSeatDesignFromId } = useContext(SeatDesignContext);
+
+  //Hooks
+  const { params } = useRouteMatch();
 
   //Referencias
   const refInputSeatNumber = useRef();
@@ -19,8 +29,13 @@ const SeatProvider = (props) => {
   const [ columns , setColumns ] = useState(0);
   const [ edit , setEdit ] = useState(false);
   const [ seatTemplate , setSeatTemplate ] = useState([]);
+  const [ updateActive , setUpdateActive ] = useState(false);
+  const [ updateId , setUpdateId ] = useState(null);
 
   /**Actions**/
+
+  // - Activar Actualizacion
+  const updateStateUpdateActive = value => setUpdateActive(value);
 
   // - Habilitar la edicion de los asientos
   const editEnabled = () => {
@@ -106,7 +121,7 @@ const SeatProvider = (props) => {
     setSeatCreate(false);
   }
 
-  // - Guardar Diseño
+  // - Guardar Diseño / Actualizar Diseño
   const designSave = async () => {
     if(!seatTemplate.length){
       alert("No tienes ningun asiento agregado");
@@ -138,15 +153,49 @@ const SeatProvider = (props) => {
         seatColumns : refInputSeatColumn.current.value
       }
 
+      var collection = "seatDesign";
+
       try{
-        await firestore().collection("seatDesign").add(data);
-        Swal.fire("Éxito", "Se agrego correctamente", "success");
-        resetAll();
+        if(updateActive){
+          if(updateId){
+            await firestore().collection(collection).doc(updateId).update(data);
+            Swal.fire("Actualizado", "Se actualizo correctamente", "success");            
+          }else{
+            alert("No debio tocar los datos Internos...");
+          }
+        }else {
+          await firestore().collection(collection).add(data);
+          Swal.fire("Éxito", "Se agrego correctamente", "success");
+          resetAll(); 
+        }
       }catch(e){
         console.log(e);
       }
     }
   }
+
+  // - Efecto de actualizar
+  useEffect(() => {
+    if(updateActive && dataFromDocument.length){
+      const data = searchSeatDesignFromId(params.id);
+
+      refInputSeatDesignName.current.value = data.name;
+      refInputSeatNumber.current.value = data.seats.length;
+      refInputSeatColumn.current.value = data.seatColumns;
+
+      let seatTemplateUpdate = [];
+
+      for(let v of data.seats){
+        if(v) seatTemplateUpdate.push({ name : v , edit : false });
+        else seatTemplateUpdate.push("*");
+      }
+
+      setColumns(data.seatColumns);
+      setSeatCreate(true);
+      setSeatTemplate(seatTemplateUpdate);
+      setUpdateId(data.id);
+    }
+  },[updateActive , dataFromDocument]);
 
   return <SeatContext.Provider value={{ 
     refInputSeatNumber,
@@ -161,6 +210,7 @@ const SeatProvider = (props) => {
     updateSeat,
     editEnabled,
     createSeatTemplate,
+    updateStateUpdateActive
   }}>
     {children}
   </SeatContext.Provider>

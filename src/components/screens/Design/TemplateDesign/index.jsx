@@ -6,7 +6,7 @@ import FormController from "./FormController";
 import SeatDesignController from "./SeatDesignController";
 
 const TemplateDesign = props => {
-  const { view } = props;
+  const { view , update } = props;
   
   if(view){
     return <section className="section-design view-design">
@@ -15,8 +15,8 @@ const TemplateDesign = props => {
   }
 
   return <section className="section-design">
-    <FormController />
-    <SeatDesignController />
+    <FormController update={update} />
+    <SeatDesignController update={update} />
   </section>
 }
 

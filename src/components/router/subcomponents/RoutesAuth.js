@@ -23,7 +23,7 @@ import AddUsuario from "../../screens/Usuarios/AddUsuario";
 import ListUsuario from "../../screens/Usuarios/ListUsuario";
 
 //Billy Imports
-import { AddDesign , ListDesign , UpdateDesign } from "../../screens/Design";
+import { AddDesign , ListDesign , ViewDesign ,  UpdateDesign } from "../../screens/Design";
 
 //Parent Context
 import { SeatDesignProvider } from "../../../context/seatDesignContext";
@@ -55,7 +55,8 @@ const RoutesAuth = () => {
         {/* Billy */}
         <Route path="/design/add" component={AddDesign} />
         <Route path="/design/list" component={ListDesign} />
-        <Route path="/design/:id" component={UpdateDesign} />
+        <Route path="/design/update/:id" component={UpdateDesign} />
+        <Route path="/design/:id" component={ViewDesign} />
         
         {/* Page Not Found */}
         <Route path="*" component={PageNotFound} />

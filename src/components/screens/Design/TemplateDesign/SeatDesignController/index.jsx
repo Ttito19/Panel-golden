@@ -16,7 +16,7 @@ const SeatDesignController = props => {
   const { view , update } = props;
 
   //Context
-  const { seatTemplate, columns } = useContext(SeatContext);
+  const { seatTemplate, columns , updateStateUpdateActive } = useContext(SeatContext);
   const { searchSeatDesignFromId , loadingData } = useContext(SeatDesignContext);
 
   //Hooks
@@ -37,19 +37,25 @@ const SeatDesignController = props => {
           data.seats.map((v,i) => {
             if(v) return <Seat name={v} key={i} view />
             else return <Seat hideSeatProp={true} name={v} key={i} view />
-          }
-        )}
+          })
+        }
       </div>      
     </div>
-  }else if(update) {
-    
+  }else if(update){
+    //Activa la actualizacion
+    updateStateUpdateActive(true);
   }
 
   return <div className="container-seat-design">
     {
       seatTemplate.length > 0 ? 
         <div className="container-seat" style={{ gridTemplateColumns : `repeat(${columns},1fr)` }}>
-          { seatTemplate.map((v,i) => <Seat edit={v.edit} name={v.name} id={i} key={i} />) }
+          { 
+            seatTemplate.map((v,i) => {
+              if(v !== "*") return <Seat edit={v.edit} name={v.name} id={i} key={i} />
+              else return <Seat hideSeatProp={true} key={i} id={i} edit={v.edit} />
+            })
+          }
         </div> :
         <div className="container-seat no-design" >
           <div className="container-no-design">
@@ -57,7 +63,7 @@ const SeatDesignController = props => {
               <div className="icon">
                 <GrTools />
               </div>
-              <span>Comienze a crear un Diseño.</span>
+              <span>{ update ? "Cargando Diseño..." : "Comienze a crear un Diseño." }</span>
             </h5>
           </div>
         </div>   
