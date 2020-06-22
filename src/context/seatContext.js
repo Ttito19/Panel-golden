@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 //Parent Context
 import { SeatDesignContext } from "./seatDesignContext";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, useHistory } from "react-router-dom";
 
 const SeatContext = createContext();
 const SeatProvider = (props) => {
@@ -18,6 +18,7 @@ const SeatProvider = (props) => {
 
   //Hooks
   const { params } = useRouteMatch();
+  const { replace } = useHistory();
 
   //Referencias
   const refInputSeatNumber = useRef();
@@ -174,28 +175,33 @@ const SeatProvider = (props) => {
     }
   }
 
-  // - Efecto de actualizar
+  // - Efecto de actualizar - Trae los datos
   useEffect(() => {
     if(updateActive && dataFromDocument.length){
       const data = searchSeatDesignFromId(params.id);
 
-      refInputSeatDesignName.current.value = data.name;
-      refInputSeatNumber.current.value = data.seats.length;
-      refInputSeatColumn.current.value = data.seatColumns;
+      if(data){
+        refInputSeatDesignName.current.value = data.name;
+        refInputSeatNumber.current.value = data.seats.length;
+        refInputSeatColumn.current.value = data.seatColumns;
 
-      let seatTemplateUpdate = [];
+        let seatTemplateUpdate = [];
 
-      for(let v of data.seats){
-        if(v) seatTemplateUpdate.push({ name : v , edit : false });
-        else seatTemplateUpdate.push("*");
+        for(let v of data.seats){
+          if(v) seatTemplateUpdate.push({ name : v , edit : false });
+          else seatTemplateUpdate.push("*");
+        }
+
+        setColumns(data.seatColumns);
+        setSeatCreate(true);
+        setSeatTemplate(seatTemplateUpdate);
+        setUpdateId(data.id);        
+      }else{
+        replace("/design/list");
+        alert("El diseño fue eliminado o no existe.");
       }
-
-      setColumns(data.seatColumns);
-      setSeatCreate(true);
-      setSeatTemplate(seatTemplateUpdate);
-      setUpdateId(data.id);
     }
-  },[updateActive , dataFromDocument]);
+  },[updateActive , dataFromDocument , updateId]);
 
   return <SeatContext.Provider value={{ 
     refInputSeatNumber,
