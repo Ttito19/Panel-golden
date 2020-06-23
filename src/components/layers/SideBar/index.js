@@ -10,7 +10,7 @@ function SideBar() {
 	return (
 		<>
 		<input type="checkbox" id ="open-panel"></input>
-		<label for="open-panel" class="open-panel"><FaAlignJustify /></label>
+		<label htmlFor="open-panel" className="open-panel"><FaAlignJustify /></label>
 		
 		<div className="sidebar">
 			

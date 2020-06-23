@@ -1,41 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { useFirebaseApp } from "reactfire";
+import React, { useState, useContext, useEffect } from "react";
 import ReactLoading from "react-loading";
 import { ModalBusStop } from "./ModalBusStop";
 import { list } from "../../../loader/typesLoading";
-function ListBusStop() {
-  const { firestore } = useFirebaseApp();
-  const [bus, setBus] = useState([]);
+import { BusStopContext } from "../../../context/busStopContext";
+
+export const ListBusStop = () => {
+  //states
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [id, setId] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = firestore()
-      .collection("busStop")
-      .onSnapshot((snapshot) => {
-        const listBus = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setBus(listBus);
-      });
-
-    return () => unsubscribe();
-  }, []);
-
+  //context
+  const listBusStop = useContext(BusStopContext);
+  // open modal
   const modalBusStop = (id) => {
     setShow(true);
-    const newBusStop = bus.filter((i) => i.id === id);
+    const newBusStop = listBusStop.busStop.filter((i) => i.id === id);
 
     if (newBusStop.length === 1) setId(newBusStop[0]);
-
-    console.log(newBusStop);
   };
 
-  const deleteBusStop = (id) => {
-    firestore().collection("busStop").doc(id).delete();
+  const deleteBusStopFromId = (id) => {
+    listBusStop.deleteBusStop(id);
   };
+
   return (
     <div className="container pb-2">
       <ModalBusStop show={show} handleClose={handleClose} id={id} />
@@ -50,7 +37,7 @@ function ListBusStop() {
             <th>Eliminar</th>
           </tr>
         </thead>
-        {bus == ""
+        {listBusStop.busStop == ""
           ? list.map((l) => (
               <tbody key={l.prop}>
                 <tr className="justify-content-center">
@@ -60,7 +47,7 @@ function ListBusStop() {
                 </tr>
               </tbody>
             ))
-          : bus.map((bus) => (
+          : listBusStop.busStop.map((bus) => (
               <tbody key={bus.id}>
                 <tr>
                   <td>{bus.id}</td>
@@ -78,7 +65,7 @@ function ListBusStop() {
                   <td>
                     <button
                       className="btn btn-danger nt-1"
-                      onClick={() => deleteBusStop(bus.id)}
+                      onClick={() => deleteBusStopFromId(bus.id)}
                     >
                       Eliminar
                     </button>
@@ -89,5 +76,5 @@ function ListBusStop() {
       </table>
     </div>
   );
-}
+};
 export default ListBusStop;
