@@ -12,7 +12,6 @@ function MapContainer(props) {
   const context = useContext(MapContext);
   return (
     <div>
-      <h1>hola mundo</h1>
       <Map
         google={props.google}
         zoom={6}

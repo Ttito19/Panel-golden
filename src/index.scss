@@ -40,6 +40,16 @@ section.container-cards article.card {
   flex-direction: inherit !important;
 }
 
-.modal-header{
+.modal-header {
   height: 4rem !important;
+}
+.gm-style-mtc {
+  display: none;
+}
+
+.gmnoprint {
+  display: none;
+}
+.gm-control-active.gm-fullscreen-control{
+  display: none;
 }
