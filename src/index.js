@@ -7,7 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FirebaseAppProvider } from "reactfire";
 import firebaseConfig from "./providers/firebase";
 
-
 ReactDOM.render(
   <FirebaseAppProvider firebaseConfig={firebaseConfig}>
     <Suspense fallback={"Conectando la App..."}>
@@ -17,7 +16,7 @@ ReactDOM.render(
     </Suspense>
   </FirebaseAppProvider>,
 
-  document.getElementById("root")
+  document.getElementById("root"),
+
+
 );
-
-

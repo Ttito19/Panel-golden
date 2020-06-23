@@ -36,7 +36,7 @@ function ListClients() {
   };
 
   return (
-    <div className="container pb-pb-5">
+    <div className="container pb-5">
       <ModalClients show={show} handleClose={handleClose} id={id} />
       <table className="table table-bordered">
         <thead>

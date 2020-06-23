@@ -2,10 +2,11 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import { FaAdjust, FaCalendar } from "react-icons/fa";
 import moment from "moment";
 import "./index.scss";
-
 import Card from "./subcomponents/Card";
 import Table from "./subcomponents/Table";
-
+import MapContainer from "./subcomponents/Map/Map";
+import { MapProvider } from "./subcomponents/Map/MapContext";
+import {App} from "./subcomponents/Map/";
 const Home = (props) => {
   const [date, setDate] = useState(moment().format("LTS"));
 
@@ -22,7 +23,7 @@ const Home = (props) => {
           <p className="date">{date}</p>
         </div>
       </header>
-      <section className="container-cards">
+      {/* <section className="container-cards">
         <Card
           icon={<FaAdjust />}
           link="/"
@@ -47,12 +48,16 @@ const Home = (props) => {
           colorLeft="#8f8f8f"
           colorRight="#9f9f9f"
         />
-      </section>
-      <section className="aditional-information">
-        <div className="information-table"></div>
-        <div className="table-entry">
-          <Table />
-        </div>
+      </section> */}
+      {/* <section className="aditional-information"> */}
+      <section>
+        {/* <div className="information-table"></div> */}
+        {/* <div className="table-entry"> */}
+        <MapProvider>
+          <MapContainer />
+          <App />
+        </MapProvider>
+        {/* </div> */}
       </section>
     </div>
   );
