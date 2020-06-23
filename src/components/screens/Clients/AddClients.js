@@ -73,11 +73,16 @@ function AddClients() {
 
         .catch(function (error) {
           // Handle Errors here.
-          Swal.fire({
-            icon: "error",
-            title: "Lo sentimos",
-            text: "No se pudo registrar",
-          });
+          if (error.code == "auth/email-already-in-use") {
+            Swal.fire({
+              icon: "error",
+              title: "Lo sentimos",
+              text:
+                "La dirección de correo electrónico ya está en uso por otra cuenta.",
+              timer: 2000,
+            });
+          }
+
           // ...
         });
     } else {
@@ -85,15 +90,25 @@ function AddClients() {
         icon: "error",
         title: "Lo sentimos",
         text: "Campos Vacíos",
+        timer: 1000,
       });
     }
   };
 
   const handleDocumentImage = (e) => {
-    setDocumentImage(refDocumentImage.current.files[0].name);
+    setDocumentImage(
+      refDocumentImage.current.files[0] == undefined
+        ? documentImage
+        : refDocumentImage.current.files[0].name
+    );
+    // console.log(refDocumentImage.current.files[0].name);
   };
   const handleProfileImage = (e) => {
-    setProfileImage(refProfileImage.current.files[0].name);
+    setProfileImage(
+      refProfileImage.current.files[0] == undefined
+        ? profileImage
+        : refProfileImage.current.files[0].name
+    );
   };
 
   return (

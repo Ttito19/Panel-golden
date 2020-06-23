@@ -15,7 +15,7 @@ const TextArea = (props) => {
         onChange={onChange}
         ref={refs}
         required
-        rows="5"
+        rows="4"
       />
     </div>
   );

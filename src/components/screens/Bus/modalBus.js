@@ -57,9 +57,8 @@ export const ModalBus = (props) => {
           <Input
             defaultValue={props.id == null ? "" : props.id.seatDesign}
             name="Diseño de asiento"
-            type="number"
+            type="text"
             refs={refSeatDesign}
-            maxLength="7"
           />
 
           <Input

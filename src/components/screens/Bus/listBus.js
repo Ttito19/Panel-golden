@@ -46,6 +46,8 @@ function ListBus() {
             <th>Nombre</th>
             <th>Diseño de asiento</th>
             <th>Tipo</th>
+            <th>Editar</th>
+            <th>Elimnar</th>
           </tr>
         </thead>
         {bus == ""
