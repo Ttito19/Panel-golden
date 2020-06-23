@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
-//Screens
+///ttito imports
 import PageNotFound from "../../screens/PageNotFound";
 import Home from "../../screens/Home";
 import AddClients from "../../screens/Clients/AddClients";
@@ -17,25 +17,51 @@ import ListLocation from "../../screens/Location/ListLocation";
 import AddBus from "../../screens/Bus/addBus";
 import ListBus from "../../screens/Bus/listBus";
 import prueba from "../../screens/prueba/prueba";
+
+//Imanol imports
+import AddUsuario from "../../screens/Usuarios/AddUsuario";
+import ListUsuario from "../../screens/Usuarios/ListUsuario";
+
+//Billy Imports
+import { AddDesign , ListDesign , ViewDesign ,  UpdateDesign } from "../../screens/Design";
+
+//Parent Context
+import { SeatDesignProvider } from "../../../context/seatDesignContext";
+
 const RoutesAuth = () => {
   return (
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="/AddCliente" component={AddClients} />
-      <Route path="/ListCliente" component={ListClients} />
-      <Route path="/AddEmpresa" component={AddEmpresa} />
-      <Route path="/ListEmpresa" component={ListEmpresa} />
-      <Route path="/AddChofer" component={AddChofer} />
-      <Route path="/ListChofer" component={ListChofer} />
-      <Route path="/addBusStop" component={AddBusStop} />
-      <Route path="/listBusStop" component={ListBusStop} />
-      <Route path="/addLocation" component={AddLocation} />
-      <Route path="/listLocation" component={ListLocation} />
-      <Route path="/addBus" component={AddBus} />
-      <Route path="/ListBus" component={ListBus} />
-      <Route path="/prueba" component={prueba} />
-      <Route path="*" component={PageNotFound} />
-    </Switch>
+    <SeatDesignProvider>
+      <Switch>
+        {/*ttito    */}
+        <Route exact path="/" component={Home} />
+        <Route path="/AddCliente" component={AddClients} />
+        <Route path="/ListCliente" component={ListClients} />
+        <Route path="/AddEmpresa" component={AddEmpresa} />
+        <Route path="/ListEmpresa" component={ListEmpresa} />
+        <Route path="/AddChofer" component={AddChofer} />
+        <Route path="/ListChofer" component={ListChofer} />
+        <Route path="/addBusStop" component={AddBusStop} />
+        <Route path="/listBusStop" component={ListBusStop} />
+        <Route path="/addLocation" component={AddLocation} />
+        <Route path="/listLocation" component={ListLocation} />
+        <Route path="/addBus" component={AddBus} />
+        <Route path="/ListBus" component={ListBus} />
+        <Route path="/prueba" component={prueba} />
+
+        {/* Imanol */}
+        <Route path="/AddUsuario" component={AddUsuario} />
+        <Route path="/ListUsuario" component={ListUsuario} />
+
+        {/* Billy */}
+        <Route path="/design/add" component={AddDesign} />
+        <Route path="/design/list" component={ListDesign} />
+        <Route path="/design/update/:id" component={UpdateDesign} />
+        <Route path="/design/:id" component={ViewDesign} />
+        
+        {/* Page Not Found */}
+        <Route path="*" component={PageNotFound} />
+      </Switch>      
+    </SeatDesignProvider>
   );
 };
 

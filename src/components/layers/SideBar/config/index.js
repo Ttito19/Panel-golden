@@ -1,4 +1,5 @@
 import React from "react";
+import { auth } from "firebase";
 import { AiOutlineHome, AiOutlineTable, AiOutlineLogout } from "react-icons/ai";
 import { TiCogOutline } from "react-icons/ti";
 
@@ -8,6 +9,23 @@ const configSideBar = [
     icon: <AiOutlineHome />,
     title: "Panel Principal",
     link: "/",
+  },
+  {
+    type:"multiple",
+    icon:<AiOutlineTable />,
+    title:"Usuarios",
+    subitems : [
+      {
+        icon: <AiOutlineTable />,
+        title: "Agregar Usuario",
+        link: "/AddUsuario"
+      },
+      {
+        icon: <AiOutlineTable />,
+        title: "Lista de Usuarios",
+        link: "/ListUsuario",
+      },
+    ]
   },
   {
     type: "multiple",
@@ -43,7 +61,23 @@ const configSideBar = [
       },
     ],
   },
-
+  {
+    type: "multiple",
+    icon: <AiOutlineTable />,
+    title: "Diseño",
+    subitems: [
+      {
+        icon: <AiOutlineTable />,
+        title: "Lista de Diseños",
+        link: "/design/list",
+      },
+      {
+        icon: <AiOutlineTable />,
+        title: "Crear Diseño",
+        link: "/design/add",
+      },
+    ],
+  },
   {
     type: "multiple",
     icon: <AiOutlineTable />,
@@ -122,14 +156,18 @@ const configSideBar = [
     type: "normal",
     icon: <TiCogOutline />,
     title: "Configuracion",
-    link: "",
+    link: "/config",
   },
-
   {
     type: "normal",
     icon: <AiOutlineLogout />,
     title: "Cerrar Sesión",
-    link: "",
+    onClick : () => {
+      const election = window.confirm("¿Deseas cerrar tu sesión?"); 
+
+      if(election) 
+        auth().signOut();
+    }
   },
 ];
 

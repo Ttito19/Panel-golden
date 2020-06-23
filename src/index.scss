@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 :root {
   --color-base-sidebar: #0b1c25;
@@ -6,6 +6,7 @@
   --color-text-sidebar: #a8aeb3;
   --color-link: rgb(20, 117, 228);
   --width-sidebar: 270px;
+  --position-sidebar-movil : calc(var(--width-sidebar) * -1);
   --height-sidebar-header: 70px;
 }
 
@@ -15,6 +16,7 @@
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
 }
+
 
 ul {
   list-style: none;
