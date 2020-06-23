@@ -1,26 +1,41 @@
-.container-actions {
-  width: 80%;
-  height: 100%;
-  overflow: auto;
-  padding: 0 1em;
-  display: grid;
-  align-content: flex-start;
-  grid-gap: 20px;
+.form-controller {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgb(210,210,210);
+  background-color: #fff;
 
-  .container-inputs , .container-buttons {
-    width: 100%;
+  .content-title {
+    padding-left: .5em;
+    padding-bottom: 2em;
+    padding-top: 3em;
+  }
+
+  .container-actions {
+    width: 80%;
+    height: auto;
+    overflow: auto;
+    padding: 0 1em;
     display: grid;
-  }
-
-  .container-inputs {
+    align-content: flex-start;
     grid-gap: 20px;
-  }
 
-  .container-buttons {
-    grid-gap: 5px;
-  }
+    .container-inputs , .container-buttons {
+      width: 100%;
+      display: grid;
+    }
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+    .container-inputs {
+      grid-gap: 20px;
+    }
+
+    .container-buttons {
+      grid-gap: 5px;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }  
 }
+
