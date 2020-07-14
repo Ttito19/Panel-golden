@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 import ReactLoading from "react-loading";
 import { ModalChofer } from "./ModalChofer";
 import { list } from "../../../loader/typesLoading";
+
 function ListChofer() {
-  const firebase = useFirebaseApp();
   const [chofer, setChofer] = useState([]);
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
   const [id, setId] = useState(null);
+  const handleClose = () => setShow(false);
+
   const modalClick = (id) => {
     setShow(true);
 
@@ -17,8 +18,7 @@ function ListChofer() {
   };
 
   useEffect(() => {
-    const unsubscribe = firebase
-      .firestore()
+    const unsubscribe = firestore()
       .collection("items")
       .onSnapshot((snapshot) => {
         const listChofer = snapshot.docs.map((doc) => ({
@@ -32,7 +32,7 @@ function ListChofer() {
   }, []);
 
   const deleteChofer = (id) => {
-    firebase.firestore().collection("items").doc(id).delete();
+    firestore().collection("items").doc(id).delete();
   };
 
   return (

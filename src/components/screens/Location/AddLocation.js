@@ -1,12 +1,9 @@
 import React, { useState, useRef } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore , storage } from "firebase";
 import Input from "../../subcomponets/Input";
 import Swal from "sweetalert2";
-import { storage } from "../../../providers/firebase";
-function AddLocation() {
-  //firebase
-  const { firestore } = useFirebaseApp();
 
+function AddLocation() {
   //states
   const [imageLoc, setImageLoc] = useState("Seleccionar imagen del lugar");
   const [archivoImagen, setArchivoImagen] = useState("");

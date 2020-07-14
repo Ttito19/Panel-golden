@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useFirebaseApp } from "reactfire";
+import { auth } from "firebase";
 
 const AccountContext = createContext();
 
@@ -7,11 +7,9 @@ function AccountProvider (props) {
 	const [ isValidationUser, setValidationUser ] = useState(false);
 	const [ isLoadingInformation, setLoadingInformation ] = useState(true);
 
-	const firebase = useFirebaseApp()
-
 	useEffect(() => {
 		// OBSERVER USER
-		const eventAuth = firebase.auth().onAuthStateChanged( (user)=>{
+		const eventAuth = auth().onAuthStateChanged( (user)=>{
 			if(user) setValidationUser(true);
 			else setValidationUser(false);
 
@@ -22,13 +20,13 @@ function AccountProvider (props) {
 	},[])
 
 	const validationUser = (email,password) => {
-		firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+		auth().signInWithEmailAndPassword(email, password).catch(function(error) {
 			console.log("Usuario o contraseña incorrecta")
 		});
 	}
 
 	const registerUser = (email,password) => {
-		firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+		auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
 			console.log(error.code)
 			console.log(error.message)
 		});

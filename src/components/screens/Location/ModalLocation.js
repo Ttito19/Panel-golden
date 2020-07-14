@@ -2,9 +2,9 @@ import React, { useState, useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Input from "../../subcomponets/Input";
 import TextArea from "../../subcomponets/TextArea";
-import { useFirebaseApp } from "reactfire";
+import { firestore , storage } from "firebase";
 import Swal from "sweetalert2";
-import { storage } from "../../../providers/firebase";
+
 export const ModalLocation = (props) => {
   //States
   const [closeModal, setCloseModal] = useState(false);
@@ -13,8 +13,7 @@ export const ModalLocation = (props) => {
   const [imageLoc, setImageLoc] = useState("");
   const [archivoImagen, setArchivoImagen] = useState("");
   const [progress, setProgress] = useState(0);
-  //firebase
-  const { firestore } = useFirebaseApp();
+
   //refs
   const refLatitud = useRef();
   const refLongitud = useRef();

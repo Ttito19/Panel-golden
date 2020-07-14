@@ -1,13 +1,12 @@
 import React, { useRef, useState } from "react";
 import Input from "../../subcomponets/Input";
-import { useFirebaseApp } from "reactfire";
+import { auth , firestore } from "firebase";
 import Swal from "sweetalert2";
 
 function AddClients() {
   const [documentImage, setDocumentImage] = useState("Seleccionar Dni");
   const [profileImage, setProfileImage] = useState(" Seleccionar Foto");
 
-  const fb = useFirebaseApp();
   const refCity = useRef();
   const refCode = useRef();
   const refDni = useRef();
@@ -18,6 +17,7 @@ function AddClients() {
   const refPassword = useRef();
   const refPhone = useRef();
   const refProfileImage = useRef();
+
   const ButtonAddClients = (e) => {
     e.preventDefault();
     const city = refCity.current.value;
@@ -30,6 +30,7 @@ function AddClients() {
     const password = refPassword.current.value;
     const phone = refPhone.current.value;
     const profileImage = refProfileImage.current.value;
+    
     if (
       city &&
       code &&
@@ -42,7 +43,7 @@ function AddClients() {
       phone &&
       profileImage
     ) {
-      fb.auth()
+      auth()
         .createUserWithEmailAndPassword(email, password)
         .then((v) => {
           const id = v.user.uid;
@@ -60,7 +61,7 @@ function AddClients() {
             profileImage,
           };
 
-          fb.firestore()
+          firestore()
             .collection("clients")
             .doc(id)
             .set(data)

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 import ReactLoading from "react-loading";
 import { ModalClients } from "./ModalClients";
 import { list } from "../../../loader/typesLoading";
+
 function ListClients() {
-  const { firestore } = useFirebaseApp();
   const [clients, setClients] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [id, setId] = useState(null);
+
   useEffect(() => {
     const unsubscribe = firestore()
       .collection("clients")

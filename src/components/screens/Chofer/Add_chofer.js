@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useFirebaseApp } from "reactfire";
+import React, { useState } from "react";
+import { firestore } from "firebase";
 import Input from "../../subcomponets/Input";
 import Swal from "sweetalert2";
+
 function AddChofer() {
   const [name, setName] = useState("");
   const [type, setype] = useState("");
   const [qty, setQty] = useState("");
   const [description, setDescription] = useState("");
-  const firebase = useFirebaseApp();
+
   const ButtonAddChofer = (e) => {
     e.preventDefault();
 
     if (name != "" && type != "" && qty != "" && description != "") {
-      firebase
-        .firestore()
+      firestore()
         .collection("items")
         .add({
           name,
