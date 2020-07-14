@@ -1,5 +1,5 @@
 import React , { useState , createContext, useRef, useEffect , useContext } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 import Swal from "sweetalert2";
 
 //Parent Context
@@ -9,9 +9,6 @@ import { useRouteMatch, useHistory } from "react-router-dom";
 const SeatContext = createContext();
 const SeatProvider = (props) => {
   const { children } = props;
-
-  //Firestore
-  const { firestore } = useFirebaseApp();
 
   //Context
   const { dataFromDocument , searchSeatDesignFromId } = useContext(SeatDesignContext);

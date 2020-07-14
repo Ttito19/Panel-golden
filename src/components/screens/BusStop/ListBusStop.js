@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore  } from "firebase";
 import ReactLoading from "react-loading";
 import { ModalBusStop } from "./ModalBusStop";
 import { list } from "../../../loader/typesLoading";
+
 function ListBusStop() {
-  const { firestore } = useFirebaseApp();
   const [bus, setBus] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);

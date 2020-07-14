@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 import ReactLoading from "react-loading";
 import { ModalLocation } from "./ModalLocation";
 import { list } from "../../../loader/typesLoading";
+
 function ListLocation() {
-  const { firestore } = useFirebaseApp();
   const [location, setlocation] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -16,9 +16,11 @@ function ListLocation() {
     setId(newLoc[0]);
     // console.log(newLoc[0]);
   };
+
   const deleteLocation = (id) => {
     firestore().collection("location").doc(id).delete();
   };
+  
   useEffect(() => {
     const unsubscribe = firestore()
       .collection("location")

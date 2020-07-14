@@ -11,23 +11,6 @@ const configSideBar = [
     link: "/",
   },
   {
-    type:"multiple",
-    icon:<AiOutlineTable />,
-    title:"Usuarios",
-    subitems : [
-      {
-        icon: <AiOutlineTable />,
-        title: "Agregar Usuario",
-        link: "/AddUsuario"
-      },
-      {
-        icon: <AiOutlineTable />,
-        title: "Lista de Usuarios",
-        link: "/ListUsuario",
-      },
-    ]
-  },
-  {
     type: "multiple",
     icon: <AiOutlineTable />,
     title: "Empresa",
@@ -145,12 +128,6 @@ const configSideBar = [
         link: "/listBus",
       },
     ],
-  },
-  {
-    type: "normal",
-    icon: <TiCogOutline />,
-    title: "Prueba",
-    link: "./prueba",
   },
   {
     type: "normal",
