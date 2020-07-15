@@ -1,9 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 export const ClientContext = createContext();
 
 export const ClientProvider = (props) => {
-  const { firestore } = useFirebaseApp();
   const [clients, setClients] = useState([]);
   useEffect(() => {
     const unsubscribe = firestore()

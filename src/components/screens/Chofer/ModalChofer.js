@@ -1,12 +1,10 @@
 import React, { useState, useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Input from "../../subcomponets/Input";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 import Swal from "sweetalert2";
 
 export const ModalChofer = (props) => {
-  //firebase
-  const { firestore } = useFirebaseApp();
   //cerrar Modal
   const [closeModal, setCloseModal] = useState(false);
   //Refs

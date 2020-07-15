@@ -1,8 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 export const BusContext = createContext();
 export const BusProvider = (props) => {
-  const { firestore } = useFirebaseApp();
   const [bus, setBus] = useState([]);
   useEffect(() => {
     const unsubscribe = firestore()

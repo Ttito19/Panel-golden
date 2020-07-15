@@ -31,7 +31,6 @@ const ListClients = () => {
             <th>Imagen Dni</th>
             <th>Email</th>
             <th>Nombre Completo</th>
-            {/* <th>Contraseña</th> */}
             <th>Celular</th>
             <th>Foto del cliente</th>
             <th>Editar</th>
@@ -60,7 +59,6 @@ const ListClients = () => {
                   </td>
                   <td>{cli.email}</td>
                   <td>{cli.fullName}</td>
-                  {/* <td>{cli.password}</td> */}
                   <td>{cli.phone}</td>
                   <td>
                     <img src={cli.profileImage} width="50" height="50" />

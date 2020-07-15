@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState, useContext } from "react";
 
-function ListEmpresa() {
-	return (
-		<div className="ListEmpresa">
-			<h1>Listar empresa</h1>
-		</div>
-	);
-}
+export const ListEmpresa = () => {
+  return (
+    <div className="ListEmpresa">
+      <h1>Listar empresa</h1>
+    </div>
+  );
+};
 
 export default ListEmpresa;

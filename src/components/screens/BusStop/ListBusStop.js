@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import ReactLoading from "react-loading";
 import { ModalBusStop } from "./ModalBusStop";
 import { list } from "../../../loader/typesLoading";
@@ -10,7 +10,7 @@ export const ListBusStop = () => {
   const handleClose = () => setShow(false);
   const [id, setId] = useState(null);
   //context
-  const listBusStop = useContext(BusStopContext);
+  const listBusStop = useContext(BusStopContext);  
   // open modal
   const modalBusStop = (id) => {
     setShow(true);

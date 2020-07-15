@@ -1,11 +1,9 @@
 import React, { useState, useRef } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 import Input from "../../subcomponets/Input";
 import Swal from "sweetalert2";
-import { storage } from "../../../providers/firebase";
+// import { storage } from "../../../providers/firebase";
 function AddLocation() {
-  //firebase
-  const { firestore } = useFirebaseApp();
 
   //states
   const [imageLoc, setImageLoc] = useState("Seleccionar imagen del lugar");
@@ -45,7 +43,7 @@ function AddLocation() {
     const region = refRegion.current.value;
 
     if (latitude && longitude && description && image && name && region) {
-      const uploadTask = storage
+      const uploadTask = firestore
         .ref(`location/${archivoImagen.name}`)
         .put(archivoImagen);
       uploadTask.on(
@@ -60,7 +58,7 @@ function AddLocation() {
           // console.error(err);
         },
         () => {
-          storage
+          firestore
             .ref("location")
             .child(archivoImagen.name)
             .getDownloadURL()

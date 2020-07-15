@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react";
 import Input from "../../subcomponets/Input";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 import Swal from "sweetalert2";
 
 function AddClients() {
   const [documentImage, setDocumentImage] = useState("Seleccionar Dni");
   const [profileImage, setProfileImage] = useState(" Seleccionar Foto");
 
-  const fb = useFirebaseApp();
+  const fb = firestore();
   const refCity = useRef();
   const refCode = useRef();
   const refDni = useRef();
@@ -158,6 +158,14 @@ function AddClients() {
         <div className="col-6">
           <Input name="Celular" type="number" refs={refPhone} />
           <Input name="Password" type="password" refs={refPassword} />
+        </div>
+        <div className="col-6">
+          <label>Selecionar empresa</label>
+          <select className="form-control">
+            <option>css</option>
+            <option>pdg</option>
+            <option>google</option>
+          </select>
         </div>
 
         <div className="btn pb-2">

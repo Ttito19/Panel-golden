@@ -1,10 +1,8 @@
 import React, { useRef } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 import Input from "../../subcomponets/Input";
 import Swal from "sweetalert2";
 function AddBusStop() {
-  //firebase
-  const { firestore } = useFirebaseApp();
   //refs
   const refName = useRef();
   const refLatitude = useRef();

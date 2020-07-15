@@ -1,5 +1,5 @@
 import React , { useState , createContext, useEffect } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 
 const SeatDesignContext = createContext();
 const SeatDesignProvider = (props) => {
@@ -9,9 +9,6 @@ const SeatDesignProvider = (props) => {
   //States
   const [ dataFromDocument , setDataFromDocument ] = useState([]);
   const [ loadingData , setLoadingData ] = useState(true);
-
-  //Hooks
-  const { firestore } = useFirebaseApp();
 
   //Request
   const requestSeatDesign = data => {

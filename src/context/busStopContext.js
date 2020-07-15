@@ -1,22 +1,22 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useFirebaseApp } from "reactfire";
+import { firestore } from "firebase";
 export const BusStopContext = createContext();
-
 export const BusStopProvider = (props) => {
   const [busStop, setBusStop] = useState([]);
-  const { firestore } = useFirebaseApp();
   useEffect(() => {
-    const unsubscribe = firestore()
-      .collection("busStop")
-      .onSnapshot((snapshot) => {
-        const listBusStop = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setBusStop(listBusStop);
-      });
+    // const fire = firestore();
+    var db = firestore();
+    db.collection("busStop").onSnapshot((snapshot) => {
+      const listBusStop = snapshot.docs.map((doc) => ({
+        
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setBusStop(listBusStop);
+      console.log(listBusStop);
+    });
 
-    return () => unsubscribe();
+    // return () => fire();
   }, []);
   const deleteBusStop = (id) => {
     firestore().collection("busStop").doc(id).delete().catch(console.log);

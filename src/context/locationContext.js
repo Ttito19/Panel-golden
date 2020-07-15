@@ -1,12 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
-import { useFirebaseApp } from "reactfire";
 import { firestore } from "firebase";
 export const LocationContext = createContext();
 
 export const LocationProvider = (props) => {
-  const { firestore } = useFirebaseApp();
   const [location, setLocation] = useState([]);
-
   useEffect(() => {
     const unsubscribe = firestore()
       .collection("location")

@@ -16,11 +16,6 @@ import AddLocation from "../../screens/Location/AddLocation";
 import ListLocation from "../../screens/Location/ListLocation";
 import AddBus from "../../screens/Bus/addBus";
 import ListBus from "../../screens/Bus/listBus";
-import prueba from "../../screens/prueba/prueba";
-
-//Imanol imports
-import AddUsuario from "../../screens/Usuarios/AddUsuario";
-import ListUsuario from "../../screens/Usuarios/ListUsuario";
 
 //Billy Imports
 import {
@@ -59,11 +54,6 @@ const RoutesAuth = () => {
                 <Route path="/listLocation" component={ListLocation} />
                 <Route path="/addBus" component={AddBus} />
                 <Route path="/ListBus" component={ListBus} />
-                <Route path="/prueba" component={prueba} />
-
-                {/* Imanol */}
-                <Route path="/AddUsuario" component={AddUsuario} />
-                <Route path="/ListUsuario" component={ListUsuario} />
 
                 {/* Billy */}
                 <Route path="/design/add" component={AddDesign} />
