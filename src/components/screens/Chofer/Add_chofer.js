@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { firestore } from "firebase";
-import Input from "../../subcomponets/Input";
+import Input from "../../UIComponents/Input";
 import Swal from "sweetalert2";
 
 function AddChofer() {

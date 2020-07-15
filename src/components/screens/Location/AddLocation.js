@@ -1,6 +1,6 @@
 import React from "react";
 import useAddLocation from "../../../hooks/useAddLocation";
-import Input from "../../subcomponets/Input";
+import Input from "../../UIComponents/Input";
 
 function AddLocation() {
   const { 

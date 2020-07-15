@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 //Components
-import TemplateBars from '../layers/TemplateBars';
+import TemplateBars from '../layouts/TemplateBars';
 import RoutesAuth from './subcomponents/RoutesAuth';
 import RoutesNotAuth from './subcomponents/RoutesNotAuth';
 

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import Input from "../../subcomponets/Input";
+import Input from "../../UIComponents/Input";
 import { auth , firestore } from "firebase";
 import Swal from "sweetalert2";
 

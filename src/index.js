@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { AccountProvider } from "./context/accountContext";
 
 //Database
-import "./providers/database";
+import "./database";
 
 render(
   <AccountProvider>
