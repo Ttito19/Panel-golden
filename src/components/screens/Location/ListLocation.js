@@ -1,38 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { firestore } from "firebase";
+import React, { useState, useContext } from "react";
 import ReactLoading from "react-loading";
 import { ModalLocation } from "./ModalLocation";
 import { list } from "../../../loader/typesLoading";
+import { LocationContext } from "../../../context/locationContext";
 
 function ListLocation() {
   const [location, setlocation] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [id, setId] = useState(null);
-
+  const listLocation = useContext(LocationContext);
   const modalLocation = (id) => {
     setShow(true);
-    const newLoc = location.filter((i) => i.id === id);
+    const newLoc = listLocation.location.filter((i) => i.id === id);
     setId(newLoc[0]);
-    // console.log(newLoc[0]);
   };
 
-  const deleteLocation = (id) => {
-    firestore().collection("location").doc(id).delete();
+  const deleteLocationFomId = (id) => {
+    listLocation.deleteLocation(id);
   };
-  
-  useEffect(() => {
-    const unsubscribe = firestore()
-      .collection("location")
-      .onSnapshot((snapshot) => {
-        const listLocation = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setlocation(listLocation);
-      });
-    return () => unsubscribe();
-  }, []);
+
   return (
     <div className="container pb-2">
       <ModalLocation show={show} handleClose={handleClose} id={id} />
@@ -50,7 +37,7 @@ function ListLocation() {
             <th>Eliminar</th>
           </tr>
         </thead>
-        {location == ""
+        {listLocation.location == ""
           ? list.map((l) => (
               <tbody key={l.prop}>
                 <tr className="justify-content-center">
@@ -60,7 +47,7 @@ function ListLocation() {
                 </tr>
               </tbody>
             ))
-          : location.map((loc) => (
+          : listLocation.location.map((loc) => (
               <tbody key={loc.id}>
                 <tr>
                   {/* <td>{loc.id}</td> */}
@@ -83,7 +70,7 @@ function ListLocation() {
                   <td>
                     <button
                       className="btn btn-danger nt-1"
-                      onClick={() => deleteLocation(loc.id)}
+                      onClick={() => deleteLocationFomId(loc.id)}
                     >
                       Eliminar
                     </button>
@@ -94,6 +81,6 @@ function ListLocation() {
       </table>
     </div>
   );
-}
+};
 
 export default ListLocation;

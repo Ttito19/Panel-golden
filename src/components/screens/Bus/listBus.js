@@ -1,40 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { firestore } from "firebase";
+import React, { useState, useContext } from "react";
 import ReactLoading from "react-loading";
 import { ModalBus } from "./modalBus";
 import { list } from "../../../loader/typesLoading";
-
-function ListBus() {
-  const [bus, setBus] = useState([]);
+import { BusContext } from "../../../context/busContext";
+export const ListBus = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [id, setId] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = firestore()
-      .collection("bus")
-      .onSnapshot((snapshot) => {
-        const listBus = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setBus(listBus);
-      });
-    return () => unsubscribe();
-  }, []);
-
+  const listBus = useContext(BusContext);
   const modalBus = (id) => {
     ///abrre modal
     setShow(true);
-    const newBus = bus.filter((i) => i.id === id);
+    const newBus = listBus.bus.filter((i) => i.id === id);
 
     if (newBus.length === 1) setId(newBus[0]);
-
-    console.log(newBus);
   };
 
-  const deleteBus = (id) => {
-    firestore().collection("bus").doc(id).delete();
+  const deleteBusFromId = (id) => {
+    listBus.deleteBus(id);
   };
 
   return (
@@ -50,7 +33,7 @@ function ListBus() {
             <th>Elimnar</th>
           </tr>
         </thead>
-        {bus == ""
+        {listBus.bus == ""
           ? list.map((l) => (
               <tbody key={l.prop}>
                 <tr className="justify-content-center">
@@ -60,7 +43,7 @@ function ListBus() {
                 </tr>
               </tbody>
             ))
-          : bus.map((bus) => (
+          : listBus.bus.map((bus) => (
               <tbody key={bus.id}>
                 <tr>
                   <td>{bus.name}</td>
@@ -77,7 +60,7 @@ function ListBus() {
                   <td>
                     <button
                       className="btn btn-danger nt-1"
-                      onClick={() => deleteBus(bus.id)}
+                      onClick={() => deleteBusFromId(bus.id)}
                     >
                       Eliminar
                     </button>
@@ -88,6 +71,6 @@ function ListBus() {
       </table>
     </div>
   );
-}
+};
 
 export default ListBus;

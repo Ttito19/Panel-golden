@@ -2,9 +2,9 @@ import React, { useState, useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Input from "../../subcomponets/Input";
 import TextArea from "../../subcomponets/TextArea";
-import { firestore , storage } from "firebase";
+import { firestore } from "firebase";
 import Swal from "sweetalert2";
-
+// import { storage } from "../../../providers/firebase";
 export const ModalLocation = (props) => {
   //States
   const [closeModal, setCloseModal] = useState(false);
@@ -31,7 +31,7 @@ export const ModalLocation = (props) => {
     const region = refRegion.current.value;
 
     if (latitud && longitud && description && name && region) {
-      const uploadTask = storage
+      const uploadTask = firestore
         .ref(`location/${archivoImagen.name}`)
         .put(archivoImagen);
       uploadTask.on(
@@ -40,14 +40,14 @@ export const ModalLocation = (props) => {
           const progress = Math.round(
             (snapShot.bytesTransferred / snapShot.totalBytes) * 100
           );
-          
+
           setProgress(progress);
         },
         (err) => {
           // console.error(err);
         },
         () => {
-          const storageRef = storage.ref(`location/${props.id.image.name}`);
+          const storageRef = firestore.ref(`location/${props.id.image.name}`);
           storageRef
             .delete()
             .then(function () {
@@ -57,7 +57,7 @@ export const ModalLocation = (props) => {
               console.log(error);
             });
 
-          storage
+            firestore
             .ref(`location/${archivoImagen.name}`)
             .getDownloadURL()
             .then((fireBaseUrl) => {

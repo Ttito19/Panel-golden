@@ -1,98 +1,20 @@
-import React, { useState, useRef } from "react";
-import { firestore , storage } from "firebase";
+import React from "react";
+import useAddLocation from "../../../hooks/useAddLocation";
 import Input from "../../subcomponets/Input";
-import Swal from "sweetalert2";
 
 function AddLocation() {
-  //states
-  const [imageLoc, setImageLoc] = useState("Seleccionar imagen del lugar");
-  const [archivoImagen, setArchivoImagen] = useState("");
-  const [UrlImagen, setUrlImagen] = useState("");
-  const [progress, setProgress] = useState(0);
-
-  //Ref
-  const refLatitude = useRef();
-  const refLongitude = useRef();
-  const refDescription = useRef();
-  const refImage = useRef();
-  const refName = useRef();
-  const refRegion = useRef();
-  const handleImage = (e) => {
-    setImageLoc(
-      refImage.current.files[0] == undefined
-        ? imageLoc
-        : refImage.current.files[0].name
-    );
-
-    // console.log(refImage.current.files[0].name);
-
-    if (e.target.files[0]) {
-      setArchivoImagen(e.target.files[0]);
-    }
-  };
-
-  const ButtonAddLocation = (e) => {
-    e.preventDefault();
-
-    const latitude = refLatitude.current.value;
-    const longitude = refLongitude.current.value;
-    const description = refDescription.current.value;
-    const image = refImage.current.value;
-    const name = refName.current.value;
-    const region = refRegion.current.value;
-
-    if (latitude && longitude && description && image && name && region) {
-      const uploadTask = storage
-        .ref(`location/${archivoImagen.name}`)
-        .put(archivoImagen);
-      uploadTask.on(
-        "state_changed",
-        (snapShot) => {
-          const progress = Math.round(
-            (snapShot.bytesTransferred / snapShot.totalBytes) * 100
-          );
-          setProgress(progress);
-        },
-        (err) => {
-          // console.error(err);
-        },
-        () => {
-          storage
-            .ref("location")
-            .child(archivoImagen.name)
-            .getDownloadURL()
-            .then((fireBaseUrl) => {
-              setUrlImagen(fireBaseUrl);
-
-              const fb = firestore();
-              fb.collection("location")
-                .add({
-                  coords: new firestore.GeoPoint(
-                    parseFloat(latitude),
-                    parseFloat(longitude)
-                  ),
-                  description,
-                  image: {
-                    name: archivoImagen.name,
-                    url: fireBaseUrl,
-                  },
-                  name,
-                  region,
-                })
-                .then(() =>
-                  Swal.fire("Éxito", "Se agrego correctamente", "success")
-                );
-            });
-        }
-      );
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Lo sentimos",
-        text: "Campos Vacíos",
-      });
-    }
-  };
+  const { 
+    imageLoc,
+    progress,
+    refLatitude,
+    refLongitude,
+    refDescription,
+    refImage,
+    refName,
+    refRegion,
+    handleImage,
+    ButtonAddLocation
+  } = useAddLocation();
 
   return (
     <div className="container">

@@ -160,6 +160,14 @@ function AddClients() {
           <Input name="Celular" type="number" refs={refPhone} />
           <Input name="Password" type="password" refs={refPassword} />
         </div>
+        <div className="col-6">
+          <label>Selecionar empresa</label>
+          <select className="form-control">
+            <option>css</option>
+            <option>pdg</option>
+            <option>google</option>
+          </select>
+        </div>
 
         <div className="btn pb-2">
           <button className="btn btn-primary" onClick={ButtonAddClients}>

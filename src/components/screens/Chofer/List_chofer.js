@@ -17,19 +17,20 @@ function ListChofer() {
     setId(newChofer[0]);
   };
 
-  useEffect(() => {
-    const unsubscribe = firestore()
-      .collection("items")
-      .onSnapshot((snapshot) => {
-        const listChofer = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setChofer(listChofer);
-      });
+  // useEffect(() => {
+  //   const unsubscribe = firestore
+  //     .firestore()
+  //     .collection("items")
+  //     .onSnapshot((snapshot) => {
+  //       const listChofer = snapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       setChofer(listChofer);
+  //     });
 
-    return () => unsubscribe();
-  }, []);
+  //   return () => unsubscribe();
+  // }, []);
 
   const deleteChofer = (id) => {
     firestore().collection("items").doc(id).delete();

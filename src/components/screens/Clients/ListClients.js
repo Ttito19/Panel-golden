@@ -1,39 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { firestore } from "firebase";
+import React, { useState, useContext } from "react";
 import ReactLoading from "react-loading";
 import { ModalClients } from "./ModalClients";
 import { list } from "../../../loader/typesLoading";
-
-function ListClients() {
-  const [clients, setClients] = useState([]);
+import { ClientContext } from "../../../context/clientsContext";
+const ListClients = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [id, setId] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = firestore()
-      .collection("clients")
-      .onSnapshot((snapshot) => {
-        const listClients = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setClients(listClients);
-      });
-    return () => unsubscribe();
-  }, []);
-
+  const listClients = useContext(ClientContext);
   const modalClients = (id) => {
     setShow(true);
-    const newClients = clients.filter((i) => i.id === id);
+    const newClients = listClients.clients.filter((i) => i.id === id);
 
     if (newClients.length === 1) setId(newClients[0]);
-
-    console.log(newClients);
   };
 
-  const deleteCliente = (id) => {
-    firestore().collection("clients").doc(id).delete();
+  const deleteClienteFromId = (id) => {
+    listClients.clients(id);
   };
 
   return (
@@ -48,7 +31,6 @@ function ListClients() {
             <th>Imagen Dni</th>
             <th>Email</th>
             <th>Nombre Completo</th>
-            {/* <th>Contraseña</th> */}
             <th>Celular</th>
             <th>Foto del cliente</th>
             <th>Editar</th>
@@ -56,7 +38,7 @@ function ListClients() {
           </tr>
         </thead>
 
-        {clients == ""
+        {listClients.clients == ""
           ? list.map((l) => (
               <tbody key={l.prop}>
                 <tr className="justify-content-center">
@@ -66,7 +48,7 @@ function ListClients() {
                 </tr>
               </tbody>
             ))
-          : clients.map((cli) => (
+          : listClients.clients.map((cli) => (
               <tbody key={cli.id}>
                 <tr>
                   <td>{cli.city}</td>
@@ -77,7 +59,6 @@ function ListClients() {
                   </td>
                   <td>{cli.email}</td>
                   <td>{cli.fullName}</td>
-                  {/* <td>{cli.password}</td> */}
                   <td>{cli.phone}</td>
                   <td>
                     <img src={cli.profileImage} width="50" height="50" />
@@ -94,7 +75,7 @@ function ListClients() {
                   <td>
                     <button
                       className="btn btn-danger nt-1"
-                      onClick={() => deleteCliente(cli.id)}
+                      onClick={() => deleteClienteFromId(cli.id)}
                     >
                       Eliminar
                     </button>
@@ -105,5 +86,5 @@ function ListClients() {
       </table>
     </div>
   );
-}
+};
 export default ListClients;
