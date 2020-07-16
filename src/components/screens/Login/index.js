@@ -1,6 +1,6 @@
 import React from 'react';
 import useLogin from '../../../hooks/useLogin';
-
+import {FaUserAlt,FaUserLock,FaTimes} from 'react-icons/fa'
 
 import './index.scss'
 
@@ -8,19 +8,24 @@ const Login = (props) => {
 	const { LoginFormSubmit, changePassword, changeUsername } = useLogin();
 
 	return (
-		<div className="login">
-			<div className="header">
-				<div className="image"></div>
-				<div className="title">G</div>
+		<>
+		<div className="alertsContents"> </div>
+
+		<div className = "login">
+			<div className="logo">
+				<img src="https://emot.gob.ec/wp-content/uploads/2017/08/20689630_1833495579998731_7078376825041924385_o-1-1170x700.jpg" alt="image_not_found"/>
 			</div>
-			<div className="body">
-				<label className="lbl" > EMAIL </label>
-				<input type="text" onChange={changeUsername} required className="username"/>
-				<label className="lbl" > PASSWORD </label>
-				<input type="password" onChange={changePassword}  required className = "password" />
-				<button className="btn-sing-in" onClick={LoginFormSubmit}> Sing Up </button>
+			<div className="form">
+				<div className="input-group">
+					<input type="text" placeholder="Correo electronico" onChange={changeUsername} />
+					<FaUserAlt />
+					<input type="password" placeholder ="Contraseña" onChange={changePassword} />
+					<FaUserLock />
+				</div>
+				<button className="btn_submit" onClick={LoginFormSubmit} > Sign Up </button>
 			</div>
 		</div>
+		</>
 	);
 };
 
