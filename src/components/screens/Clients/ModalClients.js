@@ -3,6 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import Input from "../../UIComponents/Input";
 import { firestore } from "firebase";
 import Swal from "sweetalert2";
+
 export const ModalClients = (props) => {
   const [closeModal, setCloseModal] = useState(false);
   const refCity = useRef();
