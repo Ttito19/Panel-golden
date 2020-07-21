@@ -3,11 +3,17 @@ import ReactLoading from "react-loading";
 import { ModalBus } from "./modalBus";
 import { list } from "../../../loader/typesLoading";
 import { BusContext } from "../../../context/busContext";
+import { SeatDesignContext } from "../../../context/seatDesignContext";
 export const ListBus = () => {
+  
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [id, setId] = useState(null);
+  const { dataFromDocument , loadingData } = useContext(SeatDesignContext);
   const listBus = useContext(BusContext);
+
+  if(loadingData) return null;
+
   const modalBus = (id) => {
     ///abrre modal
     setShow(true);
@@ -17,8 +23,15 @@ export const ListBus = () => {
   };
 
   const deleteBusFromId = (id) => {
-    listBus.deleteBus(id);
+    const Security = window.confirm("¿Deseas Borrar para siempre esta fila?");
+    if(Security) 
+      listBus.deleteBus(id);
   };
+
+  const filterNameDesign = id => {
+    const data = dataFromDocument.find(v => v.id === id);
+    return Object.keys(data ? data : {}).length > 0 ? data.name : "---- ERROR ----";
+  }
 
   return (
     <div className="container pb-2">
@@ -47,21 +60,15 @@ export const ListBus = () => {
               <tbody key={bus.id}>
                 <tr>
                   <td>{bus.name}</td>
-                  <td>{bus.seatDesign}</td>
+                  <td>{filterNameDesign(bus.seatDesign)}</td>
                   <td>{bus.type}</td>
                   <td>
-                    <button
-                      className="btn btn-success nt-1"
-                      onClick={() => modalBus(bus.id)}
-                    >
+                    <button className="btn btn-success nt-1" onClick={() => modalBus(bus.id)}>
                       Editar
                     </button>
                   </td>
                   <td>
-                    <button
-                      className="btn btn-danger nt-1"
-                      onClick={() => deleteBusFromId(bus.id)}
-                    >
+                    <button className="btn btn-danger nt-1" onClick={() => deleteBusFromId(bus.id)} >
                       Eliminar
                     </button>
                   </td>

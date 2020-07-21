@@ -34,11 +34,11 @@ import { ClientProvider } from "../../../context/clientsContext";
 import { BusProvider } from "../../../context/busContext";
 const RoutesAuth = () => {
   return (
-    <BusProvider>
-      <ClientProvider>
-        <LocationProvider>
-          <BusStopProvider>
-            <SeatDesignProvider>
+    <SeatDesignProvider>
+      <BusProvider>
+        <ClientProvider>
+          <LocationProvider>
+            <BusStopProvider>   
               <Switch>
                 {/*ttito    */}
                 <Route exact path="/" component={Home} />
@@ -64,11 +64,11 @@ const RoutesAuth = () => {
                 {/* Page Not Found */}
                 <Route path="*" component={PageNotFound} />
               </Switch>
-            </SeatDesignProvider>
-          </BusStopProvider>
-        </LocationProvider>
-      </ClientProvider>
-    </BusProvider>
+            </BusStopProvider>
+          </LocationProvider>
+        </ClientProvider>
+      </BusProvider>
+    </SeatDesignProvider>
   );
 };
 

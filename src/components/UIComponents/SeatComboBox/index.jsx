@@ -8,7 +8,7 @@ const SeatComboBox = ({ reference }) => {
     <label>Diseño de asientos</label>
     { 
       !loadingData ?
-        <select ref={reference}>
+        <select className="custom-select" ref={reference}>
           { dataFromDocument.map((v,i) => <option key={i} value={i}>{v.name}</option>) }
         </select>  : null 
     }
