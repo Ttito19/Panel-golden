@@ -5,30 +5,23 @@ import { firestore } from "firebase";
 import Swal from "sweetalert2";
 import SeatComboBox from "../../UIComponents/SeatComboBox";
 import { SeatDesignContext } from "../../../context/seatDesignContext";
+import useSearchByIndexBus from "../../../hooks/useSearchByIndexBus";
 export const ModalBus = (props) => {
-  const [closeModal, setCloseModal] = useState(false);
-  const { dataFromDocument } = useContext(SeatDesignContext);
+  //States
+  const [ closeModal , setCloseModal ] = useState(false);
   
   //refs
   const refName = useRef();
   const refSeatDesign = useRef();
   const refType = useRef();
 
-  const _searchByIndex = (data) => {
-    try{
-      const index = parseInt(data);
-      if(!dataFromDocument[index]) 
-        throw new Error("El indice del combobox no existe");
+  //Hooks
+  const searchByIndex = useSearchByIndexBus();
 
-      return dataFromDocument[index].id;   
-    }catch(e){
-      console.log(e);
-    }
-  }
-
+  //Actions
   const updateBus = async () => {
     const name = refName.current.value;
-    const seatDesign = _searchByIndex(refSeatDesign.current.value);
+    const seatDesign = searchByIndex(refSeatDesign.current.value);
     const type = refType.current.value;
 
     try {

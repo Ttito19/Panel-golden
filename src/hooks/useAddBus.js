@@ -1,11 +1,11 @@
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { firestore } from "firebase";
 import Swal from "sweetalert2";
-import { SeatDesignContext } from "../context/seatDesignContext";
+import useSearchByIndexBus from "./useSearchByIndexBus";
 
 const useAddBus = () => {
   //Context
-  const { dataFromDocument } = useContext(SeatDesignContext);
+  const searchByIndex = useSearchByIndexBus();
 
   //States
   const [ isSetData , setIsSetData ] = useState(false);
@@ -24,18 +24,6 @@ const useAddBus = () => {
     });
   }
 
-  const _searchByIndex = () => {
-    try{
-      const index = parseInt(refSeatDesign.current.value);
-      if(!dataFromDocument[index]) 
-        throw new Error("El indice del combobox no existe");
-
-      return dataFromDocument[index].id;   
-    }catch(e){
-      console.log(e);
-    }
-  }
-
   const _clearInputs = () => {
     refName.current.value = "";
     refType.current.value = "";
@@ -46,7 +34,7 @@ const useAddBus = () => {
     setIsSetData(true);
 
     const name = refName.current.value;
-    const seatDesign = _searchByIndex();
+    const seatDesign = searchByIndex(refSeatDesign.current.value);
     const type = refType.current.value;
 
     if(seatDesign && name && type){
