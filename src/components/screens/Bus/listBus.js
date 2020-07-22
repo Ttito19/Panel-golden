@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import ReactLoading from "react-loading";
 import { ModalBus } from "./modalBus";
-import { list } from "../../../loader/typesLoading";
 import { BusContext } from "../../../context/busContext";
 import { SeatDesignContext } from "../../../context/seatDesignContext";
 import useRemoveThis from "../../../hooks/useRemoveThis";
+import LoaderSpinner from "../../UIComponents/LoaderSpinner";
 
 export const ListBus = () => {
   //States
@@ -55,34 +55,29 @@ export const ListBus = () => {
             <th>Elimnar</th>
           </tr>
         </thead>
-        { !bus ? list.map((v) => (
-              <tbody key={v.prop}>
-                <tr className="justify-content-center">
-                  <td colSpan="6" className="mx-auto">
-                    <ReactLoading type={v.prop} color="#000" />
-                  </td>
-                </tr>
-              </tbody>
-            ))
-          : bus.map((bus) => (
-              <tbody key={bus.id}>
-                <tr>
-                  <td>{bus.name}</td>
-                  <td>{DesignNameFilter(bus.seatDesign)}</td>
-                  <td>{bus.type}</td>
-                  <td>
-                    <button className="btn btn-success nt-1" onClick={() => modalBus(bus.id)}>
-                      Editar
-                    </button>
-                  </td>
-                  <td>
-                    <button className="btn btn-danger nt-1" onClick={() => DeleteBusById(bus.id)} >
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            ))}
+        <tbody>
+        { 
+          !bus ? 
+            <LoaderSpinner /> : 
+            bus.map((v,i) =>
+              <tr key={i}>
+                <td>{v.name}</td>
+                <td>{DesignNameFilter(v.seatDesign)}</td>
+                <td>{v.type}</td>
+                <td>
+                  <button className="btn btn-success nt-1" onClick={() => modalBus(v.id)}>
+                    Editar
+                  </button>
+                </td>
+                <td>
+                  <button className="btn btn-danger nt-1" onClick={() => DeleteBusById(v.id)} >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            )
+          }
+        </tbody>
       </table>
     </div>
   );
