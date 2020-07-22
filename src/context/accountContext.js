@@ -9,7 +9,7 @@ function AccountProvider (props) {
 
 	useEffect(() => {
 		// OBSERVER USER
-		const eventAuth = auth().onAuthStateChanged( (user)=>{
+		const eventAuth = auth().onAuthStateChanged(user => {
 			if(user) setValidationUser(true);
 			else setValidationUser(false);
 
@@ -19,17 +19,22 @@ function AccountProvider (props) {
 		return () => eventAuth();
 	},[])
 
-	const validationUser = (email,password) => {
-		auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-			console.log("Usuario o contraseña incorrecta")
-		});
+	const validationUser = async (email,password) => {
+		try {
+			await auth().signInWithEmailAndPassword(email, password)
+		}catch(e){
+			console.log(e);
+			alert("Usuario y Contraseña erronea.");
+		}
 	}
 
-	const registerUser = (email,password) => {
-		auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+	const registerUser = async (email,password) => {
+		try {
+			await auth().createUserWithEmailAndPassword(email, password);
+		}catch(error){
 			console.log(error.code)
 			console.log(error.message)
-		});
+		}
 	}
 
 	const values = {
