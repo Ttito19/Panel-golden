@@ -24,7 +24,8 @@ const LoaderSpinner = props => {
 }
 
 LoaderSpinner.defaultProps = {
-  size : 40
+  size : 40,
+  color : "black"
 }
 
 export default LoaderSpinner;

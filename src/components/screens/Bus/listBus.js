@@ -1,10 +1,13 @@
 import React, { useState, useContext } from "react";
-import ReactLoading from "react-loading";
 import { ModalBus } from "./modalBus";
+import { Link } from "react-router-dom";
+
+import LoaderSpinner from "../../UIComponents/LoaderSpinner";
+import useRemoveThis from "../../../hooks/useRemoveThis";
+
+//Parent Context
 import { BusContext } from "../../../context/busContext";
 import { SeatDesignContext } from "../../../context/seatDesignContext";
-import useRemoveThis from "../../../hooks/useRemoveThis";
-import LoaderSpinner from "../../UIComponents/LoaderSpinner";
 
 export const ListBus = () => {
   //States
@@ -18,7 +21,7 @@ export const ListBus = () => {
   const { dataFromDocument , loadingData } = useContext(SeatDesignContext);
   const { bus , deleteBus } = useContext(BusContext);
 
-  if(loadingData) return null;
+  if(loadingData) return <LoaderSpinner />;
 
   /* ACTIONS */
   const handleClose = () => setDisplayStatus(false);
@@ -49,7 +52,9 @@ export const ListBus = () => {
         <thead>
           <tr>
             <th>Nombre</th>
-            <th>Diseño de asiento</th>
+            <th>
+              <Link to="/design/list">Diseño de asiento</Link>
+            </th>
             <th>Tipo</th>
             <th>Editar</th>
             <th>Elimnar</th>
