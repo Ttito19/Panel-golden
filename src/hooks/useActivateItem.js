@@ -10,7 +10,7 @@ function useActivateItem(classNameElement){
         }else{
             element.classList.add(classNameElement);
         }
-    }
+    } 
 
     return {
         onPress,

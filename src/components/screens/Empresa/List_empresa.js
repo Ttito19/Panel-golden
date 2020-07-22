@@ -1,8 +1,9 @@
-import React, { useRef , useState ,useEffect } from "react";
+import React, { useState } from "react";
 import { firestore } from 'firebase';
 import { FaTrashAlt , FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
-import LoaderSpinner from '../../UIComponents/LoaderSpinner/'
+import LoaderSpinner from '../../UIComponents/LoaderSpinner/';
+import { Link } from 'react-router-dom';
 
 // Modal para actualizar empresa
 import ModalEmpresa from './ModalEmpresa';
@@ -10,36 +11,38 @@ import ModalEmpresa from './ModalEmpresa';
 const ListEmpresa = () => {
 
   var fs = firestore();
-  const [ dataCompany , setDataCompany ] = useState(new Array());
-  const [ isLoadingInformation , setLoadingInformation ] = useState(false);
+  const [ dataCompany ] = useState([]);
   const [ dataEmpresaEdit , setDataEmpresaEdit ] = useState();
-  const [ showModalEdit , setShowModalEdit ] = useState(false);
+  const [ isLoadingInformation , setLoadingInformation ] = useState(false);
+  const [ show , setShow ] = useState(false);
 
-  useEffect(()=>{
-    fs.collection('company').get()
-    .then( (data) => {
+  //#region - Cargar datos de la empresa  
+  (()=>{
+    fs.collection('company').onSnapshot((data)=>{
       dataCompany.splice(0,);
       data.forEach( doc => { dataCompany.push( { id : doc.id , data : doc.data() } ) });
       setLoadingInformation(true);
     })
-  })
-
-  const addListCompany = () => {
+  })();
+  //#endregion
+  
+  //#region - Generar los elementos Jsx en base a los datos retornados. 
+  const loadingDataEmpresaJsx = () => {
     return ( 
         <tbody>
           {
           dataCompany.map( e => { 
             return (
-              <tr> 
+              <tr key={e.id}> 
                 <td> {e.data.direccion} </td> 
                 <td> {e.data.distrito} </td> 
                 <td> {e.data.name} </td> 
                 <td> {e.data.razon} </td> 
                 <td> {e.data.ruc} </td> 
-                <td> <button className="btn btn-primary" > Ver </button> </td>
-                <td> <button className="btn btn-primary" > Ver </button> </td>
+                <td> <Link to={`/EmpresaTravels/${e.id}`} > Ver </Link> </td>
+                <td> <Link to={`/EmpresaWorkers/${e.id}`} > Ver </Link> </td>
                 <td > <button onClick={()=>{deleteCompany(e.id)}} className="btn btn-danger"> <FaTrashAlt /> </button> </td>
-                <td> <button onClick={()=>{showModalEdit_(e)}} className="btn btn-primary"> <FaRegEdit /> </button> </td>
+                <td> <button onClick={()=>{showModalEdit(e)}} className="btn btn-primary"> <FaRegEdit /> </button> </td>
               </tr>
             )
           })
@@ -47,6 +50,9 @@ const ListEmpresa = () => {
         </tbody>
       )
   }
+  //#endregion
+
+  //#region Eliminar Empresa 
   const deleteCompany = (e) => {
 
     Swal.fire({
@@ -60,9 +66,7 @@ const ListEmpresa = () => {
     }).then((result) => {
       if (result.value) {
         fs.collection('company').doc(e).delete()
-        .catch(()=>{
-          console.log("No se pudo eliminar el registro")
-        })
+        .then ( () => setLoadingInformation(false) )
         Swal.fire(
           'Deleted!',
           'Your file has been deleted.',
@@ -72,18 +76,21 @@ const ListEmpresa = () => {
     })
    
   }
+  //#endregion
 
-  // Editar Informacion de la empresa
+  //#region - Abrir y cerrar Modals para editar 
 
-  const showModalEdit_ = (e) => { 
+  const showModalEdit = (e) => { 
     setDataEmpresaEdit(e);
-    setShowModalEdit(true); 
+    setShow(true); 
   }
-  const closeModalEdit = () => { setShowModalEdit(false); }
+  const closeModalEdit = () => setShow(false);
   
+  //#endregion
 
   return (
     <div className="ListEmpresa container">
+      <ModalEmpresa show={show} hide={closeModalEdit} dataEmpresa={dataEmpresaEdit} />
       <table className="table">
         <caption> Empresas </caption>
         <thead>
@@ -99,9 +106,17 @@ const ListEmpresa = () => {
               <th> Update </th>
           </tr>
         </thead>
-        { isLoadingInformation ? addListCompany() : <LoaderSpinner color="black" /> }
+        { 
+          isLoadingInformation ? loadingDataEmpresaJsx() : 
+          <tbody>
+            <tr className="justify-content-center">
+              <td colSpan="7" className="mx-auto">
+                <LoaderSpinner color="black"/>
+              </td>
+            </tr>
+          </tbody> 
+        }
       </table>
-      <ModalEmpresa show={showModalEdit} hide={closeModalEdit} dataEmpresa={dataEmpresaEdit} />
     </div>
   );
 };

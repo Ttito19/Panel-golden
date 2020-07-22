@@ -17,6 +17,9 @@ import ListLocation from "../../screens/Location/ListLocation";
 import AddBus from "../../screens/Bus/addBus";
 import ListBus from "../../screens/Bus/listBus";
 
+import EmpresaTravels from '../../screens/Empresa/empresaTravels';
+import EmpresaWorkers from '../../screens/Empresa/empresaWorkers';
+
 //Billy Imports
 import {
   AddDesign,
@@ -60,6 +63,10 @@ const RoutesAuth = () => {
                 <Route path="/design/list" component={ListDesign} />
                 <Route path="/design/update/:id" component={UpdateDesign} />
                 <Route path="/design/:id" component={ViewDesign} />
+
+                {/* Mayo */}
+                <Route path="/EmpresaTravels/:id" component={EmpresaTravels} />
+                <Route path="/EmpresaWorkers/:id" component={EmpresaWorkers} />
 
                 {/* Page Not Found */}
                 <Route path="*" component={PageNotFound} />
