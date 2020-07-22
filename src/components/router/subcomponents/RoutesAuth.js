@@ -32,6 +32,8 @@ import { BusStopProvider } from "../../../context/busStopContext";
 import { LocationProvider } from "../../../context/locationContext";
 import { ClientProvider } from "../../../context/clientsContext";
 import { BusProvider } from "../../../context/busContext";
+import { TravelList } from "../../screens/Travel";
+
 const RoutesAuth = () => {
   return (
     <SeatDesignProvider>
@@ -60,6 +62,7 @@ const RoutesAuth = () => {
                 <Route path="/design/list" component={ListDesign} />
                 <Route path="/design/update/:id" component={UpdateDesign} />
                 <Route path="/design/:id" component={ViewDesign} />
+                <Route path="/travel/list" component={TravelList} />
 
                 {/* Page Not Found */}
                 <Route path="*" component={PageNotFound} />
