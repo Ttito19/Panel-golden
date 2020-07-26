@@ -54,13 +54,8 @@ function AddChofer() {
           empresa : "???",
           documentoImagen : d
         })
-<<<<<<< HEAD
-        .then(() => setName(""), setype(""), setQty(""), setDescription(""))
-        .catch((err) => {
-=======
         // .then(() => {} )
         .catch((error) => {
->>>>>>> d7c7b2e89b345642a2068cb0152e1a8fc22d39ac
           Swal.fire({
             icon: "error",
             title: "Lo sentimos",
