@@ -1,99 +1,90 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Input from "../../UIComponents/Input";
 import { firestore  } from "firebase";
 import Swal from "sweetalert2";
 
-export const ModalChofer = (props) => {
-  //cerrar Modal
-  const [closeModal, setCloseModal] = useState(false);
-  //Refs
-  const refDescription = useRef();
-  const refName = useRef();
-  const refQty = useRef();
-  const refType = useRef();
+const ModalChofer = (props) => {
+  
+  const fs = firestore();
+  
+  const name = useRef();
+  const lastName = useRef();
+  const direction = useRef();
+  const empresa = useRef();
+  const docImage = useRef();
+  const fech_nac = useRef();
 
-  const updateClick = () => {
-    const description = refDescription.current.value;
-    const name = refName.current.value;
-    const qty = refQty.current.value;
-    const type = refType.current.value;
-    if (name && type && qty && description) {
-      const refDB = firestore().collection("items").doc(props.id.id);
-      refDB
-        .update({
-          name: name,
-          type: type,
-          qty: qty,
-          description: description,
-        })
-        .then(
-          () =>
-            Swal.fire(
-              "Éxito",
-              "Los datos se actualizaron correctamente",
-              "success"
-            ),
-          setCloseModal(props.handleClose)
-        )
-        .catch((error) => {
-          Swal.fire({
-            icon: "error",
-            title: "Lo sentimos",
-            text: "No se pudo actualizar los datos",
-          });
-        });
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Lo sentimos",
-        text: "Campos Vacios",
-      });
+  useEffect( ()=>{
+    if ( props.show ) {
+      var d = props.dataChofer.data;  
+      name.current.value = d.nombre;
+      lastName.current.value = d.apellido;
+      direction.current.value = d.direccion;
+      empresa.current.value = d.empresa;
+      fech_nac.current.value = d.fech_nac;
     }
+  })
+
+  //#region - Actualizar los datos de chofer. 
+  const updateClick = () => {
+    fs.collection('driver').doc(props.dataChofer.id).update({
+      nombre : name.current.value,
+      apellido : lastName.current.value,
+      direccion : direction.current.value,
+      empresa : empresa.current.value,
+      fech_nac : fech_nac.current.value
+    })
+    .then(_=>{
+      Swal.fire( 'Cambios realizados','Your file has been changed.','success' )
+    })
+    
   };
+  //#endregion
 
   return (
-    <Modal show={props.show} onHide={props.handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Actualizar Chofer</Modal.Title>
+    <Modal show={props.show} onHide={props.handleClose}> 
+      <Modal.Header>
+        <Modal.Title> Actualizar Chofer </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form className="form-group">
           <Input
-            defaultValue={props.id == null ? "" : props.id.description}
-            name="description"
+            name="Nombre"
             type="text"
-            refs={refDescription}
-          />
-
-          <Input
-            defaultValue={props.id == null ? "" : props.id.name}
-            name="name"
-            type="text"
-            refs={refName}
+            refs={name}
           />
           <Input
-            defaultValue={props.id == null ? "" : props.id.qty}
-            name="qty"
+            name="Apellido"
             type="text"
-            refs={refQty}
+            refs={lastName}
           />
           <Input
-            defaultValue={props.id == null ? "" : props.id.type}
-            name="type"
+            name="Direccion"
             type="text"
-            refs={refType}
+            refs={direction}
           />
-        </form>
+          <Input
+            name="Empresa"
+            type="text"
+            refs={empresa}
+          />
+          <Input 
+            name="Documento Imagen"
+            type="file"
+            refs={docImage}
+          />
+          <Input
+            name="Fecha de nacimiento"
+            type="date"
+            refs={fech_nac}
+          />
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.handleClose}>
-          Cerrar
-        </Button>
-        <Button variant="primary" onClick={updateClick}>
-          Guardar cambios
-        </Button>
+        <Button variant="secondary" onClick={props.handleClose}> Cerrar </Button>
+        <Button variant="primary" onClick={updateClick}> Guardar cambios </Button>
       </Modal.Footer>
     </Modal>
   );
 };
+
+export default ModalChofer;

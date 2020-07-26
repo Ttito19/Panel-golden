@@ -1,95 +1,135 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { firestore } from "firebase";
-import ReactLoading from "react-loading";
-import { ModalChofer } from "./ModalChofer";
-import { list } from "../../../loader/typesLoading";
+import ModalChofer from "./ModalChofer";
+import Swal from 'sweetalert2';
+import LoaderSpinner from '../../UIComponents/LoaderSpinner/';
+import { FaTrashAlt , FaRegEdit } from "react-icons/fa";
 
-function ListChofer() {
-  const [chofer, setChofer] = useState([]);
+const ListChofer = () => {
+
+  const fs = firestore();
+  
+  const [dataChofer] = useState([]);
+  const [dataChoferEdit,setDataChoferEdit] = useState([]);
   const [show, setShow] = useState(false);
-  const [id, setId] = useState(null);
+  const [isLoadingInformation,setLoadingInformation] = useState();
+ 
+  //#region - Abrir y cerrar modals para editar chofer. 
   const handleClose = () => setShow(false);
 
-  const modalClick = (id) => {
+  const openModalEdit = (chofer) => {
+    setDataChoferEdit(chofer);
     setShow(true);
-
-    const newChofer = chofer.filter((i) => i.id === id);
-    setId(newChofer[0]);
   };
 
-  // useEffect(() => {
-  //   const unsubscribe = firestore
-  //     .firestore()
-  //     .collection("items")
-  //     .onSnapshot((snapshot) => {
-  //       const listChofer = snapshot.docs.map((doc) => ({
-  //         id: doc.id,
-  //         ...doc.data(),
-  //       }));
-  //       setChofer(listChofer);
-  //     });
+  //#endregion
 
-  //   return () => unsubscribe();
-  // }, []);
+  //#region - Cargar datos del chofer 
+  (()=>{
+    fs.collection('driver').onSnapshot((data)=>{
+      dataChofer.splice(0,);
+      data.forEach( doc => {
+        dataChofer.push( {id:doc.id , data : doc.data()} )
+      });
+      setLoadingInformation(true);
+    })
+  })();
+  //#endregion 
 
+  //#region - Eliminar Chofer seleccionado. 
   const deleteChofer = (id) => {
-    firestore().collection("items").doc(id).delete();
+    Swal.fire({
+      title: 'Eliminar registro',
+      text: "Estas seguro que deseas eliminar este registro?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        fs.collection("driver").doc(id).delete()
+        .then(()=>setLoadingInformation(false))
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
   };
+  //#endregion
+
+  //#region - Generar los elementos Jsx en base a los datos retornados. 
+  const loadingDataChoferJsx = () => {
+    return (   
+          <tbody> 
+            { dataChofer.map( (chofer) => {
+              return (
+                  <tr key={chofer.id}>
+                    <td>{chofer.data.nombre}</td>
+                    <td>{chofer.data.apellido}</td>
+                    <td>{chofer.data.direccion}</td>
+                    <td>{chofer.data.empresa}</td>
+                    <td> <button className="btn btn-primary" onClick={ () => showImageChofer(chofer.data.documentoImagen) }> Ver imagen </button> </td>
+                    <td>{chofer.data.fech_create}</td>
+                    <td>{chofer.data.fech_nac.toString()}</td>
+                    <td>
+                      <button className="btn btn-primary" onClick={()=>openModalEdit(chofer)}>
+                        <FaRegEdit />
+                      </button>
+                    </td>
+                    <td>
+                      <button className="btn btn-danger" onClick={()=>deleteChofer(chofer.id)}>
+                        <FaTrashAlt />
+                      </button>
+                    </td>
+                  </tr>
+              )})
+            }
+          </tbody>
+    )
+  }
+  //#endregion
+  
+
+  const showImageChofer = (image) => {
+    Swal.fire({
+      imageUrl: 'https://placeholder.pics/svg/300x400',
+      imageHeight: 400,
+      imageAlt: 'Icono del documento'
+    })
+  }
 
   return (
     <div className="container pb-2">
-      <ModalChofer show={show} handleClose={handleClose} id={id} />
+      <ModalChofer show={show} handleClose={handleClose} dataChofer={dataChoferEdit}/>
 
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th>id</th>
-            <th>nombre</th>
-            <th>Tipo</th>
-            <th>Descripcion</th>
-            <th>dni</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
+            <th> Nombre </th>
+            <th> Apellido </th>
+            <th> Direccion </th>
+            <th> Empresa </th>
+            <th> Documento Imagen </th>
+            <th> Fecha de creacion </th>
+            <th> Fecha de nacimiento </th>
+            <th> Actualizar </th>
+            <th> Eliminar </th>
           </tr>
         </thead>
 
-        {chofer == ""
-          ? list.map((l) => (
-              <tbody key={l.prop}>
-                <tr className="justify-content-center">
-                  <td colSpan="6" className="mx-auto">
-                    <ReactLoading type={l.prop} color="#000" />
-                  </td>
-                </tr>
-              </tbody>
-            ))
-          : chofer.map((chofer) => (
-              <tbody key={chofer.id}>
-                <tr>
-                  <td>{chofer.id}</td>
-                  <td>{chofer.name}</td>
-                  <td>{chofer.type}</td>
-                  <td>{chofer.description}</td>
-                  <td>{chofer.qty}</td>
-                  <td>
-                    <button
-                      className="btn btn-success nt-1"
-                      onClick={() => modalClick(chofer.id)}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger nt-1"
-                      onClick={() => deleteChofer(chofer.id)}
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            ))}
+        { 
+          isLoadingInformation ? loadingDataChoferJsx() :
+          <tbody>
+            <tr className="justify-content-center">
+              <td colSpan="7" className="mx-auto">
+                <LoaderSpinner color="black"/>
+              </td>
+            </tr>
+          </tbody> 
+        }
       </table>
     </div>
   );
