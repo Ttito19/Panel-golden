@@ -8,7 +8,7 @@ function AddChofer() {
   const [type, setype] = useState("");
   const [qty, setQty] = useState("");
   const [description, setDescription] = useState("");
- 
+
   const ButtonAddChofer = (e) => {
     e.preventDefault();
 
@@ -22,7 +22,7 @@ function AddChofer() {
           description,
         })
         .then(() => setName(""), setype(""), setQty(""), setDescription(""))
-        .catch((error) => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "Lo sentimos",
