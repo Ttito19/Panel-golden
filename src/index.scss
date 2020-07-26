@@ -52,8 +52,7 @@ button {
   height: 4rem !important;
 }
 
-
-@media ( max-width : 1000px ) {
+@media (max-width: 1000px) {
   .sidebar {
     position: absolute;
     left: var(--position-sidebar-movil);

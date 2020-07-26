@@ -55,13 +55,13 @@ const ListClients = () => {
                   <td>{cli.code}</td>
                   <td>{cli.dni}</td>
                   <td>
-                    <img src={cli.documentImage} width="50" height="50" />
+                    <img src={cli.documentImage.url} width="50" height="50" />
                   </td>
                   <td>{cli.email}</td>
                   <td>{cli.fullName}</td>
                   <td>{cli.phone}</td>
                   <td>
-                    <img src={cli.profileImage} width="50" height="50" />
+                    <img src={cli.profileImage.url} width="50" height="50" />
                   </td>
 
                   <td>

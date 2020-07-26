@@ -13,7 +13,6 @@ export const BusStopProvider = (props) => {
         ...doc.data(),
       }));
       setBusStop(listBusStop);
-      console.log(listBusStop);
     });
 
     // return () => fire();
