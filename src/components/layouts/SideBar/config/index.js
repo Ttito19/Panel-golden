@@ -130,6 +130,23 @@ const configSideBar = [
     ],
   },
   {
+    type: "multiple",
+    icon: <AiOutlineTable />,
+    title: "Viaje",
+    subitems: [
+      {
+        icon: <AiOutlineTable />,
+        title: "Agregar Viaje",
+        link: "/travel/add",
+      },
+      {
+        icon: <AiOutlineTable />,
+        title: "Lista de Viajes",
+        link: "/travel/list",
+      },
+    ],
+  },
+  {
     type: "normal",
     icon: <TiCogOutline />,
     title: "Configuracion",

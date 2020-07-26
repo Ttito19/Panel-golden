@@ -1,50 +1,23 @@
-import React, { useRef } from "react";
-import { firestore } from "firebase";
+import React, { useContext } from "react";
 import Input from "../../UIComponents/Input";
-import Swal from "sweetalert2";
+import useAddBus from "../../../hooks/useAddBus";
+import { SeatDesignContext } from "../../../context/seatDesignContext";
+import SeatComboBox from "../../UIComponents/SeatComboBox";
 
 function AddBus() {
-  //refs
-  const refName = useRef();
-  const refSeatDesign = useRef();
-  const refType = useRef();
+  const { loadingData } = useContext(SeatDesignContext);
+  const { refName, refType , refSeatDesign , handlerAddBus , isSetData } = useAddBus();
 
-  const addBus = (e) => {
-    e.preventDefault();
-
-    const name = refName.current.value;
-    const seatDesign = refSeatDesign.current.value;
-    const type = refType.current.value;
-    if (name && seatDesign && type) {
-      const fb = firestore();
-      fb.collection("bus")
-        .add({
-          name,
-          seatDesign,
-          type,
-        })
-        .then(() => {
-          Swal.fire("Éxito", "Se agrego correctamente", "success");
-        });
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Lo sentimos",
-        text: "Campos vacíos",
-        timer: 1000,
-      });
-    }
-  };
   return (
     <div className="container">
-      <form className="form-group">
+      <form onSubmit={handlerAddBus} className="form-group">
         <div className="col-6">
           <Input name="Nombre del Bus" type="text" refs={refName} />
-          <Input name="Diseño de asiento" type="text" refs={refSeatDesign} />
+          <SeatComboBox reference={refSeatDesign} />
           <Input name="Tipo" type="text" refs={refType} />
         </div>
         <div className="btn pb-2">
-          <button className="btn btn-primary" onClick={addBus}>
+          <button disabled={loadingData || isSetData} className="btn btn-primary" >
             Agregar
           </button>
         </div>

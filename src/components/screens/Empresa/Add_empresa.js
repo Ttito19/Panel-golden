@@ -2,7 +2,8 @@ import React, { useRef } from "react";
 import { firestore } from "firebase";
 import Input from "../../UIComponents/Input";
 import Swal from "sweetalert2";
-function AddEmpresa() {
+
+const AddEmpresa = () => {
   //refs
   const refRazon = useRef();
   const refRuc = useRef();
@@ -18,6 +19,7 @@ function AddEmpresa() {
     const direccion = refDir.current.value;
     const distrito = refDis.current.value;
     const name = refName.current.value;
+
     if (razon && ruc && direccion && distrito && name) {
       const fb = firestore();
       fb.collection("company")
@@ -53,7 +55,7 @@ function AddEmpresa() {
         </div>
         <div className="btn pb-2">
           <button className="btn btn-primary" onClick={addEmpresa}>
-            Agregar
+            Agregar Empresa
           </button>
         </div>
       </form>

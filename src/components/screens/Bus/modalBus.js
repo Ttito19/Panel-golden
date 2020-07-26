@@ -1,37 +1,38 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Input from "../../UIComponents/Input";
 import { firestore } from "firebase";
 import Swal from "sweetalert2";
+import SeatComboBox from "../../UIComponents/SeatComboBox";
+import { SeatDesignContext } from "../../../context/seatDesignContext";
+import useSearchByIndexBus from "../../../hooks/useSearchByIndexBus";
 export const ModalBus = (props) => {
-  const [closeModal, setCloseModal] = useState(false);
+  //States
+  const [ closeModal , setCloseModal ] = useState(false);
   
   //refs
   const refName = useRef();
   const refSeatDesign = useRef();
   const refType = useRef();
-  const updateBus = () => {
+
+  //Hooks
+  const searchByIndex = useSearchByIndexBus();
+
+  //Actions
+  const updateBus = async () => {
     const name = refName.current.value;
-    const seatDesign = refSeatDesign.current.value;
+    const seatDesign = searchByIndex(refSeatDesign.current.value);
     const type = refType.current.value;
 
-    if (name && seatDesign && type) {
-      const refDB = firestore().collection("bus").doc(props.id.id);
-      refDB
-        .update({
-          name,
-          seatDesign,
-          type,
-        })
-        .then(
-          Swal.fire(
-            "Éxito",
-            "Los datos se actualizaron correctamente",
-            "success"
-          ),
-          setCloseModal(props.handleClose)
-        );
-    } else {
+    try {
+      if (name && seatDesign && type) {
+        const refDB = firestore().collection("bus").doc(props.id.id);
+        await refDB.update({ name , seatDesign , type });
+        Swal.fire("Éxito","Los datos se actualizaron correctamente","success");
+        setCloseModal(props.handleClose)
+      }
+    }catch(e){
+      console.log(e);
       Swal.fire({
         icon: "error",
         title: "Lo sentimos",
@@ -53,14 +54,7 @@ export const ModalBus = (props) => {
             type="text"
             refs={refName}
           />
-
-          <Input
-            defaultValue={props.id == null ? "" : props.id.seatDesign}
-            name="Diseño de asiento"
-            type="text"
-            refs={refSeatDesign}
-          />
-
+          <SeatComboBox reference={refSeatDesign} />
           <Input
             defaultValue={props.id == null ? "" : props.id.type}
             name="Tipo"

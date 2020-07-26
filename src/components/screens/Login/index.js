@@ -15,15 +15,21 @@ const Login = (props) => {
 			<div className="logo">
 				<img src="https://emot.gob.ec/wp-content/uploads/2017/08/20689630_1833495579998731_7078376825041924385_o-1-1170x700.jpg" alt="image_not_found"/>
 			</div>
-			<div className="form">
-				<div className="input-group">
-					<input type="text" placeholder="Correo electronico" onChange={changeUsername} />
-					<FaUserAlt />
-					<input type="password" placeholder ="Contraseña" onChange={changePassword} />
-					<FaUserLock />
+			<form className="form">
+				<div className="input-form-custom">
+					<div className="icon">
+						<FaUserAlt />
+					</div>
+					<input className="input" type="text" placeholder="Correo electronico" onChange={changeUsername} />
 				</div>
-				<button className="btn_submit" onClick={LoginFormSubmit} > Sign Up </button>
-			</div>
+				<div className="input-form-custom">
+					<div className="icon">
+						<FaUserLock />
+					</div>
+					<input className="input" type="password" placeholder ="Contraseña" onChange={changePassword} />
+				</div>
+				<button className="btn_submit" onClick={LoginFormSubmit} > Login </button>
+			</form>
 		</div>
 		</>
 	);

@@ -1,8 +1,6 @@
 import React , { useState,useContext ,useEffect} from 'react';
 import { AccountContext } from '../context/accountContext';
 
-
-
 function useLogin() {
 	
 	const { validationUser } = useContext(AccountContext)
@@ -14,8 +12,8 @@ function useLogin() {
 	const changePassword = (ev) => setPassword(ev.target.value);
 
 	const LoginFormSubmit = (ev) => {
-		validationUser(username,password)
 		ev.preventDefault();
+		validationUser(username,password);
 	};
 
 	useEffect( ()=>{
