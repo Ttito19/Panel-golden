@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { firestore } from "firebase";
+import { firestore , storage } from "firebase";
 import ModalChofer from "./ModalChofer";
 import Swal from 'sweetalert2';
 import LoaderSpinner from '../../UIComponents/LoaderSpinner/';
@@ -7,6 +7,7 @@ import { FaTrashAlt , FaRegEdit } from "react-icons/fa";
 
 const ListChofer = () => {
 
+  const stg = storage();
   const fs = firestore();
   
   const [dataChofer] = useState([]);
@@ -70,7 +71,7 @@ const ListChofer = () => {
                     <td>{chofer.data.nombre}</td>
                     <td>{chofer.data.apellido}</td>
                     <td>{chofer.data.direccion}</td>
-                    <td>{chofer.data.empresa}</td>
+                    <td> {chofer.data.empresa}</td>
                     <td> <button className="btn btn-primary" onClick={ () => showImageChofer(chofer.data.documentoImagen) }> Ver imagen </button> </td>
                     <td>{chofer.data.fech_create}</td>
                     <td>{chofer.data.fech_nac.toString()}</td>
@@ -94,11 +95,20 @@ const ListChofer = () => {
   
 
   const showImageChofer = (image) => {
-    Swal.fire({
-      imageUrl: 'https://placeholder.pics/svg/300x400',
+
+    console.log(image);
+
+    var refImg = stg.ref(image);
+    refImg.getDownloadURL()
+    .then((url)=>{
+      Swal.fire({
+      imageUrl: url,
       imageHeight: 400,
-      imageAlt: 'Icono del documento'
+      imageAlt: 'Imagen de documento'
     })
+    })
+
+    
   }
 
   return (

@@ -1,7 +1,8 @@
-import React, { useState, useEffect , useRef } from "react";
-import { firestore } from "firebase";
-import { storage } from 'firebase';
+import React, { useState, useRef } from "react";
+import { firestore , storage } from "firebase";
+// UIComponents
 import Input from "../../UIComponents/Input";
+import Select from '../../UIComponents/Select'
 import Swal from "sweetalert2";
 
 function AddChofer() {
@@ -12,18 +13,37 @@ function AddChofer() {
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [direccion, setDireccion] = useState("");
-
   const [empresa, setEmpresa] = useState("");
   const [documentoImagen, setDocumentoImagen] = useState("");
   const [fech_nac, setFech_nac] = useState("");
 
+  const [isLoadingSelectValues, setLoadingSelectValues] = useState(false);
+  const [ selectEmpresa ] = useState({});
+  const [ selectValue , setSelectValue ] = useState("");
+
   const formatDateNow = () => {
-    var d = new Date(Date.now());
+    var d = new Date();
     return `${d.getFullYear()}-${d.getMonth()}-${d.getDay()}`;
   }
 
+  //#region - Cargar datos de la compañia 
+  (()=>{
+    fs.collection('company').get()
+    .then((data)=>{
+      data.forEach( doc => {
+        var nameEmpresa = doc.data().name;
+        selectEmpresa[doc.id] = nameEmpresa;
+      })
+      setLoadingSelectValues(true);
+    })
+  })();
+  //#endregion
+  
+  const getSelectValue = (e) => setSelectValue(e.target.value);
+
+
   const addImageAndData = () => {
-    if ( nombre != "" && apellido!= "" && direccion != "" && fech_nac != "" && documentoImagen != "" ) {
+    if ( nombre != "" && apellido!= "" && direccion != "" && fech_nac != "" && documentoImagen != "" && selectEmpresa!="" ) {
 
       var storageRef = stg.ref(`/images/documentoImagenChofer/${documentoImagen.name}`);
       storageRef.put(documentoImagen)
@@ -51,7 +71,7 @@ function AddChofer() {
           direccion,
           fech_create : formatDateNow(),
           fech_nac :fech_nac,
-          empresa : "???",
+          empresa : selectValue,
           documentoImagen : d
         })
         // .then(() => {} )
@@ -74,6 +94,7 @@ function AddChofer() {
   const setApellido_ = (e) => { setApellido(e.target.value) }
   const setDireccion_ = (e) => { setDireccion(e.target.value) }
   const setFech_nac_ = (e) => { setFech_nac(e.target.value) }
+  const setEmpresa_ = (e) => { setSelectValue(e.target.value) }
   
   const setDocumentoImagen_ = (e) => { 
     var image = e.target.files[0];
@@ -90,46 +111,54 @@ function AddChofer() {
 
   return (
     <div className="container-fluid ">
-      <form className="form-group">
-        <div className="col-6">
-          <Input
-            value={nombre}
-            name="Nombre"
-            type="text"
-            onChange={setNombre_}
-          />
-          <Input
-            value={apellido}
-            name="Apellido"
-            type="text"
-            onChange={setApellido_}
-          />
-          <Input 
-            //value = {documentoImagen} 
-            name = "Foto de documento"
-            type = "file"
-            onChange = { setDocumentoImagen_ }
-          />
-          <Input
-            value={fech_nac}
-            name="Fecha de nacimiento"
-            type="date"
-            onChange={ setFech_nac_ }
-          />
-          <Input
-            value={direccion}
-            name="Direccion de vivienda"
-            type="text"
-            onChange={setDireccion_}
-          />
-        </div>
+        <form className="form-group">
+          <div className="col-6">
+            <Input
+              value={nombre}
+              name="Nombre"
+              type="text"
+              onChange={setNombre_}
+            />
+            <Input
+              value={apellido}
+              name="Apellido"
+              type="text"
+              onChange={setApellido_}
+            />
+            {
+              isLoadingSelectValues ?
+              <Select 
+                onChange={getSelectValue}
+                optionsValues = {selectEmpresa}
+                value = {selectValue}
+              />
+              : null
+            }
+            
 
-        <div className="btn pb-2">
-          <button className="btn btn-primary" onClick={ButtonAddChofer}>
-            Agregar
-          </button>
-        </div>
-      </form>
+            <Input 
+              name = "Foto de documento"
+              type = "file"
+              onChange = { setDocumentoImagen_ }
+            />
+            <Input
+              value={fech_nac}
+              name="Fecha de nacimiento"
+              type="date"
+              onChange={ setFech_nac_ }
+            />
+            <Input
+              value={direccion}
+              name="Direccion de vivienda"
+              type="text"
+              onChange={setDireccion_}
+            />
+          </div>
+
+          <div className="btn pb-2">
+            <button className="btn btn-primary" onClick={ButtonAddChofer}> Agregar </button>
+          </div>
+        </form>
     </div>
   );
 }
