@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { ModalBusStop } from "./ModalBusStop";
-import { list } from "../../../loader/typesLoading";
 import { BusStopContext } from "../../../context/busStopContext";
 import LoaderSpinner from "../../UIComponents/LoaderSpinner";
 

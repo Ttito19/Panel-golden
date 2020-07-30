@@ -1,11 +1,12 @@
 import React, { memo } from "react";
 import useAddTravel from "../../../../hooks/useAddTravel";
 import useGetTravelDataToSelect from "../../../../hooks/useGetTravelDataToSelect";
+import CustomListBusStop from "./CustomListBusStop";
 import ElementsList from "./ElementsList";
 
 const TravelAdd = () => {
   const { busStopData , clientsData , destinyData , busData } = useGetTravelDataToSelect();
-  const { onSubmit , onChangeBus , onChangeDestiny } = useAddTravel();
+  const { onSubmit , onChangeBus , onChangeDestiny , onChangeBusStop } = useAddTravel();
 
   return <div className="container">
     <form onSubmit={onSubmit} >
@@ -36,9 +37,10 @@ const TravelAdd = () => {
           </div>
         </div>
         <div className="col">
-          <ElementsList 
-            options={busStopData}
-            title="Agregar Paraderos (En orden)" 
+          <CustomListBusStop 
+            data={busStopData} 
+            title="Agregar Paraderos (En orden)"
+            onChange={onChangeBusStop} 
           />
           <ElementsList 
             options={clientsData} 
