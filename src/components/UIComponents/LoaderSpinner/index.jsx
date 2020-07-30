@@ -1,31 +1,24 @@
 import React from "react";
-import "./index.scss";
+import { Container , Spinner , SpinnerPosition } from "./styles";
 
 const LoaderSpinner = props => {
   const { color , size , position , maxcontent } = props;
 
-  const styles = {
-    width : size,
-    height : size,
-    color,
-    position,
-    borderRightColor: color,
-  }
+  const spinnerProps = () => ({ color, size, position });
 
   if(maxcontent){
-    return <div className="container-fluid-spinner" >
-      <div className="loader-spinner" style={styles}>
-      </div>
-    </div>
+    return <Container>
+      <Spinner {...spinnerProps()} />
+    </Container>
   }
 
-  return <div className="loader-spinner" style={styles}>
-  </div>
+  return <SpinnerPosition {...spinnerProps()} />
 }
 
 LoaderSpinner.defaultProps = {
-  size : 40,
-  color : "black"
+  size : "40px",
+  color : "#062977",
+  position : "relative"
 }
 
 export default LoaderSpinner;
