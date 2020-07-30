@@ -20,16 +20,17 @@ const Select = (props) => {
     }
     
     const loadingOptions = () => {
+
         for (var key in optionsValues){
             optionsJsx.push(<option value={key} > {optionsValues[key]} </option>);
         }
         setLoadingInformation(true);
+        
     }
-
     
     return (
         <div>
-        {        
+        {       
             isloadingInformation
             ? loadingSelect()
             : loadingOptions()

@@ -1,16 +1,67 @@
-import React from 'react';
+import React , {useState}from 'react';
 import { useParams } from 'react-router-dom';
+import { firestore } from 'firebase';
+import LoadingSpinner from '../../UIComponents/LoaderSpinner/'
+
+
+
+
+const ModalBusStop = () => {
+    return (
+        <div>
+
+        </div>
+    )
+}
 
 
 const EmpresaTravels = () => {
     
-    const {id} = useParams();
+    const fs = firestore();
+    const { id } = useParams();
+    const [ travels , setTravels ] = useState([]);
+    const [ isLoadingInformation , setLoadingInformation ] = useState(false);
+
+    (()=>{
+
+    })()
 
     return (
-        <div>
-            <h3> Listado de Viajes de la empresa </h3>
-            Este es el id de la empresa seleccionada : {id}.
-        </div>
+        <table className="table">
+            <thead>
+                <tr>
+                    <th>Arrival Date</th>
+                    <th>Bus ID</th>
+                    <th>Bus Stop</th> 
+                    <th>Clientes</th>
+                    <th>Departure Date</th>
+                    <th>Destino</th>
+                    <th>seatColumns</th>
+                    <th>seats</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    isLoadingInformation ?
+                    travels.map( e => {
+                        return (
+                            <tr key=""> 
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        )
+                    })
+                    :
+                    <tr><td colSpan="8"><LoadingSpinner /></td></tr>
+                }
+            </tbody>
+        </table>
     )
 }
 

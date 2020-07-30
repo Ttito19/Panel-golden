@@ -27,15 +27,18 @@ const ListChofer = () => {
 
   //#region - Cargar datos del chofer 
   (()=>{
-    fs.collection('driver').onSnapshot((data)=>{
+    fs.collection('driver').orderBy("nombre").onSnapshot((data)=>{
+      //Cargar datos 
       dataChofer.splice(0,);
       data.forEach( doc => {
         dataChofer.push( {id:doc.id , data : doc.data()} )
       });
       setLoadingInformation(true);
     })
+
   })();
   //#endregion 
+  
 
   //#region - Eliminar Chofer seleccionado. 
   const deleteChofer = (id) => {
@@ -60,40 +63,7 @@ const ListChofer = () => {
     })
   };
   //#endregion
-
-  //#region - Generar los elementos Jsx en base a los datos retornados. 
-  const loadingDataChoferJsx = () => {
-    return (   
-          <tbody> 
-            { dataChofer.map( (chofer) => {
-              return (
-                  <tr key={chofer.id}>
-                    <td>{chofer.data.nombre}</td>
-                    <td>{chofer.data.apellido}</td>
-                    <td>{chofer.data.direccion}</td>
-                    <td> {chofer.data.empresa}</td>
-                    <td> <button className="btn btn-primary" onClick={ () => showImageChofer(chofer.data.documentoImagen) }> Ver imagen </button> </td>
-                    <td>{chofer.data.fech_create}</td>
-                    <td>{chofer.data.fech_nac.toString()}</td>
-                    <td>
-                      <button className="btn btn-primary" onClick={()=>openModalEdit(chofer)}>
-                        <FaRegEdit />
-                      </button>
-                    </td>
-                    <td>
-                      <button className="btn btn-danger" onClick={()=>deleteChofer(chofer.id)}>
-                        <FaTrashAlt />
-                      </button>
-                    </td>
-                  </tr>
-              )})
-            }
-          </tbody>
-    )
-  }
-  //#endregion
   
-
   const showImageChofer = (image) => {
 
     console.log(image);
@@ -130,16 +100,42 @@ const ListChofer = () => {
           </tr>
         </thead>
 
-        { 
-          isLoadingInformation ? loadingDataChoferJsx() :
-          <tbody>
-            <tr className="justify-content-center">
-              <td colSpan="7" className="mx-auto">
-                <LoaderSpinner color="black"/>
-              </td>
+        <tbody>
+          { 
+            isLoadingInformation 
+            ? 
+            dataChofer.map( (chofer) => {
+              return (
+                  <tr key={chofer.id}>
+                    <td>{chofer.data.nombre}</td>
+                    <td>{chofer.data.apellido}</td>
+                    <td>{chofer.data.direccion}</td>
+                    <td> 
+                        {/*Listar empresa en base a id de compañia*/}
+                        {chofer.data.empresa}
+                    </td>
+                    <td> <button className="btn btn-primary" onClick={ () => showImageChofer(chofer.data.documentoImagen) }> Ver imagen </button> </td>
+                    <td>{chofer.data.fech_create}</td>
+                    <td>{chofer.data.fech_nac.toString()}</td>
+                    <td>
+                      <button className="btn btn-primary" onClick={()=>openModalEdit(chofer)}>
+                        <FaRegEdit />
+                      </button>
+                    </td>
+                    <td>
+                      <button className="btn btn-danger" onClick={()=>deleteChofer(chofer.id)}>
+                        <FaTrashAlt />
+                      </button>
+                    </td>
+                  </tr>
+              )})
+            :
+            <tr>
+              <td colSpan="7"><LoaderSpinner color="black"/></td>
             </tr>
-          </tbody> 
-        }
+          }
+        </tbody>
+        
       </table>
     </div>
   );

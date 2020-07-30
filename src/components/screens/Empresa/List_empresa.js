@@ -24,33 +24,6 @@ const ListEmpresa = () => {
       setLoadingInformation(true);
     })
   })();
-  //#endregion
-  
-  //#region - Generar los elementos Jsx en base a los datos retornados. 
-  const loadingDataEmpresaJsx = () => {
-    return ( 
-        <tbody>
-          {
-          dataCompany.map( e => { 
-            return (
-              <tr key={e.id}> 
-                <td> {e.data.direccion} </td> 
-                <td> {e.data.distrito} </td> 
-                <td> {e.data.name} </td> 
-                <td> {e.data.razon} </td> 
-                <td> {e.data.ruc} </td> 
-                <td> <Link to={`/EmpresaTravels/${e.id}`} > Ver </Link> </td>
-                <td> <Link to={`/EmpresaWorkers/${e.id}`} > Ver </Link> </td>
-                <td > <button onClick={()=>{deleteCompany(e.id)}} className="btn btn-danger"> <FaTrashAlt /> </button> </td>
-                <td> <button onClick={()=>{showModalEdit(e)}} className="btn btn-primary"> <FaRegEdit /> </button> </td>
-              </tr>
-            )
-          })
-          }
-        </tbody>
-      )
-  }
-  //#endregion
 
   //#region Eliminar Empresa 
   const deleteCompany = (e) => {
@@ -106,16 +79,31 @@ const ListEmpresa = () => {
               <th> Update </th>
           </tr>
         </thead>
-        { 
-          isLoadingInformation ? loadingDataEmpresaJsx() : 
-          <tbody>
-            <tr className="justify-content-center">
-              <td colSpan="7" className="mx-auto">
-                <LoaderSpinner color="black"/>
-              </td>
+        <tbody>
+          { 
+            isLoadingInformation ? 
+            dataCompany.map( e => { 
+              return (
+                <tr key={e.id}> 
+                  <td> {e.data.direccion} </td> 
+                  <td> {e.data.distrito} </td> 
+                  <td> {e.data.name} </td> 
+                  <td> {e.data.razon} </td> 
+                  <td> {e.data.ruc} </td> 
+                  <td> <Link to={`/EmpresaTravels/${e.id}`} > Ver </Link> </td>
+                  <td> <Link to={`/EmpresaWorkers/${e.id}`} > Ver </Link> </td>
+                  <td > <button onClick={()=>{deleteCompany(e.id)}} className="btn btn-danger"> <FaTrashAlt /> </button> </td>
+                  <td> <button onClick={()=>{showModalEdit(e)}} className="btn btn-primary"> <FaRegEdit /> </button> </td>
+                </tr>
+              )
+            })
+            : 
+            <tr>
+              <td colSpan="7"><LoaderSpinner /></td>
             </tr>
-          </tbody> 
-        }
+          }
+        </tbody>
+        
       </table>
     </div>
   );

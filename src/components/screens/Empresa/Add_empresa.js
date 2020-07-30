@@ -19,20 +19,28 @@ const AddEmpresa = () => {
     const direccion = refDir.current.value;
     const distrito = refDis.current.value;
     const name = refName.current.value;
+    const fs = firestore();
+
 
     if (razon && ruc && direccion && distrito && name) {
-      const fb = firestore();
-      fb.collection("company")
-        .add({
-          razon,
-          ruc,
-          direccion,
-          distrito,
-          name,
-        })
-        .then(() => {
-          Swal.fire("Éxito", "Se agrego correctamente", "success");
-        });
+
+      const company = fs.collection('company');
+
+      company.where("name","==",name)
+      // .where("ruc","==",ruc)
+      // .where("razon","==",razon)
+      .get()
+      .then( d => {
+        console.log(d.size);
+        if ( d.size == 0 ) 
+          fs.collection("company")
+          .add( { razon, ruc, direccion, distrito, name,} )
+          .then( _ => Swal.fire("Éxito", "Se agrego correctamente", "success") )
+        else {
+          console.log("Ya existe una empresa registrada con estos datos.");
+        }
+      })
+    
     } else {
       Swal.fire({
         icon: "error",

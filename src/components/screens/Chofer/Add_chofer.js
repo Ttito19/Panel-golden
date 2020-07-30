@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { firestore , storage } from "firebase";
 // UIComponents
 import Input from "../../UIComponents/Input";
@@ -13,7 +13,7 @@ function AddChofer() {
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [direccion, setDireccion] = useState("");
-  const [empresa, setEmpresa] = useState("");
+  // const [empresa, setEmpresa] = useState("");
   const [documentoImagen, setDocumentoImagen] = useState("");
   const [fech_nac, setFech_nac] = useState("");
 
@@ -32,13 +32,14 @@ function AddChofer() {
     .then((data)=>{
       data.forEach( doc => {
         var nameEmpresa = doc.data().name;
-        selectEmpresa[doc.id] = nameEmpresa;
+        // Change nombre empresa 
+        selectEmpresa[nameEmpresa] = nameEmpresa;
       })
       setLoadingSelectValues(true);
     })
   })();
   //#endregion
-  
+
   const getSelectValue = (e) => setSelectValue(e.target.value);
 
 
@@ -63,7 +64,10 @@ function AddChofer() {
 
   }
 
+  
+
   const addChofer = (d) => {
+
       fs.collection("driver")
         .add({
           nombre,
