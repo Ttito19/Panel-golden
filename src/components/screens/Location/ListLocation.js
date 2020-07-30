@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
-import ReactLoading from "react-loading";
 import { ModalLocation } from "./ModalLocation";
-import { list } from "../../../loader/typesLoading";
 import { LocationContext } from "../../../context/locationContext";
+import LoaderSpinner from "../../UIComponents/LoaderSpinner";
 
 function ListLocation() {
   const [location, setlocation] = useState([]);
@@ -37,47 +36,34 @@ function ListLocation() {
             <th>Eliminar</th>
           </tr>
         </thead>
-        {listLocation.location == ""
-          ? list.map((l) => (
-              <tbody key={l.prop}>
-                <tr className="justify-content-center">
-                  <td colSpan="6" className="mx-auto">
-                    <ReactLoading type={l.prop} color="#000" />
-                  </td>
-                </tr>
-              </tbody>
-            ))
-          : listLocation.location.map((loc) => (
-              <tbody key={loc.id}>
-                <tr>
-                  {/* <td>{loc.id}</td> */}
-                  <td>{loc.coords.latitude}</td>
-                  <td>{loc.coords.longitude}</td>
+        <tbody>
+          {
+            !listLocation.location.length ? 
+              <LoaderSpinner /> : 
+              listLocation.location.map((v,i) => (
+                <tr key={i}>
+                  <td>{v.coords.latitude}</td>
+                  <td>{v.coords.longitude}</td>
                   <td>
-                    <img src={loc.image.url} width="50" height="50" />
+                    <img src={v.image.url} width="50" height="50" />
                   </td>
-                  <td>{loc.description}</td>
-                  <td>{loc.name}</td>
-                  <td>{loc.region}</td>
+                  <td>{v.description}</td>
+                  <td>{v.name}</td>
+                  <td>{v.region}</td>
                   <td>
-                    <button
-                      className="btn btn-success nt-1"
-                      onClick={() => modalLocation(loc.id)}
-                    >
+                    <button className="btn btn-success nt-1" onClick={() => modalLocation(v.id)} >
                       Editar
                     </button>
                   </td>
                   <td>
-                    <button
-                      className="btn btn-danger nt-1"
-                      onClick={() => deleteLocationFomId(loc.id)}
-                    >
+                    <button className="btn btn-danger nt-1"  onClick={() => deleteLocationFomId(v.id)}>
                       Eliminar
                     </button>
                   </td>
                 </tr>
-              </tbody>
-            ))}
+              ))
+            }   
+        </tbody>
       </table>
     </div>
   );

@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import ReactLoading from "react-loading";
 import { ModalClients } from "./ModalClients";
-import { list } from "../../../loader/typesLoading";
 import { ClientContext } from "../../../context/clientsContext";
+import LoaderSpinner from "../../UIComponents/LoaderSpinner";
+
 const ListClients = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -37,52 +37,38 @@ const ListClients = () => {
             <th>Eliminar</th>
           </tr>
         </thead>
-
-        {listClients.clients == ""
-          ? list.map((l) => (
-              <tbody key={l.prop}>
-                <tr className="justify-content-center">
-                  <td colSpan="6" className="mx-auto">
-                    <ReactLoading type={l.prop} color="#000" />
-                  </td>
-                </tr>
-              </tbody>
+        <tbody>
+        {
+          !listClients.clients.length ?
+            <LoaderSpinner /> : 
+            listClients.clients.map((v,i) => (
+              <tr key={i}>
+                <td>{v.city}</td>
+                <td>{v.code}</td>
+                <td>{v.dni}</td>
+                <td>
+                  <img src={v.documentImage.url} width="50" height="50" />
+                </td>
+                <td>{v.email}</td>
+                <td>{v.fullName}</td>
+                <td>{v.phone}</td>
+                <td>
+                  <img src={v.profileImage.url} width="50" height="50" />
+                </td>
+                <td>
+                  <button className="btn btn-success nt-1" onClick={() => modalClients(v.id)} >
+                    Editar
+                  </button>
+                </td>
+                <td>
+                  <button className="btn btn-danger nt-1" onClick={() => deleteClienteFromId(v.id)} >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
             ))
-          : listClients.clients.map((cli) => (
-              <tbody key={cli.id}>
-                <tr>
-                  <td>{cli.city}</td>
-                  <td>{cli.code}</td>
-                  <td>{cli.dni}</td>
-                  <td>
-                    <img src={cli.documentImage.url} width="50" height="50" />
-                  </td>
-                  <td>{cli.email}</td>
-                  <td>{cli.fullName}</td>
-                  <td>{cli.phone}</td>
-                  <td>
-                    <img src={cli.profileImage.url} width="50" height="50" />
-                  </td>
-
-                  <td>
-                    <button
-                      className="btn btn-success nt-1"
-                      onClick={() => modalClients(cli.id)}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger nt-1"
-                      onClick={() => deleteClienteFromId(cli.id)}
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            ))}
+          }
+        </tbody>
       </table>
     </div>
   );
