@@ -1,23 +1,28 @@
-import React from "react";
+import React, { memo } from "react";
+import useAddTravel from "../../../../hooks/useAddTravel";
+import useGetTravelDataToSelect from "../../../../hooks/useGetTravelDataToSelect";
 import ElementsList from "./ElementsList";
 
 const TravelAdd = () => {
+  const { busStopData , clientsData , destinyData , busData } = useGetTravelDataToSelect();
+  const { onSubmit , onChangeBus , onChangeDestiny } = useAddTravel();
+
   return <div className="container">
-    <form>
+    <form onSubmit={onSubmit} >
       <div className="row">
         <div className="col">
-          <div class="form-group">
-            <label for="sel1">Destino : </label>
-            <select class="form-control" id="sel1">
-              <option>Hola</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="sel1">Bus : </label>
-            <select class="form-control" id="sel1">
-              <option>Hola</option>
-            </select>
-          </div> 
+          <ElementsList
+            title="Destino"
+            options={destinyData} 
+            onChange={onChangeDestiny}
+            isMulti={false}
+          />
+          <ElementsList
+            title="Bus"
+            options={busData} 
+            onChange={onChangeBus}
+            isMulti={false}
+          />
           <div className="form-group">	
             <label htmlFor="urs">Fecha y Hora de Salida : </label>
             <input type="datetime-local" className="form-control" id="urs" />
@@ -26,14 +31,23 @@ const TravelAdd = () => {
             <label htmlFor="urs">Fecha y Hora de Llegada : </label>
             <input type="datetime-local" className="form-control" id="urs" />
           </div>       
+          <div className="form-group">
+            <button className="btn btn-primary">Insertar Viaje</button>
+          </div>
         </div>
         <div className="col">
-          <ElementsList title="Agregar Paraderos" />
-          <ElementsList title="Agregar Pasajeros" />
+          <ElementsList 
+            options={busStopData}
+            title="Agregar Paraderos (En orden)" 
+          />
+          <ElementsList 
+            options={clientsData} 
+            title="Agregar Pasajeros" 
+          />
         </div>
       </div>
     </form>
   </div>
 }
 
-export default TravelAdd;
+export default memo(TravelAdd);
