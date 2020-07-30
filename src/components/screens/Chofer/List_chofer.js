@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { firestore , storage } from "firebase";
+import React, { useState ,useEffect } from "react";
+import { firestore } from "firebase";
 import ModalChofer from "./ModalChofer";
 import Swal from 'sweetalert2';
 import LoaderSpinner from '../../UIComponents/LoaderSpinner/';
@@ -7,9 +7,7 @@ import { FaTrashAlt , FaRegEdit } from "react-icons/fa";
 
 const ListChofer = () => {
 
-  const stg = storage();
   const fs = firestore();
-  
   const [dataChofer] = useState([]);
   const [dataChoferEdit,setDataChoferEdit] = useState([]);
   const [show, setShow] = useState(false);
@@ -25,60 +23,51 @@ const ListChofer = () => {
 
   //#endregion
 
-  //#region - Cargar datos del chofer 
-  (()=>{
+
+  useEffect(()=>{
+
+    //#region - Cargar datos del chofer 
     fs.collection('driver').orderBy("nombre").onSnapshot((data)=>{
-      //Cargar datos 
       dataChofer.splice(0,);
       data.forEach( doc => {
         dataChofer.push( {id:doc.id , data : doc.data()} )
       });
       setLoadingInformation(true);
     })
+    //#endregion 
 
-  })();
-  //#endregion 
+  })
+
   
 
   //#region - Eliminar Chofer seleccionado. 
-  const deleteChofer = (id) => {
-    Swal.fire({
-      title: 'Eliminar registro',
-      text: "Estas seguro que deseas eliminar este registro?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.value) {
-        fs.collection("driver").doc(id).delete()
-        .then(()=>setLoadingInformation(false))
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
+  const deleteChofer = async (id) => {
+    try {
+      var accept = await Swal.fire({
+        title: 'Eliminar registro',
+        text: "Estas seguro que deseas eliminar este registro?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      })
+      if ( accept.value ) { 
+        await fs.collection('driver').doc(id).delete();
+        setLoadingInformation(false);
+        Swal.fire('Deleted!','Your file has been deleted.','success');
       }
-    })
+    } catch(e) { console.log(e.message) }
+      
   };
   //#endregion
   
-  const showImageChofer = (image) => {
-
-    console.log(image);
-
-    var refImg = stg.ref(image);
-    refImg.getDownloadURL()
-    .then((url)=>{
-      Swal.fire({
+  const showImage = (url) => {
+    Swal.fire({
       imageUrl: url,
       imageHeight: 400,
       imageAlt: 'Imagen de documento'
     })
-    })
-
-    
   }
 
   return (
@@ -110,11 +99,10 @@ const ListChofer = () => {
                     <td>{chofer.data.nombre}</td>
                     <td>{chofer.data.apellido}</td>
                     <td>{chofer.data.direccion}</td>
+                    <td> {chofer.data.empresa} </td>
                     <td> 
-                        {/*Listar empresa en base a id de compañia*/}
-                        {chofer.data.empresa}
+                      <img src={chofer.data.documentoImagen} onClick={()=>showImage(chofer.data.documentoImagen)} height="60px" width="60px" /> 
                     </td>
-                    <td> <button className="btn btn-primary" onClick={ () => showImageChofer(chofer.data.documentoImagen) }> Ver imagen </button> </td>
                     <td>{chofer.data.fech_create}</td>
                     <td>{chofer.data.fech_nac.toString()}</td>
                     <td>

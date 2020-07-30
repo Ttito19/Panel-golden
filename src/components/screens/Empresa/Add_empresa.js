@@ -11,7 +11,7 @@ const AddEmpresa = () => {
   const refDis = useRef();
   const refName = useRef();
 
-  const addEmpresa = (e) => {
+  const addEmpresa = async (e) => {
     e.preventDefault();
 
     const razon = refRazon.current.value;
@@ -21,35 +21,32 @@ const AddEmpresa = () => {
     const name = refName.current.value;
     const fs = firestore();
 
-
     if (razon && ruc && direccion && distrito && name) {
 
       const company = fs.collection('company');
+      try {
+        var isName = await company.where("name","==",name).get();
+        var isRuc = await company.where("ruc","==",ruc).get();
+        var isRazon = await company.where("razon","==",razon).get();
 
-      company.where("name","==",name)
-      // .where("ruc","==",ruc)
-      // .where("razon","==",razon)
-      .get()
-      .then( d => {
-        console.log(d.size);
-        if ( d.size == 0 ) 
-          fs.collection("company")
-          .add( { razon, ruc, direccion, distrito, name,} )
-          .then( _ => Swal.fire("Éxito", "Se agrego correctamente", "success") )
-        else {
-          console.log("Ya existe una empresa registrada con estos datos.");
+        if ( isName.size != 0 && isRuc.size != 0 && isRazon.size != 0 ) {
+          await fs.collection('company').add({ razon, ruc, direccion, distrito, name})
+          Swal.fire("Éxito", "Se agrego correctamente", "success")
         }
-      })
-    
-    } else {
+        else console.log("Ya existe una empresa con estos nombres");
+
+      } catch (e) { console.log(e.message) }
+      
+    } 
+    else 
       Swal.fire({
         icon: "error",
         title: "Lo sentimos",
         text: "Campos vacíos",
         timer: 1000,
       });
-    }
   };
+
 
   return (
     <div className="container">

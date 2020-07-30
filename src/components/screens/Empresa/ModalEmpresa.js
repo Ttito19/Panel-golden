@@ -31,17 +31,18 @@ const ModalEmpresa = (props) => {
 
     //#region - Actualizar datos de la empresa. 
 
-    // Falta actualizar documento imagen.
-    const updateEmpresa = () => {
-        fs.collection('company').doc(props.dataEmpresa.id).update({
-            direccion : direccion.current.value,
-            distrito : distrito.current.value,
-            name : nombre.current.value,
-            razon : razon.current.value,
-            ruc : ruc.current.value
-        })
-        .then( _ => { Swal.fire("Éxito","Se cambiaron los datos","success"); } )
-        .catch( _ => { console.log("Ha ocurrido un error al momento de actualizar") } )
+    const updateEmpresa = async () => {
+        try {
+            await 
+                fs.collection('company').doc(props.dataEmpresa.id).update({
+                    direccion : direccion.current.value,
+                    distrito : distrito.current.value,
+                    name : nombre.current.value,
+                    razon : razon.current.value,
+                    ruc : ruc.current.value
+                })
+            Swal.fire( 'Cambios realizados','Your file has been changed.','success' )
+        } catch (e) { console.log(e.message) }
     }
 
     //#endregion
