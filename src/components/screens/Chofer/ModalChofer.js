@@ -1,6 +1,10 @@
 import React, { useEffect, useRef , useState } from "react";
 import { Modal, Button } from "react-bootstrap";
+
+// UIComponents
 import Input from "../../UIComponents/Input";
+import Select from '../../UIComponents/Select';
+
 import { firestore , storage } from "firebase";
 import Swal from "sweetalert2";
 
@@ -15,9 +19,17 @@ const ModalChofer = (props) => {
   const empresa = useRef();
   const docImage = useRef();
   const fech_nac = useRef();
-
-  const [isCorrectImage,setCorrectImage] = useState(false);
   const [urlImage,setUrlImage] = useState("");
+  const [ selectCompany ] = useState([]);
+  const [ isLoadingSelects , setLoadingSelects ] = useState(false);
+
+  const loadingSelectCompany = async () => {
+    const data = await fs.collection('company').get();
+    data.forEach( e => {
+      selectCompany.push({ value : e.data().name , name : e.data().name })
+    })
+    setLoadingSelects(true);
+  }
 
   useEffect( ()=>{
     if ( props.show ) {
@@ -28,6 +40,10 @@ const ModalChofer = (props) => {
       empresa.current.value = d.empresa;
       fech_nac.current.value = d.fech_nac;
     }
+
+    // Cargar select de la empresa 
+    if (!isLoadingSelects) loadingSelectCompany()
+    
   })
 
   const evaluarSubidaDeImagen = (e) => {
@@ -35,38 +51,31 @@ const ModalChofer = (props) => {
     if ( !file || file.type != "image/jpeg" ){
       docImage.current.value = null;
       setUrlImage("");
-    }else {
-      setUrlImage(file);
-      console.log(file.name);
-    }
+    }else setUrlImage(file);
   }
 
   //#region - Actualizar los datos de chofer. 
-  const updateClick = () => {
+  const updateClick = async () => {
 
     if (urlImage!="") {
+      
       var refImage = stg.ref(`/images/documentoImagenChofer/${urlImage.name}`)
-      refImage.put(urlImage)
-      .then( (path) => {
-        console.log(props.dataChofer.id);
-        fs.collection('driver').doc(props.dataChofer.id).update({
-          nombre : name.current.value,
-          apellido : lastName.current.value,
-          direccion : direction.current.value,
-          empresa : empresa.current.value,
-          documentoImagen : path.ref.fullPath,
-          fech_nac : fech_nac.current.value
+      try {
+        var path = await refImage.put(urlImage)
+        var url = await refImage.getDownloadURL()
+        await fs.collection('driver').doc(props.dataChofer.id).update({
+            nombre : name.current.value,
+            apellido : lastName.current.value,
+            direccion : direction.current.value,
+            empresa : empresa.current.value,
+            documentoImagen : url,
+            fech_nac : fech_nac.current.value
         })
-        .then(_=>{
-          Swal.fire( 'Cambios realizados','Your file has been changed.','success' )
-        }) 
-
-      })
-      .catch( (e) => console.log(e.message) )
+        Swal.fire( 'Cambios realizados','Your file has been changed.','success' )
+      } catch (e) { console.log(e.message) }
+      
     } else console.log("No se pudieron subir los cambios");
 
-
-    
   };
   //#endregion
 
@@ -91,11 +100,15 @@ const ModalChofer = (props) => {
             type="text"
             refs={direction}
           />
-          <Input
-            name="Empresa"
-            type="text"
-            refs={empresa}
-          />
+          { 
+            isLoadingSelects ?
+            <Select 
+              optionsValues ={selectCompany}
+              refs = {empresa}
+            />
+            : <select>....</select>
+          }
+         
           <Input 
             name="Documento Imagen"
             type="file"

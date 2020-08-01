@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { firestore , storage } from "firebase";
 // UIComponents
 import Input from "../../UIComponents/Input";
@@ -13,46 +13,59 @@ function AddChofer() {
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [direccion, setDireccion] = useState("");
-  // const [empresa, setEmpresa] = useState("");
   const [documentoImagen, setDocumentoImagen] = useState("");
   const [fech_nac, setFech_nac] = useState("");
+  const [ empresa,setEmpresa ] = useState("");
 
   const [isLoadingSelectValues, setLoadingSelectValues] = useState(false);
-  const [ selectEmpresa ] = useState({});
-  const [ selectValue , setSelectValue ] = useState("");
+  const [ selectEmpresa ] = useState([]);
 
   const formatDateNow = () => {
     var d = new Date();
     return `${d.getFullYear()}-${d.getMonth()}-${d.getDay()}`;
   }
 
-  //#region - Cargar datos de la compañia 
-  (()=>{
-    fs.collection('company').get()
-    .then((data)=>{
-      data.forEach( doc => {
-        var nameEmpresa = doc.data().name;
-        // Change nombre empresa 
-        selectEmpresa[nameEmpresa] = nameEmpresa;
+  useEffect( ()=>{
+
+    //#region - Cargar datos de la compañia para el select 
+    if ( !isLoadingSelectValues )
+
+      fs.collection('company').get()
+      .then( data => {
+        data.forEach( doc => {
+          var nameEmpresa = doc.data().name;
+          selectEmpresa.push( { value : nameEmpresa , name : nameEmpresa } )
+        })
+        setLoadingSelectValues(true);
       })
-      setLoadingSelectValues(true);
-    })
-  })();
-  //#endregion
+    //#endregion
 
-  const getSelectValue = (e) => setSelectValue(e.target.value);
+  })
+  
 
+ 
 
-  const addImageAndData = () => {
+  const addChofer = async (e) => {
+    e.preventDefault();
     if ( nombre != "" && apellido!= "" && direccion != "" && fech_nac != "" && documentoImagen != "" && selectEmpresa!="" ) {
+      try {
+        var storageRef = stg.ref(`/images/documentoImagenChofer/${documentoImagen.name}`);
+        await storageRef.put(documentoImagen);
+        var url = await storageRef.getDownloadURL();
 
-      var storageRef = stg.ref(`/images/documentoImagenChofer/${documentoImagen.name}`);
-      storageRef.put(documentoImagen)
-      .then( d => {
-        addChofer(d.ref.fullPath);
-      })  
-      .catch( e => console.log(e.message) )
+        await fs.collection('driver').add({
+          nombre,
+          apellido,
+          direccion,
+          fech_create : formatDateNow(),
+          fech_nac,
+          empresa,
+          documentoImagen : url
+        })
+        Swal.fire("Éxito", "Se agrego correctamente", "success");
 
+      }catch (e){ console.log(e.message) }
+      
     } else {
       Swal.fire({
         icon: "error",
@@ -64,52 +77,19 @@ function AddChofer() {
 
   }
 
-  
-
-  const addChofer = (d) => {
-
-      fs.collection("driver")
-        .add({
-          nombre,
-          apellido,
-          direccion,
-          fech_create : formatDateNow(),
-          fech_nac :fech_nac,
-          empresa : selectValue,
-          documentoImagen : d
-        })
-        // .then(() => {} )
-        .catch((error) => {
-          Swal.fire({
-            icon: "error",
-            title: "Lo sentimos",
-            text: "No se pudo registrar los datos",
-          });
-        });
-      Swal.fire("Éxito", "Se agrego correctamente", "success");
-  }
-
-  const ButtonAddChofer = (e) => {
-    e.preventDefault();
-    addImageAndData();
-  }
-
   const setNombre_ = (e) => { setNombre(e.target.value) }
   const setApellido_ = (e) => { setApellido(e.target.value) }
   const setDireccion_ = (e) => { setDireccion(e.target.value) }
   const setFech_nac_ = (e) => { setFech_nac(e.target.value) }
-  const setEmpresa_ = (e) => { setSelectValue(e.target.value) }
+  const setEmpresa_ = (e) => { setEmpresa(e.target.value) }
   
   const setDocumentoImagen_ = (e) => { 
     var image = e.target.files[0];
-    if ( 
-      !image || 
-      image.type != "image/jpeg" 
-    )
+    if (  !image ||  image.type != "image/jpeg" )
     {
       setDocumentoImagen("");
       console.log("Es tipo de formato no es permitido.");
-    } else { setDocumentoImagen(image); }
+    } else setDocumentoImagen(image) 
   }
  
 
@@ -132,11 +112,10 @@ function AddChofer() {
             {
               isLoadingSelectValues ?
               <Select 
-                onChange={getSelectValue}
+                onChange={setEmpresa_}
                 optionsValues = {selectEmpresa}
-                value = {selectValue}
               />
-              : null
+              : <select>....</select>
             }
             
 
@@ -160,7 +139,7 @@ function AddChofer() {
           </div>
 
           <div className="btn pb-2">
-            <button className="btn btn-primary" onClick={ButtonAddChofer}> Agregar </button>
+            <button className="btn btn-primary" onClick={addChofer}> Agregar </button>
           </div>
         </form>
     </div>

@@ -1,4 +1,4 @@
-import React , { useState } from 'react';
+import React , { useState ,useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import { firestore } from 'firebase';
 import LoaderSpinner from '../../UIComponents/LoaderSpinner/';
@@ -11,16 +11,13 @@ const EmpresaWorkers = () => {
     const [ isLoadingInformation , setLoadingInformation] = useState(false);
     const fs = firestore(); 
     
-    ( () => {
-        fs.collection('clients').where('fullName','==',id).get()
+    useEffect( () => {
+        fs.collection('clients').where('idEmpresa','==',id).get()
         .then( data => {
-            
-            data.forEach( doc => {
-                workers.push( doc.data());
-            })
+            data.forEach( doc => workers.push(doc.data()) )
             setLoadingInformation(true);
         })
-    })();
+    });
 
     const showImage =(refImage)=>{
         Swal.fire({

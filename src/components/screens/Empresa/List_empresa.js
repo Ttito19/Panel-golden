@@ -26,28 +26,26 @@ const ListEmpresa = () => {
   })();
 
   //#region Eliminar Empresa 
-  const deleteCompany = (e) => {
+  const deleteCompany = async (e) => {
+    try {
+      var accept = await Swal.fire({
+          title: 'Eliminar registro',
+          text: "Estas seguro que deseas eliminar este registro?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        })
 
-    Swal.fire({
-      title: 'Eliminar registro',
-      text: "Estas seguro que deseas eliminar este registro?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.value) {
-        fs.collection('company').doc(e).delete()
-        .then ( () => setLoadingInformation(false) )
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
-      }
-    })
-   
+      if (accept.value) {
+        await fs.collection('company').doc(e).delete()
+        setLoadingInformation(false);
+        Swal.fire('Deleted!','Your file has been deleted.','success');
+      } 
+
+    }catch (e) { console.log(e.message) }
+
   }
   //#endregion
 
