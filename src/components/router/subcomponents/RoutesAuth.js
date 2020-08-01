@@ -17,8 +17,8 @@ import ListLocation from "../../screens/Location/ListLocation";
 import AddBus from "../../screens/Bus/addBus";
 import ListBus from "../../screens/Bus/listBus";
 
-import EmpresaTravels from '../../screens/Empresa/empresaTravels';
-import EmpresaWorkers from '../../screens/Empresa/empresaWorkers';
+import EmpresaTravels from "../../screens/Empresa/empresaTravels";
+import EmpresaWorkers from "../../screens/Empresa/empresaWorkers";
 
 //Billy Imports
 import {
@@ -31,6 +31,7 @@ import {
 //Parent Context Billy
 import { SeatDesignProvider } from "../../../context/seatDesignContext";
 //Parent Context Ttito
+import { CompanyProvider } from "../../../context/companyContext";
 import { BusStopProvider } from "../../../context/busStopContext";
 import { LocationProvider } from "../../../context/locationContext";
 import { ClientProvider } from "../../../context/clientsContext";
@@ -44,41 +45,49 @@ const RoutesAuth = () => {
       <BusProvider>
         <ClientProvider>
           <LocationProvider>
-            <BusStopProvider>   
-              <TravelProvider>
-                <Switch>
-                  {/*ttito    */}
-                  <Route exact path="/" component={Home} />
-                  <Route path="/AddCliente" component={AddClients} />
-                  <Route path="/ListCliente" component={ListClients} />
-                  <Route path="/AddEmpresa" component={AddEmpresa} />
-                  <Route path="/ListEmpresa" component={ListEmpresa} />
-                  <Route path="/AddChofer" component={AddChofer} />
-                  <Route path="/ListChofer" component={ListChofer} />
-                  <Route path="/addBusStop" component={AddBusStop} />
-                  <Route path="/listBusStop" component={ListBusStop} />
-                  <Route path="/addLocation" component={AddLocation} />
-                  <Route path="/listLocation" component={ListLocation} />
-                  <Route path="/addBus" component={AddBus} />
-                  <Route path="/ListBus" component={ListBus} />
+            <CompanyProvider>
+              <BusStopProvider>
+                <TravelProvider>
+                  <Switch>
+                    {/*ttito    */}
+                    <Route exact path="/" component={Home} />
+                    <Route path="/AddCliente" component={AddClients} />
+                    <Route path="/ListCliente" component={ListClients} />
+                    <Route path="/AddEmpresa" component={AddEmpresa} />
+                    <Route path="/ListEmpresa" component={ListEmpresa} />
+                    <Route path="/AddChofer" component={AddChofer} />
+                    <Route path="/ListChofer" component={ListChofer} />
+                    <Route path="/addBusStop" component={AddBusStop} />
+                    <Route path="/listBusStop" component={ListBusStop} />
+                    <Route path="/addLocation" component={AddLocation} />
+                    <Route path="/listLocation" component={ListLocation} />
+                    <Route path="/addBus" component={AddBus} />
+                    <Route path="/ListBus" component={ListBus} />
 
-                  {/* Billy */}
-                  <Route path="/design/add" component={AddDesign} />
-                  <Route path="/design/list" component={ListDesign} />
-                  <Route path="/design/update/:id" component={UpdateDesign} />
-                  <Route path="/design/:id" component={ViewDesign} />
-                  <Route path="/travel/list" component={TravelList} />
-                  <Route path="/travel/add" component={TravelAdd} />
+                    {/* Billy */}
+                    <Route path="/design/add" component={AddDesign} />
+                    <Route path="/design/list" component={ListDesign} />
+                    <Route path="/design/update/:id" component={UpdateDesign} />
+                    <Route path="/design/:id" component={ViewDesign} />
+                    <Route path="/travel/list" component={TravelList} />
+                    <Route path="/travel/add" component={TravelAdd} />
 
-                  {/* Mayo */}
-                  <Route path="/EmpresaTravels/:id" component={EmpresaTravels} />
-                  <Route path="/EmpresaWorkers/:id" component={EmpresaWorkers} />
+                    {/* Mayo */}
+                    <Route
+                      path="/EmpresaTravels/:id"
+                      component={EmpresaTravels}
+                    />
+                    <Route
+                      path="/EmpresaWorkers/:id"
+                      component={EmpresaWorkers}
+                    />
 
-                  {/* Page Not Found */}
-                  <Route path="*" component={PageNotFound} />
-                </Switch>
-              </TravelProvider>
-            </BusStopProvider>
+                    {/* Page Not Found */}
+                    <Route path="*" component={PageNotFound} />
+                  </Switch>
+                </TravelProvider>
+              </BusStopProvider>
+            </CompanyProvider>
           </LocationProvider>
         </ClientProvider>
       </BusProvider>
