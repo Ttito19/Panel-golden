@@ -1,6 +1,8 @@
 import React from "react";
 import Input from "../../UIComponents/Input";
+import Select from "../../UIComponents/selectType";
 import useAddClients from "../../../hooks/useAddClients";
+import CompanySelect from "../../UIComponents/select-company";
 function AddClients() {
   const {
     refCity,
@@ -13,6 +15,8 @@ function AddClients() {
     refApellido,
     refPassword,
     refPhone,
+    refType,
+    refCompany,
     refDocumentImage,
     refProfileImage,
     handleDocumentImage,
@@ -67,6 +71,10 @@ function AddClients() {
         <div className="col-6">
           <Input name="Celular" type="number" refs={refPhone} />
           <Input name="Password" type="password" refs={refPassword} />
+        </div>
+        <div className="col-6">
+          <Select name="Tipo" refs={refType} />
+          <CompanySelect refs={refCompany} />
         </div>
 
         <div className="btn pb-2">

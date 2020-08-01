@@ -20,6 +20,8 @@ const useAddClients = () => {
   const refApellido = useRef();
   const refPassword = useRef();
   const refPhone = useRef();
+  const refType = useRef();
+  const refCompany = useRef();
   const refProfileImage = useRef();
 
   const getParamsClients = () => ({
@@ -31,8 +33,11 @@ const useAddClients = () => {
     fullName: refName.current.value + " " + refApellido.current.value,
     password: refPassword.current.value,
     phone: refPhone.current.value,
+    type: refType.current.value,
+    company: refCompany.current.value,
     profileImage: refProfileImage.current.value,
   });
+
   //calculate upload image
   const uploadImage = (snapShot) => {
     const progress = Math.round(
@@ -71,6 +76,8 @@ const useAddClients = () => {
       fullName,
       password,
       phone,
+      type,
+      company,
     } = getParamsClients();
 
     const refClients = storage().ref("clients");
@@ -97,7 +104,8 @@ const useAddClients = () => {
         fullName,
         password,
         phone,
-
+        type,
+        company,
         profileImage: {
           name: archivoImagenProfile.name,
           url: fireBaseUrlProfile,
@@ -123,18 +131,12 @@ const useAddClients = () => {
       fullName,
       password,
       phone,
+      type,
       profileImage,
     } = getParamsClients();
     if (
-      city &&
-      code &&
-      dni &&
-      documentImage &&
-      email &&
-      fullName, 
-      password &&
-      phone &&
-      profileImage
+      (city && code && dni && documentImage && email && fullName,
+      password && phone && type  && profileImage)
     ) {
       const uploadTaskDocument = storage()
         .ref(`clients/${archivoImagenDocument.name}`)
@@ -174,6 +176,8 @@ const useAddClients = () => {
     refApellido,
     refPassword,
     refPhone,
+    refType,
+    refCompany,
     refProfileImage,
     handleDocumentImage,
     handleProfileImage,
