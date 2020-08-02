@@ -6,70 +6,88 @@ const TravelProvider = ({ children }) => {
   const [ loadingTravel , setLoadingTravel ] = useState(true);
   const [ travelData , setTravelData ] = useState([]);
 
-  const requestTravel = data => {
-    data.docs.forEach(async v => {
-      try{
-        const data = v.data();
-        const { busId , destiny , driverId } = data;
+  const refLocation = firestore().collection("location"),
+    refBus = firestore().collection("bus"),
+    refDriver = firestore().collection("driver");
+
+  const _getDestiny = async destiny => {
+    if(destiny){
+      const reqDestiny = await refLocation.doc(destiny).get();
+      if(reqDestiny.exists){
+        const { name } = reqDestiny.data();
+        return { 
+          id : reqDestiny.id, 
+          name 
+        };
+      }
+    }
+
+    return {};
+  }
+
+  const _getBus = async bus => {
+    if(bus){
+      const reqBus = await refBus.doc(bus).get();
+      if(reqBus.exists){
+        const { name , active , seatDesign } = reqBus.data();
+        return { 
+          id : reqBus.id,
+          name,
+          active, seatDesign 
+        };
+      }          
+    }
+
+    return {};
+  }
+
+  const _getDriver = async driver => {
+    if(driver){
+      const reqDriver = await refDriver.doc(driver).get();
+      if(reqDriver.exists){
+        const { name } = reqDriver.data();
+        return { 
+          id : reqDriver.id,
+          name 
+        };
+      }          
+    }
+
+    return {};
+  }
+
+  const requestTravel = async data => {
+    let travelsArray = [],
+      fullData = [];
+
+    data.docs.forEach( v => travelsArray.push({ id : v.id, data : v.data() }) );
+  
+    for(let travel of travelsArray){
+      try {
+        const { busId , destiny , driverId } = travel.data;
 
         //Variables
-        let travelDestiny = {},
-          travelBus = {},
-          travelDriver = {};
-
-        //Location
-        const refLocation = firestore().collection("location");
-        const reqDestiny = await refLocation.doc(destiny).get();
-        const dataDestiny = reqDestiny.data();
-
-        if(dataDestiny && Object.keys(reqDestiny).length){
-          travelDestiny = {
-            id : reqDestiny.id,
-            name : dataDestiny.name
-          }
-        }
-
-        //Bus
-        const refBus = firestore().collection("bus");
-        const reqBus = await refBus.doc(busId).get();
-        const dataBus = reqBus.data();
-
-        if(dataBus && Object.keys(reqBus).length){
-          travelBus = {
-            id : reqBus.id,
-            name : dataBus.name,
-            active : dataBus.active,
-            seatDesign : dataBus.seatDesign
-          }
-        }
-
-        //Chofer
-        const refDriver = firestore().collection("driver");
-        const reqDriver = await refDriver.doc(driverId).get();
-        const dataDriver = reqDriver.data();
-
-        if(dataDriver && Object.keys(reqDriver).length){
-          travelDriver = {
-            id : reqDriver.id,
-            name : dataDriver.name
-          }
-        }
+        let travelDestiny = await _getDestiny(destiny),
+          travelBus = await _getBus(busId),
+          travelDriver = await _getDriver(driverId);
 
         //Travel Push
         let travelPush = {
-          ...data,
-          id : v.id,
+          ...travel.data,
+          id : travel.id,
           destiny : { ...travelDestiny },
           bus : { ...travelBus },
           driver : { ...travelDriver }
         }
 
-        setTravelData([...travelData , travelPush]);
-        setLoadingTravel(false);
+        fullData.push(travelPush);
       }catch(e){
-        console.log(e);
+        console.error(e);
       }
-    });
+    }
+
+    setTravelData(fullData);
+    setLoadingTravel(false);
   }
 
   useEffect(() => {

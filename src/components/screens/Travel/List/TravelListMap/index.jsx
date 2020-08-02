@@ -9,7 +9,7 @@ import ButtonWithIconForTable from "../../../../UIComponents/ButtonWithIconForTa
 const TravelListMap = ({ activeModalClient }) => {
   const { travelData } = useContext(TravelContext);
   const remove = useRemoveThis();
-
+  
   const onClickDelete = async travelId => {
     try{
       const security = await remove();

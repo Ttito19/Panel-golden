@@ -35,8 +35,6 @@ const TravelList = () => {
         </tbody>
       </table>
     </div>
-    <CustomModal show={isShowClients} hide={toggleShowClients} >
-    </CustomModal>
   </div>
 }
 
