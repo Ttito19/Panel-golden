@@ -71,7 +71,7 @@ const useGetTravelDataToSelect = () => {
     GetBusData();
     GetBusStopData();
     GetClients();
-  })
+  },[]);
 
   return {
     busStopData,
