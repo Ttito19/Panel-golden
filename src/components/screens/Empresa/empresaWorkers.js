@@ -11,12 +11,14 @@ const EmpresaWorkers = () => {
     const [ isLoadingInformation , setLoadingInformation] = useState(false);
     const fs = firestore(); 
     
-    useEffect( () => {
-        fs.collection('clients').where('idEmpresa','==',id).get()
-        .then( data => {
+    useEffect( async () => {
+        try {
+            // Cambiar fullName por campo de la id de la empresa
+          var data = await fs.collection('clients').where('fullName','==',id).get()
             data.forEach( doc => workers.push(doc.data()) )
-            setLoadingInformation(true);
-        })
+            setLoadingInformation(true);  
+        }catch (e){ console.log(e.message) }
+        
     });
 
     const showImage =(refImage)=>{

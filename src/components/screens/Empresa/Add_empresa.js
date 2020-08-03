@@ -29,7 +29,7 @@ const AddEmpresa = () => {
         var isRuc = await company.where("ruc","==",ruc).get();
         var isRazon = await company.where("razon","==",razon).get();
 
-        if ( isName.size != 0 && isRuc.size != 0 && isRazon.size != 0 ) {
+        if ( isName.size == 0 && isRuc.size == 0 && isRazon.size == 0 ) {
           await fs.collection('company').add({ razon, ruc, direccion, distrito, name})
           Swal.fire("Éxito", "Se agrego correctamente", "success")
         }

@@ -27,7 +27,7 @@ const ListChofer = () => {
   useEffect(()=>{
 
     //#region - Cargar datos del chofer 
-    fs.collection('driver').orderBy("nombre").onSnapshot((data)=>{
+    fs.collection('driver').onSnapshot((data)=>{
       dataChofer.splice(0,);
       data.forEach( doc => {
         dataChofer.push( {id:doc.id , data : doc.data()} )
@@ -96,15 +96,15 @@ const ListChofer = () => {
             dataChofer.map( (chofer) => {
               return (
                   <tr key={chofer.id}>
-                    <td>{chofer.data.nombre}</td>
-                    <td>{chofer.data.apellido}</td>
-                    <td>{chofer.data.direccion}</td>
-                    <td> {chofer.data.empresa} </td>
+                    <td>{chofer.data.name}</td>
+                    <td>{chofer.data.lastName}</td>
+                    <td>{chofer.data.direction}</td>
+                    <td> {chofer.data.business} </td>
                     <td> 
-                      <img src={chofer.data.documentoImagen} onClick={()=>showImage(chofer.data.documentoImagen)} height="60px" width="60px" /> 
+                      <img src={chofer.data.documentImage} onClick={()=>showImage(chofer.data.documentImage)} height="60px" width="60px" /> 
                     </td>
-                    <td>{chofer.data.fech_create}</td>
-                    <td>{chofer.data.fech_nac.toString()}</td>
+                    <td>{chofer.data.creationDate}</td>
+                    <td>{chofer.data.dateOfBirth.toString()}</td>
                     <td>
                       <button className="btn btn-primary" onClick={()=>openModalEdit(chofer)}>
                         <FaRegEdit />

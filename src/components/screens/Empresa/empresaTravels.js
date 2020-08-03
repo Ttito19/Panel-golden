@@ -1,4 +1,4 @@
-import React , {useState}from 'react';
+import React , {useState,useEffect}from 'react';
 import { useParams } from 'react-router-dom';
 import { firestore } from 'firebase';
 import LoadingSpinner from '../../UIComponents/LoaderSpinner/'
@@ -19,12 +19,20 @@ const EmpresaTravels = () => {
     
     const fs = firestore();
     const { id } = useParams();
-    const [ travels , setTravels ] = useState([]);
+    const [ travels ] = useState([]);
     const [ isLoadingInformation , setLoadingInformation ] = useState(false);
 
-    (()=>{
+    const findTravelById = async() => {
+        const travel = await fs.collection('travel').where("","==",id).get();
+        travel.forEach(doc=>{
+            travels.push(doc.data());
+        })
+    }
 
-    })()
+    useEffect(()=>{
+        
+
+    })
 
     return (
         <table className="table">
@@ -38,15 +46,17 @@ const EmpresaTravels = () => {
                     <th>Destino</th>
                     <th>seatColumns</th>
                     <th>seats</th>
+
+
                 </tr>
             </thead>
             <tbody>
                 {
                     isLoadingInformation ?
-                    travels.map( e => {
+                    travels.map( (e,i) => {
                         return (
-                            <tr key=""> 
-                                <td></td>
+                            <tr key={i}> 
+                                <td>{  }</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

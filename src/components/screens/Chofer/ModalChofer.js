@@ -34,11 +34,11 @@ const ModalChofer = (props) => {
   useEffect( ()=>{
     if ( props.show ) {
       var d = props.dataChofer.data;  
-      name.current.value = d.nombre;
-      lastName.current.value = d.apellido;
-      direction.current.value = d.direccion;
-      empresa.current.value = d.empresa;
-      fech_nac.current.value = d.fech_nac;
+      name.current.value = d.name;
+      lastName.current.value = d.lastName;
+      direction.current.value = d.direction;
+      empresa.current.value = d.business;
+      fech_nac.current.value = d.dateOfBirth;
     }
 
     // Cargar select de la empresa 
@@ -64,12 +64,12 @@ const ModalChofer = (props) => {
         var path = await refImage.put(urlImage)
         var url = await refImage.getDownloadURL()
         await fs.collection('driver').doc(props.dataChofer.id).update({
-            nombre : name.current.value,
-            apellido : lastName.current.value,
-            direccion : direction.current.value,
-            empresa : empresa.current.value,
-            documentoImagen : url,
-            fech_nac : fech_nac.current.value
+            name : name.current.value,
+            lastName : lastName.current.value,
+            direction : direction.current.value,
+            business : empresa.current.value,
+            documentImage : url,
+            dateOfBirth : fech_nac.current.value
         })
         Swal.fire( 'Cambios realizados','Your file has been changed.','success' )
       } catch (e) { console.log(e.message) }

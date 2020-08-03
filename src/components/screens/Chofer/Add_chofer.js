@@ -10,15 +10,21 @@ function AddChofer() {
   const fs = firestore();
   const stg = storage();
 
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [documentoImagen, setDocumentoImagen] = useState("");
-  const [fech_nac, setFech_nac] = useState("");
-  const [ empresa,setEmpresa ] = useState("");
-
-  const [isLoadingSelectValues, setLoadingSelectValues] = useState(false);
+  const [ name,setName ] = useState("");
+  const [ lastName,setLastName ] = useState("");
+  const [ direction,setDirection ] = useState("");
+  const [ dateOfBirth , setDateOfBirth ] = useState("");
+  const [ business , setBusiness ] = useState("");
+  const [ documentImage , setDocumentImage ] = useState("");
+  const [ isLoadingSelectValues, setLoadingSelectValues ] = useState(false);
   const [ selectEmpresa ] = useState([]);
+
+  const setName_ = (e) => setName(e.target.value)
+  const setLastName_ = (e) => setLastName(e.target.value)
+  const setDirection_ = (e) => setDirection(e.target.value)
+  const setDateOfBirth_ = (e) => setDateOfBirth(e.target.value)
+  const setBusiness_ = (e) => setBusiness(e.target.value)
+
 
   const formatDateNow = () => {
     var d = new Date();
@@ -47,20 +53,20 @@ function AddChofer() {
 
   const addChofer = async (e) => {
     e.preventDefault();
-    if ( nombre != "" && apellido!= "" && direccion != "" && fech_nac != "" && documentoImagen != "" && selectEmpresa!="" ) {
+    if ( name != "" && lastName!= "" && direction != "" && dateOfBirth != "" && documentImage != "" && business !="") {
       try {
-        var storageRef = stg.ref(`/images/documentoImagenChofer/${documentoImagen.name}`);
-        await storageRef.put(documentoImagen);
+        var storageRef = stg.ref(`/images/documentoImagenChofer/${documentImage.name}`);
+        await storageRef.put(documentImage);
         var url = await storageRef.getDownloadURL();
 
         await fs.collection('driver').add({
-          nombre,
-          apellido,
-          direccion,
-          fech_create : formatDateNow(),
-          fech_nac,
-          empresa,
-          documentoImagen : url
+          name ,
+          lastName,
+          direction  ,
+          creationDate : formatDateNow(),
+          dateOfBirth ,
+          business ,
+          documentImage : url
         })
         Swal.fire("Éxito", "Se agrego correctamente", "success");
 
@@ -73,23 +79,17 @@ function AddChofer() {
         text: "No se pudo registrar los datos",
       });
     }
-    
-
-  }
-
-  const setNombre_ = (e) => { setNombre(e.target.value) }
-  const setApellido_ = (e) => { setApellido(e.target.value) }
-  const setDireccion_ = (e) => { setDireccion(e.target.value) }
-  const setFech_nac_ = (e) => { setFech_nac(e.target.value) }
-  const setEmpresa_ = (e) => { setEmpresa(e.target.value) }
   
-  const setDocumentoImagen_ = (e) => { 
+  }
+  
+  const evaluateImage = (e) => { 
     var image = e.target.files[0];
     if (  !image ||  image.type != "image/jpeg" )
     {
-      setDocumentoImagen("");
+      setDocumentImage("");
       console.log("Es tipo de formato no es permitido.");
-    } else setDocumentoImagen(image) 
+    }else setDocumentImage(image);
+  
   }
  
 
@@ -98,22 +98,20 @@ function AddChofer() {
         <form className="form-group">
           <div className="col-6">
             <Input
-              value={nombre}
               name="Nombre"
               type="text"
-              onChange={setNombre_}
+              onChange={setName_}
             />
             <Input
-              value={apellido}
               name="Apellido"
               type="text"
-              onChange={setApellido_}
+              onChange = {setLastName_}
             />
             {
               isLoadingSelectValues ?
               <Select 
-                onChange={setEmpresa_}
                 optionsValues = {selectEmpresa}
+                onChange={setBusiness_}
               />
               : <select>....</select>
             }
@@ -122,19 +120,17 @@ function AddChofer() {
             <Input 
               name = "Foto de documento"
               type = "file"
-              onChange = { setDocumentoImagen_ }
+              onChange = { evaluateImage }
             />
             <Input
-              value={fech_nac}
               name="Fecha de nacimiento"
               type="date"
-              onChange={ setFech_nac_ }
+              onChange={setDateOfBirth_}
             />
             <Input
-              value={direccion}
               name="Direccion de vivienda"
               type="text"
-              onChange={setDireccion_}
+              onChange={setDirection_}
             />
           </div>
 
