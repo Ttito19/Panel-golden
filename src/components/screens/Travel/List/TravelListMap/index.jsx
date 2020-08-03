@@ -1,14 +1,15 @@
 import { firestore } from "firebase";
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { FaRegEdit , FaTrashAlt } from "react-icons/fa";
 import { TravelContext } from "../../../../../context/travelContext";
 import useRemoveThis from "../../../../../hooks/useRemoveThis";
 import ButtonWithIconForTable from "../../../../UIComponents/ButtonWithIconForTable";
 
-const TravelListMap = () => {
+const TravelListMap = ({ activeModalClient }) => {
   const { travelData } = useContext(TravelContext);
   const remove = useRemoveThis();
-
+  
   const onClickDelete = async travelId => {
     try{
       const security = await remove();
@@ -20,21 +21,23 @@ const TravelListMap = () => {
     }
   }
 
+  const { push } = useHistory();
+
   return <>
     {
       travelData.map((v,i) => (
         <tr key={i}>
           <td>{`${v.arrivalDate.date} - ${v.arrivalDate.time}`}</td>
           <td>{`${v.departureDate.date} - ${v.departureDate.time}`}</td>
-          <td>{v.driver.name}</td>
+          <td>{v.driver.name || "NULL"}</td>
           <td>{v.bus.name}</td>
           <td>{v.bus.active ? "Si" : "No"}</td>
           <td>{v.destiny.name}</td>
           <td>
-            <button className="btn btn-sm btn-primary">Ver Clientes</button>
+            <button onClick={activeModalClient} className="btn btn-sm btn-primary">Ver Clientes</button>
           </td>
           <td>
-            <button className="btn btn-sm btn-primary">Ver Diseño</button>
+            <button onClick={() => push(`/design/${v.bus.seatDesign}`)} className="btn btn-sm btn-primary">Ver Diseño</button>
           </td>
           <td>
             <button className="btn btn-sm btn-primary">Ver Paraderos</button>

@@ -19,7 +19,7 @@ export const ListBus = () => {
 
   //Context
   const { dataFromDocument , loadingData } = useContext(SeatDesignContext);
-  const { bus , deleteBus } = useContext(BusContext);
+  const { bus , deleteBus , updateActive } = useContext(BusContext);
 
   if(loadingData) return <LoaderSpinner />;
 
@@ -56,6 +56,7 @@ export const ListBus = () => {
               <Link to="/design/list">Diseño de asiento</Link>
             </th>
             <th>Tipo</th>
+            <th>¿Viaje?</th>
             <th>Editar</th>
             <th>Elimnar</th>
           </tr>
@@ -64,11 +65,16 @@ export const ListBus = () => {
         { 
           !bus ? 
             <LoaderSpinner /> : 
-            bus.map((v,i) =>
-              <tr key={i}>
+            bus.map((v,i) => {
+              let isActive = v.active ? "Si" : "No";
+
+              return <tr key={i}>
                 <td>{v.name}</td>
                 <td>{DesignNameFilter(v.seatDesign)}</td>
                 <td>{v.type}</td>
+                <td>
+                  <button onClick={() => updateActive(v.id,isActive)} className="btn btn-primary btn-sm">{isActive}</button> 
+                </td>
                 <td>
                   <button className="btn btn-success nt-1" onClick={() => modalBus(v.id)}>
                     Editar
@@ -80,7 +86,7 @@ export const ListBus = () => {
                   </button>
                 </td>
               </tr>
-            )
+            })
           }
         </tbody>
       </table>
