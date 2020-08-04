@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import CustomSelect from "../CustomSelect";
 
-const AcumulativeSelect = ({ data , onAddItem }) => {
+const AcumulativeSelect = ({ data , onAddItem , buttonActive }) => {
   const [ selectedItem , setSelectedItem ] = useState({});
   const refDate = useRef(),
     refTime = useRef();
@@ -35,7 +35,7 @@ const AcumulativeSelect = ({ data , onAddItem }) => {
         </div> 
       </div>   
     </div>
-    <button type="button" onClick={onSubmit} className="btn btn-sm btn-primary">Agregar Paradero</button>
+    <button disabled={buttonActive} type="button" onClick={onSubmit} className="btn btn-sm btn-primary">Agregar Paradero</button>
   </div>
 }
 

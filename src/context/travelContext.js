@@ -29,11 +29,11 @@ const TravelProvider = ({ children }) => {
     if(bus){
       const reqBus = await refBus.doc(bus).get();
       if(reqBus.exists){
-        const { name , active , seatDesign } = reqBus.data();
+        const { name , seatDesign } = reqBus.data();
         return { 
           id : reqBus.id,
           name,
-          active, seatDesign 
+          seatDesign 
         };
       }          
     }

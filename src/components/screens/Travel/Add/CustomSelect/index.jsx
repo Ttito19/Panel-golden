@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 
-const CustomSelect = ({ title , font, data , multi , onChange }) => {
+const CustomSelect = ({ title , font, data , multi , onChange , placeholder }) => {
   return <div className="form-group">
     <label className={`font-weight-${font}`}>{title}</label>
     <Select 
@@ -10,13 +10,15 @@ const CustomSelect = ({ title , font, data , multi , onChange }) => {
       isLoading={!data.length} 
       isDisabled={!data.length}
       onChange={onChange}
+      placeholder={placeholder}
     />
   </div>
 }
 
 CustomSelect.defaultProps = {
   multi : false,
-  font : ""
+  font : "",
+  placeholder : 'Busca...'
 }
 
 export default CustomSelect;

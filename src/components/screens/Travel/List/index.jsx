@@ -4,6 +4,7 @@ import TravelListMap from "./TravelListMap";
 import useListTravel from "../../../../hooks/useListTravel";
 import LoaderSpinner from "../../../UIComponents/LoaderSpinner";
 import CustomModal from "../../../UIComponents/CustomModal";
+import TravelCard from "../../../UIComponents/TravelCard";
 
 const TravelList = () => {
   const { loadingTravel } = useContext(TravelContext);
@@ -18,7 +19,7 @@ const TravelList = () => {
             <th>Fecha de Llegada</th>
             <th>Chofer</th>
             <th>Bus</th>
-            <th>Activo</th>
+            <th>Estado</th>
             <th>Destino</th>
             <th>Clientes</th>
             <th>Diseño del Asiento</th>
@@ -34,6 +35,10 @@ const TravelList = () => {
           }
         </tbody>
       </table>
+    </div>
+    
+    <div className="container">
+      <TravelCard />
     </div>
   </div>
 }

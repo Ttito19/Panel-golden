@@ -5,6 +5,7 @@ import { FaRegEdit , FaTrashAlt } from "react-icons/fa";
 import { TravelContext } from "../../../../../context/travelContext";
 import useRemoveThis from "../../../../../hooks/useRemoveThis";
 import ButtonWithIconForTable from "../../../../UIComponents/ButtonWithIconForTable";
+import { TRAVEL_STATE } from "../../../../../constants";
 
 const TravelListMap = ({ activeModalClient }) => {
   const { travelData } = useContext(TravelContext);
@@ -23,6 +24,17 @@ const TravelListMap = ({ activeModalClient }) => {
 
   const { push } = useHistory();
 
+  const convertTravelState = state => {
+    switch(state){
+      case TRAVEL_STATE.inTravel:
+        return 'Viajando...';
+      case TRAVEL_STATE.inWait:
+        return 'En espera';
+      case TRAVEL_STATE.travelComplete:
+        return 'Completado';
+    }
+  }
+
   return <>
     {
       travelData.map((v,i) => (
@@ -31,7 +43,7 @@ const TravelListMap = ({ activeModalClient }) => {
           <td>{`${v.departureDate.date} - ${v.departureDate.time}`}</td>
           <td>{v.driver.name || "NULL"}</td>
           <td>{v.bus.name}</td>
-          <td>{v.bus.active ? "Si" : "No"}</td>
+          <td>{convertTravelState(v.state)}</td>
           <td>{v.destiny.name}</td>
           <td>
             <button onClick={activeModalClient} className="btn btn-sm btn-primary">Ver Clientes</button>
@@ -44,7 +56,7 @@ const TravelListMap = ({ activeModalClient }) => {
           </td>
           <td>
             {
-              v.bus.active ? 
+              v.state === TRAVEL_STATE.inTravel ? 
                 <span className="font-weight-light">El bus no puede ser Modificado porque se encuentra en un viaje</span> :
                 <> 
                   <ButtonWithIconForTable icon={<FaRegEdit />} />

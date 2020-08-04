@@ -1,14 +1,17 @@
 import { firestore } from "firebase";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { TRAVEL_STATE } from "../constants";
 
 const useAddTravel = () => {
   //States
+  const [ lockButtonInsert , setLockButtonInsert ] = useState(false);
   const [ selectedBus , setSelectedBus ] = useState(null);
   const [ selectedDestiny , setSelectedDestiny ] = useState(null);
   const [ currentClients , setCurrentClients ] = useState([]);
   const [ currentBusStop , setCurrentBusStop ] = useState([]);
   const [ departureDate , setDepartureDate ] = useState(null);
   const [ arrivalDate , setArrivalDate ] = useState(null);
+  const [ driver, setDriver ] = useState(null);
 
   //Funciones para cambiar los estados para la insercion de datos
   const onChangeBus = ev => setSelectedBus(ev.value);
@@ -16,10 +19,12 @@ const useAddTravel = () => {
   const onChangeClients = ev => setCurrentClients(ev);
   const onChangeDepartureDate = ev => setDepartureDate(ev.target.value);
   const onChangeArrivalDate = ev => setArrivalDate(ev.target.value);
+  const onChangeDriver = ev => setDriver(ev.value);
   const onAddBusStop = data => setCurrentBusStop([ ...currentBusStop , data ]);
 
   //Funciones Convertoras de Datos
   const convertToClientFormat = array => array.map(v => v.value);
+
   const convertToBusStopFormat = async array => {
     let busStopData = [],
       busStopId = array.map(v => ({ time : v.time, id : v.value }) );
@@ -92,10 +97,12 @@ const useAddTravel = () => {
   const onSubmit = async ev => {
     ev.preventDefault();
 
-    if(!selectedBus || !selectedDestiny || !currentBusStop.length || !currentClients.length || !arrivalDate || !departureDate){
+    if(!selectedBus || !selectedDestiny || !currentBusStop.length || !arrivalDate || !departureDate || !driver){
       alert('Existen Campos Vacios');
       return;
     }
+
+    setLockButtonInsert(true);
 
     try{
       //Arrays
@@ -117,13 +124,16 @@ const useAddTravel = () => {
         departureDate : departureDateReqData,
         clients : ClientReqData,
         seatColumns : SeatReqData.seatColumns,
-        seats : SeatReqData.seats
+        seats : SeatReqData.seats,
+        driverId : driver,
+        state : TRAVEL_STATE.inWait
       }
 
       await firestore().collection('travel').add(GeneralData);
       window.location.reload();
     }catch(e){
       console.log(e);
+      setLockButtonInsert(false);
     }
   }
 
@@ -133,11 +143,13 @@ const useAddTravel = () => {
     currentBusStop,
     onSubmit,
     onChangeBus,
+    lockButtonInsert,
     onChangeDestiny,
     onChangeClients,
     onAddBusStop,
     onChangeDepartureDate,
-    onChangeArrivalDate
+    onChangeArrivalDate,
+    onChangeDriver
   }
 }
 

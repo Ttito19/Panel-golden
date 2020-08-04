@@ -6,6 +6,7 @@ const useGetTravelDataToSelect = () => {
   const [ clientsData , setClientsData ] = useState([]);
   const [ destinyData , setDestinyData ] = useState([]);
   const [ busData , setBusData ] = useState([]);
+  const [ driverData , setDriverData ] = useState([]);
 
   const _GetData = async (table , callback) => {
     try {
@@ -66,18 +67,32 @@ const useGetTravelDataToSelect = () => {
     });
   }
 
+  const GetDriverData = () => {
+    _GetData('driver', (data,array) => {
+      data.forEach(v => {
+        const id = v.id;
+        const { name , lastName } = v.data();
+        array.push({ value : id, label : name + " " + lastName });
+      });
+
+      setDriverData(array);
+    })
+  }
+
   useEffect(() => {
     GetDestinyData();
     GetBusData();
     GetBusStopData();
     GetClients();
+    GetDriverData();
   },[]);
 
   return {
     busStopData,
     clientsData,
     destinyData,
-    busData
+    busData,
+    driverData
   }
 }
 

@@ -5,8 +5,9 @@ import AcumulativeSelect from "./AcumulativeSelect";
 import CustomSelect from "./CustomSelect";
 
 const TravelAdd = () => {
-  const { busStopData , clientsData , destinyData , busData } = useGetTravelDataToSelect();
+  const { busStopData , clientsData , destinyData , busData , driverData } = useGetTravelDataToSelect();
   const { 
+    lockButtonInsert,
     onSubmit,
     onChangeBus,
     onChangeDestiny,
@@ -14,7 +15,8 @@ const TravelAdd = () => {
     currentBusStop,
     onChangeClients,
     onChangeDepartureDate,
-    onChangeArrivalDate
+    onChangeArrivalDate,
+    onChangeDriver
   } = useAddTravel();
 
   return <div className="container">
@@ -31,14 +33,15 @@ const TravelAdd = () => {
           </div>       
           <CustomSelect title="Destino" data={destinyData} onChange={onChangeDestiny} />
           <CustomSelect title="Vehiculo" data={busData} onChange={onChangeBus} />
-          <div className="form-group">
-            <button className="btn btn-primary">Insertar Viaje</button>
+          <CustomSelect title='Chofer' data={driverData} onChange={onChangeDriver} />
+           <div className="form-group">
+            <button disabled={lockButtonInsert} className="btn btn-primary">Insertar Viaje</button>
           </div>
         </div>
         <div className="col">
           <CustomSelect title="Clientes" onChange={onChangeClients} data={clientsData} multi={true} />
           <div className="mt-5">
-            <AcumulativeSelect data={busStopData} onAddItem={onAddBusStop} />
+            <AcumulativeSelect buttonActive={lockButtonInsert} data={busStopData} onAddItem={onAddBusStop} />
             <div className="mt-4">
               <span className="font-weight-bold">Lista de Paraderos</span>
               <ul className="list-group mt-2">
