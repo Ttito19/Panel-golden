@@ -9,7 +9,7 @@ const Login = (props) => {
 
 	return (
 		<>
-		<div className="alertsContents"> </div>
+		<div className="alertsContents" > </div>
 
 		<div className = "login">
 			<div className="logo">
