@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const TravelCardContainer = styled.div`
-  width: 300px;
+  width: 100%;
   height: auto;
   background-color: #fff;
   box-shadow: 0 5px 15px rgb(245,245,245);

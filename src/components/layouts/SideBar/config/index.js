@@ -142,7 +142,7 @@ const configSideBar = [
       {
         icon: <AiOutlineTable />,
         title: "Lista de Viajes",
-        link: "/travel/list",
+        link: "/travel",
       },
     ],
   },

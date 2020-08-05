@@ -36,10 +36,6 @@ const TravelList = () => {
         </tbody>
       </table>
     </div>
-    
-    <div className="container">
-      <TravelCard />
-    </div>
   </div>
 }
 

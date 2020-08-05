@@ -36,7 +36,7 @@ import { BusStopProvider } from "../../../context/busStopContext";
 import { LocationProvider } from "../../../context/locationContext";
 import { ClientProvider } from "../../../context/clientsContext";
 import { BusProvider } from "../../../context/busContext";
-import { TravelAdd, TravelList } from "../../screens/Travel";
+import { TravelAdd, TravelList, TravelMain } from "../../screens/Travel";
 import { TravelProvider } from "../../../context/travelContext";
 
 const RoutesAuth = () => {
@@ -69,6 +69,7 @@ const RoutesAuth = () => {
                     <Route path="/design/list" component={ListDesign} />
                     <Route path="/design/update/:id" component={UpdateDesign} />
                     <Route path="/design/:id" component={ViewDesign} />
+                    <Route exact path='/travel' component={TravelMain} />
                     <Route path="/travel/list" component={TravelList} />
                     <Route path="/travel/add" component={TravelAdd} />
 
