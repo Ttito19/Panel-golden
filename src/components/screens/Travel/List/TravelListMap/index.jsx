@@ -57,7 +57,7 @@ const TravelListMap = ({ activeModalClient }) => {
           <td>
             {
               v.state === TRAVEL_STATE.inTravel ? 
-                <span className="font-weight-light">El bus no puede ser Modificado porque se encuentra en un viaje</span> :
+                <span className="font-weight-light">El bus no puede ser Modificado</span> :
                 <> 
                   <ButtonWithIconForTable icon={<FaRegEdit />} />
                   <ButtonWithIconForTable 
