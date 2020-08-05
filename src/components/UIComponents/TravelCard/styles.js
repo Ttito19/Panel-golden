@@ -1,89 +1,32 @@
 import styled from 'styled-components';
 
-const ImageHeight = '180px'
-
 const TravelCardContainer = styled.div`
   width: 300px;
   height: auto;
   background-color: #fff;
   box-shadow: 0 5px 15px rgb(245,245,245);
-`;
-
-const SectionImage = styled.div`
-  width: 100%;
-  height: ${ImageHeight};
-  position: relative;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(60%);
-`;
-
-const TimeToDeparture = styled.div`
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  color: #fff;
-  display: flex;
-  align-items: center;
-`;
-
-const ToolTip = styled.span`
-  width: max-content;
-  max-width: 100px;
-  position: absolute;
-  top: -30px;
-  left: -50px;
-  background-color: #000;
-  color: #fff;
-  font-weight: bold;
-  padding: 5px 10px;
-  line-height: normal;
-  font-size: 10px;
-  transition: .3s;
-  cursor: initial;
-  opacity: 0;
-  visibility: hidden;
-`;
-
-const Icon = styled.span`
-  font-size: ${p => p.size || '20px'};
-  line-height: 0;
-  padding-right: 5px;
-  position: relative;
-  cursor: pointer;
-
-  &:hover ${ToolTip} {
-    opacity: 1;
-    visibility: visible;
-    left: -40px;
-  }
-`;
-
-const Time = styled.span`
-  font-size: 13px;
-  font-weight: 500;
+  border-radius: 20px;
 `;
 
 const SectionInformation = styled.div`
   width: 100%;
   height: max-content;
-  overflow: hidden;
-  padding: 0 1em;
+  padding: 0 1.5em;
 `;
 
+//Information
 const ContainerInformation = styled.div`
   width: 100%;
-  margin: 1.5em 0;
+  margin: 1.3em 0;
+  margin-bottom: 1.5em;
 `;
 
+//Title
 const TitleInformation = styled.div`
   display: flex;
   align-items: center;
   color: #4A4A4A;
+  margin-bottom: 1.3em;
 `;
 
 const Title = styled.span`
@@ -91,11 +34,12 @@ const Title = styled.span`
   font-weight: bold;
 `;
 
+//Buttons
 const ContainerButtons = styled.div`
   width: 100%;
   display: grid;
   grid-gap: 5px;
-  margin-bottom: 1em;
+  padding-bottom: 1.5em;
 `;
 
 const Button = styled.button`
@@ -117,15 +61,9 @@ const Button = styled.button`
 
 export {
   TravelCardContainer,
-  SectionImage,
-  Image,
-  TimeToDeparture,
   SectionInformation,
   ContainerButtons,
   Button,
-  Time,
-  Icon,
-  ToolTip,
   ContainerInformation,
   TitleInformation,
   Title

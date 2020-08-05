@@ -1,39 +1,41 @@
 import React from 'react';
-import { IoMdTime } from 'react-icons/io';
-import { GoLocation } from 'react-icons/go';
-import { TravelCardContainer, SectionImage, SectionInformation, Image, TimeToDeparture, ContainerButtons, Button, Time, Icon, ToolTip , ContainerInformation, TitleInformation, Title } from './styles';
 
-const TravelCard = ({ image }) => {
+import { GoLocation } from 'react-icons/go';
+import { TravelCardContainer,  SectionInformation, ContainerButtons, Button, ContainerInformation, TitleInformation, Title } from './styles';
+
+//Components
+import IconToolTip from './IconToolTip';
+import TravelInformation from './TravelInformation';
+import TravelImage from './TravelImage';
+
+const TravelCard = ({ id , image , departureTime , destiny , seatsAvailable, seatsOcupped }) => {
+  const handlerSeeInformation = () => false;
+  const handlerRegisterClient = () => false;
+
   return <TravelCardContainer>
-    <SectionImage>
-      <Image src={image} />
-      <TimeToDeparture>
-        <Icon>
-          <IoMdTime />
-          <ToolTip>Tiempo restante</ToolTip>
-        </Icon>
-        <Time>16h 15m</Time>
-      </TimeToDeparture>
-    </SectionImage>
+    <TravelImage source={image} time={departureTime} />
     <SectionInformation>
       <ContainerInformation>
         <TitleInformation>
-          <Icon size='24px'>
-            <GoLocation />
-          </Icon>
-          <Title>Viaje a Lima</Title>
+          <IconToolTip icon={<GoLocation />} message='Destino' />
+          <Title>{destiny}</Title>
         </TitleInformation>
+        <TravelInformation seatsAvailable={seatsAvailable} seatsOcupped={seatsOcupped} />
       </ContainerInformation>
       <ContainerButtons>
-        <Button ghost>Registrar Pasajero</Button>
-        <Button>Ver Informacion</Button>
+        <Button ghost onClick={handlerSeeInformation} >Ver Informacion</Button>
+        <Button onClick={handlerRegisterClient} >Registrar Pasajero</Button>
       </ContainerButtons>
     </SectionInformation>
   </TravelCardContainer>
 }
 
 TravelCard.defaultProps = {
-  image : 'https://www.hola.com/imagenes/viajes/20200313163026/coronavirus-cancelaciones-vuelos-derechos-usuarios/0-797-753/cancelaciones-vuelos-t.jpg?filter=w600&filter=ds75'
+  image : 'https://www.hola.com/imagenes/viajes/20200313163026/coronavirus-cancelaciones-vuelos-derechos-usuarios/0-797-753/cancelaciones-vuelos-t.jpg?filter=w600&filter=ds75',
+  departureTime : '16h 10min',
+  destiny : 'Ciudad de Lima',
+  seatsAvailable : 35,
+  seatsOcupped : 15
 }
 
 export default TravelCard;
