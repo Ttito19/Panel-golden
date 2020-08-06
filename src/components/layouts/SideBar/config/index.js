@@ -13,6 +13,19 @@ const configSideBar = [
   {
     type: "multiple",
     icon: <AiOutlineTable />,
+    title: "Chats",
+    subitems: [
+      {
+        icon: <AiOutlineTable />,
+        title: "Chats",
+        link: "/Chats",
+      },
+    ],
+  },
+
+  {
+    type: "multiple",
+    icon: <AiOutlineTable />,
     title: "Empresa",
     subitems: [
       {
@@ -156,12 +169,11 @@ const configSideBar = [
     type: "normal",
     icon: <AiOutlineLogout />,
     title: "Cerrar Sesión",
-    onClick : () => {
-      const election = window.confirm("¿Deseas cerrar tu sesión?"); 
+    onClick: () => {
+      const election = window.confirm("¿Deseas cerrar tu sesión?");
 
-      if(election) 
-        auth().signOut();
-    }
+      if (election) auth().signOut();
+    },
   },
 ];
 

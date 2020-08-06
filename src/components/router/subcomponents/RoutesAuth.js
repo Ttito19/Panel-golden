@@ -19,7 +19,7 @@ import ListBus from "../../screens/Bus/listBus";
 
 import EmpresaTravels from "../../screens/Empresa/empresaTravels";
 import EmpresaWorkers from "../../screens/Empresa/empresaWorkers";
-
+import Chats from "../../screens/Chats";
 //Billy Imports
 import {
   AddDesign,
@@ -63,13 +63,14 @@ const RoutesAuth = () => {
                     <Route path="/listLocation" component={ListLocation} />
                     <Route path="/addBus" component={AddBus} />
                     <Route path="/ListBus" component={ListBus} />
+                    <Route path="/Chats" component={Chats} />
 
                     {/* Billy */}
                     <Route path="/design/add" component={AddDesign} />
                     <Route path="/design/list" component={ListDesign} />
                     <Route path="/design/update/:id" component={UpdateDesign} />
                     <Route path="/design/:id" component={ViewDesign} />
-                    <Route exact path='/travel' component={TravelMain} />
+                    <Route exact path="/travel" component={TravelMain} />
                     <Route path="/travel/list" component={TravelList} />
                     <Route path="/travel/add" component={TravelAdd} />
 

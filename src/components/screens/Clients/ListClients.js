@@ -16,7 +16,7 @@ const ListClients = () => {
   };
 
   const deleteClienteFromId = (id) => {
-    listClients.clients(id);
+    listClients.deleteClient(id);
   };
 
   return (
@@ -38,10 +38,14 @@ const ListClients = () => {
           </tr>
         </thead>
         <tbody>
-        {
-          !listClients.clients.length ?
-            <LoaderSpinner /> : 
-            listClients.clients.map((v,i) => (
+          {!listClients.clients.length ? (
+            <tr>
+              <td>
+                <LoaderSpinner />
+              </td>
+            </tr>
+          ) : (
+            listClients.clients.map((v, i) => (
               <tr key={i}>
                 <td>{v.city}</td>
                 <td>{v.code}</td>
@@ -56,18 +60,24 @@ const ListClients = () => {
                   <img src={v.profileImage.url} width="50" height="50" />
                 </td>
                 <td>
-                  <button className="btn btn-success nt-1" onClick={() => modalClients(v.id)} >
+                  <button
+                    className="btn btn-success nt-1"
+                    onClick={() => modalClients(v.id)}
+                  >
                     Editar
                   </button>
                 </td>
                 <td>
-                  <button className="btn btn-danger nt-1" onClick={() => deleteClienteFromId(v.id)} >
+                  <button
+                    className="btn btn-danger nt-1"
+                    onClick={() => deleteClienteFromId(v.id)}
+                  >
                     Eliminar
                   </button>
                 </td>
               </tr>
             ))
-          }
+          )}
         </tbody>
       </table>
     </div>
