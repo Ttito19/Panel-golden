@@ -14,7 +14,6 @@ const Input = (props) => {
         type={type}
         onChange={onChange}
         ref={refs}
-        required
       />
     </div>
   );

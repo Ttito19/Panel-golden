@@ -18,6 +18,8 @@ const ContainerIcon = styled.div`
   display: grid;
   grid-template-columns: repeat(2,40px);
   grid-gap: 4px;
+
+  ${p => p.all ? css`display: none;` : null};
 `;
 
 const Icon = styled.span`

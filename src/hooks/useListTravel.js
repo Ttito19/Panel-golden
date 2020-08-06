@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 const initialUpdateData = {
+  id : '',
   driver : {
     id : '',
     name : ''
@@ -8,6 +9,14 @@ const initialUpdateData = {
   bus : {
     id : '',
     name : ''  
+  },
+  departureDate : {
+    date : '',
+    time : ''
+  },
+  arrivalDate : {
+    date : '',
+    time : '' 
   }
 }
 

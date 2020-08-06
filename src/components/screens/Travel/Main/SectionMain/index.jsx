@@ -11,7 +11,7 @@ const SectionMain = ({ list , title }) => {
   return <>
     <TravelTitleSection>
       <TravelTitle onClick={ViewAll}>{title}</TravelTitle>
-      <ContainerIcon>
+      <ContainerIcon all={all}>
         <Icon>
           <AiOutlineArrowLeft />
         </Icon>

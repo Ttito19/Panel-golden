@@ -36,10 +36,8 @@ const TravelListMap = ({ activeModalClient , update }) => {
   }
 
   const onClickClients = (data) => {
-    const { departureDate , arrivalDate , driver , bus , destiny } = data;
-    const updateData = { departureDate, arrivalDate , driver , bus , destiny };
-
-    console.log(updateData);
+    const { id , departureDate , arrivalDate , driver , bus , destiny } = data;
+    const updateData = { id , departureDate, arrivalDate , driver , bus , destiny };
 
     update(updateData);
     activeModalClient();

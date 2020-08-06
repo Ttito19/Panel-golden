@@ -11,7 +11,7 @@ const CustomSelect = ({ title , font, data , multi , onChange , placeholder , de
       isDisabled={!data.length}
       onChange={onChange}
       placeholder={placeholder}
-      defaultValue={defaultValue}
+      defaultInputValue={defaultValue}
     />
   </div>
 }
