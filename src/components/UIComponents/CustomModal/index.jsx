@@ -10,7 +10,6 @@ import { DarkScreen, Modal , IconClose, TitleContainer, Title, ChildrenContainer
  *    horizontalSize : Tamaño horizontal (px)
  *    verticalSize : Tamaño vertical (px)
  *    borderRadius : Borde del radio (px)
- *    padding : Padding
  * }
  */
 
