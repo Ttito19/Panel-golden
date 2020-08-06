@@ -4,7 +4,7 @@ const Input = (props) => {
   // ref.current.focus();
   const { value, defaultValue, name, type, onChange, refs } = props;
   return (
-    <div>
+    <div className="mb-3">
       <label>{props.name}</label>
       <input
         value={value}

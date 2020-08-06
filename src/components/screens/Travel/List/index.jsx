@@ -3,11 +3,11 @@ import { TravelContext } from "../../../../context/travelContext";
 import TravelListMap from "./TravelListMap";
 import useListTravel from "../../../../hooks/useListTravel";
 import LoaderSpinner from "../../../UIComponents/LoaderSpinner";
-import CustomModal from "../../../UIComponents/CustomModal";
+import Update from "./Update";
 
 const TravelList = () => {
   const { loadingTravel } = useContext(TravelContext);
-  const { isShowClients , toggleShowClients , updateData } = useListTravel();
+  const { isShowClients , toggleShowClients , updateData , setUpdateDataModal } = useListTravel();
 
   return <div>
     <div className="responsive">
@@ -30,14 +30,12 @@ const TravelList = () => {
           { 
             loadingTravel ? 
               <td colSpan="10"><LoaderSpinner /></td> : 
-              <TravelListMap activeModalClient={toggleShowClients} /> 
+              <TravelListMap update={setUpdateDataModal} activeModalClient={toggleShowClients} /> 
           }
         </tbody>
       </table>
     </div>
-    <CustomModal isShow={isShowClients} hide={toggleShowClients}>
-
-    </CustomModal>
+    <Update show={isShowClients} hide={toggleShowClients} data={updateData} />
   </div>
 }
 

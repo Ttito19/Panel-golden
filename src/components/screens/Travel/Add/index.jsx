@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import useAddTravel from "../../../../hooks/useAddTravel";
 import useGetTravelDataToSelect from "../../../../hooks/useGetTravelDataToSelect";
 import AcumulativeSelect from "./AcumulativeSelect";
-import CustomSelect from "./CustomSelect";
+import CustomSelect from "../../../UIComponents/CustomSelect";
 
 const TravelAdd = () => {
   const { busStopData , clientsData , destinyData , busData , driverData } = useGetTravelDataToSelect();

@@ -7,7 +7,7 @@ import useRemoveThis from "../../../../../hooks/useRemoveThis";
 import ButtonWithIconForTable from "../../../../UIComponents/ButtonWithIconForTable";
 import { TRAVEL_STATE } from "../../../../../constants";
 
-const TravelListMap = ({ activeModalClient }) => {
+const TravelListMap = ({ activeModalClient , update }) => {
   const { travelData } = useContext(TravelContext);
   const remove = useRemoveThis();
   
@@ -35,6 +35,16 @@ const TravelListMap = ({ activeModalClient }) => {
     }
   }
 
+  const onClickClients = (data) => {
+    const { departureDate , arrivalDate , driver , bus , destiny } = data;
+    const updateData = { departureDate, arrivalDate , driver , bus , destiny };
+
+    console.log(updateData);
+
+    update(updateData);
+    activeModalClient();
+  }
+
   return <>
     {
       travelData.map((v,i) => (
@@ -46,7 +56,7 @@ const TravelListMap = ({ activeModalClient }) => {
           <td>{convertTravelState(v.state)}</td>
           <td>{v.destiny.name}</td>
           <td>
-            <button onClick={activeModalClient} className="btn btn-sm btn-primary">Ver Clientes</button>
+            <button className="btn btn-sm btn-primary">Ver Clientes</button>
           </td>
           <td>
             <button onClick={() => push(`/design/${v.bus.seatDesign}`)} className="btn btn-sm btn-primary">Ver Diseño</button>
@@ -59,7 +69,10 @@ const TravelListMap = ({ activeModalClient }) => {
               v.state === TRAVEL_STATE.inTravel ? 
                 <span className="font-weight-light">El bus no puede ser Modificado</span> :
                 <> 
-                  <ButtonWithIconForTable icon={<FaRegEdit />} />
+                  <ButtonWithIconForTable 
+                    icon={<FaRegEdit />} 
+                    onClick={() => onClickClients(v)}
+                  />
                   <ButtonWithIconForTable 
                     icon={<FaTrashAlt />} 
                     onClick={() => onClickDelete(v.id)} 
